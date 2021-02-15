@@ -20,14 +20,12 @@ class AudioContextWrapper {
         osc.frequency.value = noteToPlay;
         this.currentlyPlayingNotes.push({osc, note, octave})
         osc.start()
-        console.log(this.currentlyPlayingNotes)
     }
 
     stopNote(note, octave){
-        const osc = this.currentlyPlayingNotes.find((osc)=> osc.note == note && osc.octave == octave )
-        console.log(osc);
-        if(osc){
-            osc.osc.stop();
+        const oscToStop = this.currentlyPlayingNotes.find((osc)=> osc.note == note && osc.octave == octave )
+        if(oscToStop){
+            oscToStop.osc.stop();
         }
         this.currentlyPlayingNotes = this.currentlyPlayingNotes.filter((osc) => osc.note != note || osc.octave != octave );
     }

@@ -1,38 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import notes from "../data/notes"
 import AudioContextWrapper from "../classes/audioContextWrapper";
 import styled from "styled-components";
-import { symlink } from 'fs';
+import Key from "./key";
+import stopNote from '../hooks/stopNote';
+import playNote from '../hooks/playNote';
 
 const Board = styled.div`
     display: flex;
 `
-
-const Key = styled.div`
-    height:10rem;
-    width:5rem;
-    background-color:grey;
-    margin:.1rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    &:hover{
-        background-color:black;
-        color:green;
-    }
-`
-
 const audioController = new AudioContextWrapper();
 
-function Keyboard(){
+function Keyboard() {
+    const [isClicked, setIsClicked] = useState(false);
     const octave = 4;
     return (
-        <Board className = "keyboard">
-        {Object.keys(notes).map(key => <Key
-            onMouseDown = {() => audioController.playNote(key,octave)}
-            onMouseLeave = {() => audioController.stopNote(key,octave)}
-            onMouseUp = {() => audioController.stopNote(key, octave)}
-        >{key}</Key>)}
+        <Board className="keyboard"
+            onMouseDown={() => setIsClicked(true)}
+            onMouseUp={() => setIsClicked(false)}
+            onMouseLeave={() => setIsClicked(false)}
+        >
+            {Object.keys(notes).map(key => <Key
+                isMouseDown={isClicked}
+                playNote={playNote}
+                stopNote={stopNote}
+                note={{ key, octave }}
+                audioContextWrapper={audioController}
+            />)}
         </Board>
     )
 }
