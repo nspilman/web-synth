@@ -19,23 +19,39 @@ const StyledOctaveControl = styled.div`
 `
 
 interface OctaveControlProps {
-    setOctave: (octave: any) => void,
+    setOctave: (octave: number) => void,
     curOctave: any
 }
 
 const minOctave = 0;
 const maxOctave = 8;
 
+function decrementOctave(curOctave : number) {
+    if (curOctave - 1 < minOctave) {
+        return minOctave;
+    }
+
+    return curOctave - 1;
+}
+
+function incrementOctave(curOctave : number) {
+    if (curOctave + 1 > maxOctave) {
+        return maxOctave;
+    }
+
+    return curOctave + 1;
+}
+
 function OctaveControl({setOctave, curOctave}: OctaveControlProps){
     return (
         <div id="OctaveControl">
-            <StyledOctaveControl
-                onClick={() => setOctave(curOctave - 1 < minOctave ? minOctave : curOctave - 1)}
+            <StyledOctaveControl className="lower-octave"
+                onClick={() => setOctave(decrementOctave(curOctave))}
             >
                 Octave -
             </StyledOctaveControl>
-            <StyledOctaveControl
-                onClick={() => setOctave(curOctave + 1 > maxOctave ? maxOctave : curOctave + 1)}
+            <StyledOctaveControl className="upper-octave"
+                onClick={() => setOctave(incrementOctave(curOctave))}
             >
                 Octave +
             </StyledOctaveControl>
