@@ -19,28 +19,30 @@ const StyledKey = styled.div`
 `
 
 interface Note {
-    key:string,
-    octave: number
+    key: string,
+    octave: number,
+    wave: string
 }
 
 interface KeyProps {
     playNote: (audioContextWrapper : any, note: Note) => void,
     stopNote: (audioContextWrapper : any, note: Note) => void,
     note : {
-        key:string,
-        octave:number
+        key: string,
+        octave: number,
+        wave: string
     }
     audioContextWrapper: any,
     isMouseDown: boolean,
 }
 
 function Key({playNote, stopNote, note, audioContextWrapper, isMouseDown}: KeyProps){
-    const { key, octave } = note;
+    const { key, octave, wave } = note;
     return (<StyledKey
-        onMouseDown ={()=> playNote(audioContextWrapper,{key, octave})}
-        onMouseLeave = {()=>stopNote(audioContextWrapper,{key,octave})}
-        onMouseUp = {()=>stopNote(audioContextWrapper,{key, octave})}
-        onMouseEnter = {() => isMouseDown && playNote(audioContextWrapper,{key, octave}) }
+        onMouseDown ={()=> playNote(audioContextWrapper,{key, octave, wave})}
+        onMouseLeave = {()=>stopNote(audioContextWrapper,{key,octave, wave})}
+        onMouseUp = {()=>stopNote(audioContextWrapper,{key, octave, wave})}
+        onMouseEnter = {() => isMouseDown && playNote(audioContextWrapper,{key, octave, wave}) }
     >{key}</StyledKey>)
 }
 
