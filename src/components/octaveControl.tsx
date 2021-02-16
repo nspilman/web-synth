@@ -53,7 +53,6 @@ function OctaveControl() {
         updateContext((state: any) => state.octave = output);
     }
 
-    console.log(updateContext)
     return (
         <div id="OctaveControl">
             <StyledOctaveControl className="lower-octave"
