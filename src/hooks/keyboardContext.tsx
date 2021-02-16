@@ -30,7 +30,7 @@ const [keyboardState, updateKeyboardState] = useState({...defaultState});
             <KeyboardContext.Provider value={ keyboardState }>
                 {children}
             </KeyboardContext.Provider>
-        // </UpdateKeyboardContext.Provider>
+        </UpdateKeyboardContext.Provider>
     )
 }
 
