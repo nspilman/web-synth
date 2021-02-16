@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
 import styled from "styled-components";
 
 const StyledOctaveControl = styled.div`
@@ -18,40 +19,33 @@ const StyledOctaveControl = styled.div`
     }
 `
 
-interface OctaveControlProps {
-    setOctave: (octave: number) => void,
-    curOctave: any
-}
-
 const minOctave = 0;
 const maxOctave = 8;
 
-function decrementOctave(curOctave : number) {
-    if (curOctave - 1 < minOctave) {
-        return minOctave;
+function OctaveControl() {
+    const state = useContext(KeyboardContext);
+    const { octave } = state;
+    const updateContext = useContext(UpdateKeyboardContext);
+
+    const decrementOctave = () => {
+        const newValue = (octave - 1 < minOctave) ? minOctave : octave - 1;
+        updateContext({...state,octave:newValue})
     }
 
-    return curOctave - 1;
-}
-
-function incrementOctave(curOctave : number) {
-    if (curOctave + 1 > maxOctave) {
-        return maxOctave;
+    const incrementOctave = () => {
+        const newValue = (octave + 1 > maxOctave) ? maxOctave : octave + 1;
+        updateContext({...state,octave:newValue})
     }
 
-    return curOctave + 1;
-}
-
-function OctaveControl({setOctave, curOctave}: OctaveControlProps){
     return (
         <div id="OctaveControl">
             <StyledOctaveControl className="lower-octave"
-                onClick={() => setOctave(decrementOctave(curOctave))}
+                onClick={() : void => decrementOctave()}
             >
                 Octave -
             </StyledOctaveControl>
             <StyledOctaveControl className="upper-octave"
-                onClick={() => setOctave(incrementOctave(curOctave))}
+                onClick={() : void => incrementOctave()}
             >
                 Octave +
             </StyledOctaveControl>

@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import React from 'react';
+import React, { useContext } from 'react';
+import stopNote from '../hooks/stopNote';
+import playNote from '../hooks/playNote';
+
+import { KeyboardContext } from "../hooks/keyboardContext";
 
 const StyledKey = styled.div`
     height:10rem;
@@ -20,24 +24,18 @@ const StyledKey = styled.div`
 
 interface Note {
     key: string,
+    wave: string,
     octave: number,
-    wave: string
 }
 
 interface KeyProps {
-    playNote: (audioContextWrapper : any, note: Note) => void,
-    stopNote: (audioContextWrapper : any, note: Note) => void,
-    note : {
-        key: string,
-        octave: number,
-        wave: string
-    }
-    audioContextWrapper: any,
+    note : string,
     isMouseDown: boolean,
 }
 
-function Key({playNote, stopNote, note, audioContextWrapper, isMouseDown}: KeyProps){
-    const { key, octave, wave } = note;
+function Key({note, isMouseDown}: KeyProps){
+    const { octave, wave, audioContextWrapper } = useContext(KeyboardContext);
+    const  key  = note;
     return (<StyledKey
         onMouseDown ={()=> playNote(audioContextWrapper,{key, octave, wave})}
         onMouseLeave = {()=>stopNote(audioContextWrapper,{key,octave, wave})}
