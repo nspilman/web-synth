@@ -1,6 +1,7 @@
 
-import React, { useState, useContext } from 'react';
-import { useImmer } from "use-immer";
+import React, { createContext, useState } from 'react';
+import AudioContextWrapper from '../classes/audioContextWrapper';
+import waveforms from "../data/waveforms";
 
 type UpdateKeyboardContextType = {
     updateKeyboardState: () => void | undefined;
@@ -9,22 +10,27 @@ type UpdateKeyboardContextType = {
 const defaultOctave = 4;
 const defaultState = {
     octave: defaultOctave,
-    setIsClicked: false
+    setIsClicked: false,
+    wave: waveforms.sine,
+    audioContextWrapper: new AudioContextWrapper()
   }
 
-const voidFunction = ()=>{};
+type UpdateKeyboardValues = {
+    updateKeyboardState: () => void;
+}
 
-const KeyboardContext = React.createContext({...defaultState});
-const UpdateKeyboardContext= React.createContext<any>({updateKeyboardState: voidFunction});
+const KeyboardContext = React.createContext<any>({...defaultState});
+const UpdateKeyboardContext = createContext<any>(undefined);
 
 export function KeyboardProvider({children} : any){
-const [keyboardState, updateKeyboardState] = useImmer({...defaultState});
+const [keyboardState, updateKeyboardState] = useState({...defaultState});
+
     return (
-        <KeyboardContext.Provider value={keyboardState}>
         <UpdateKeyboardContext.Provider value = {updateKeyboardState}>
-            {children}
-        </UpdateKeyboardContext.Provider>
-    </KeyboardContext.Provider>
+            <KeyboardContext.Provider value={ keyboardState }>
+                {children}
+            </KeyboardContext.Provider>
+        // </UpdateKeyboardContext.Provider>
     )
 }
 

@@ -19,38 +19,22 @@ const StyledOctaveControl = styled.div`
     }
 `
 
-// interface OctaveControlProps {
-//     setOctave: (octave: number) => void,
-//     curOctave: any
-// }
-
 const minOctave = 0;
 const maxOctave = 8;
 
 function OctaveControl() {
-    const { octave } = useContext(KeyboardContext);
+    const state = useContext(KeyboardContext);
+    const { octave } = state;
     const updateContext = useContext(UpdateKeyboardContext);
 
-    function decrementOctave() {
-        let output: number;
-        if (octave - 1 < minOctave) {
-            output = minOctave;
-        }
-        else {
-            output = octave - 1;
-        }
-        updateContext((state: any) => state.octave = output)
+    const decrementOctave = () => {
+        const newValue = (octave - 1 < minOctave) ? minOctave : octave - 1;
+        updateContext({...state,octave:newValue})
     }
 
-    function incrementOctave() {
-        let output: number;
-        if (octave + 1 > maxOctave) {
-            output = maxOctave;
-        }
-        else {
-            output = octave + 1
-        }
-        updateContext((state: any) => state.octave = output);
+    const incrementOctave = () => {
+        const newValue = (octave + 1 > maxOctave) ? maxOctave : octave + 1;
+        updateContext({...state,octave:newValue})
     }
 
     return (

@@ -1,28 +1,26 @@
-import React from 'react';
-import styled from "styled-components";
-import waveforms from "../data/waveforms";
+import React, { useContext } from 'react';
+import { getAllWaveTypes } from "../data/waveforms";
 
-interface WaveControlProps {
-    setWave: (wave: string) => void
-}
+import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
 
-function onWaveSelectClick(e: any, setWaveFunc: (wave: string) => void) {
-    var selectedWave = e.target.value;
-    if (selectedWave != null) {
-        setWaveFunc(selectedWave);
+
+function WaveControl(){
+    const setState = useContext(UpdateKeyboardContext);
+    const state = useContext(KeyboardContext);
+    
+    const setWave = (e : React.ChangeEvent<HTMLSelectElement>) =>{
+        setState({...state,
+            wave: e.target.value})
     }
-}
 
-function WaveControl({setWave}: WaveControlProps){
+    const waveTypeOptions = getAllWaveTypes();
+
     return (
         <div id="WaveControl">
             <select id="wave-select-id" className="wave-select"
-                onChange={(e) => onWaveSelectClick(e, setWave)}
+                onChange={(e) => setWave(e)}
             >
-                <option value={waveforms.SINE}>{waveforms.SINE}</option>
-                <option value={waveforms.SAWTOOTH}>{waveforms.SAWTOOTH}</option>
-                <option value={waveforms.SQUARE}>{waveforms.SQUARE}</option>
-                <option value={waveforms.TRIANGLE}>{waveforms.TRIANGLE}</option>
+                {waveTypeOptions.map(waveform => <option value={waveform} key={waveform}>{waveform}</option>)}
             </select>
         </div>
     )
