@@ -8,14 +8,14 @@ import { KeyboardContext } from "../hooks/keyboardContext";
 const StyledKey = styled.div`
     height:10rem;
     width:5rem;
-    background-color:grey;
+    background-color:rgb(250,250,250);
     margin:.1rem;
     display:flex;
     align-items:center;
     justify-content:center;
     &:hover{
-        background-color:black;
-        color:green;
+        background-color:rgb(230,230,230);
+        color:rgb(90,20,20);
     }
     &::selection{
         background: transparent;
