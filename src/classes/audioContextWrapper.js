@@ -1,19 +1,15 @@
 import notes from "../data/notes";
-import masterGainNode from "./masterGainNode";
 
 class AudioContextWrapper {
-    // audioContext : AudioContext
-    // masterGainNode : any
-
     constructor(){//AudioContext){
         this.audioContext = new window.AudioContext();
-        this.masterGainNode = masterGainNode(this.audioContext, 3)
+        this.initSignalChain();
         this.currentlyPlayingNotes = [];
     }
 
     playNote(note, octave, wave){
         let osc = this.audioContext.createOscillator();
-        osc.connect(this.masterGainNode);
+        osc.connect(this.nodes[0]);
         const noteToPlay = notes[note][octave]
         osc.type = wave;
         osc.frequency.value = noteToPlay;
@@ -27,6 +23,32 @@ class AudioContextWrapper {
             oscToStop.osc.stop();
         }
         this.currentlyPlayingNotes = this.currentlyPlayingNotes.filter((osc) => osc.note != note || osc.octave != octave );
+    }
+
+    initSignalChain() {
+        this.nodes = [
+            this.createFilter(),
+            this.createGain()
+        ];
+
+        for (var i = 0; i < this.nodes.length - 1; i++) {
+            this.nodes[i].connect(this.nodes[i + 1]);
+        }
+
+        this.nodes[this.nodes.length - 1].connect(this.audioContext.destination);
+    }
+
+    createFilter() {
+        var filterNode = this.audioContext.createBiquadFilter();
+        filterNode.type = "lowpass";
+        filterNode.frequency.setValueAtTime(80, this.audioContext.currentTime);
+        return filterNode;
+    }
+
+    createGain() {
+        var gainNode = this.audioContext.createGain();
+        gainNode.gain.value = 3;
+        return gainNode;
     }
 }
 
