@@ -71,7 +71,7 @@ class AudioContextWrapper {
     }
 
     setFilterFrequency(newFilterFrequency: number) {
-        (this.nodes[0] as BiquadFilterNode).frequency.setValueAtTime(newFilterFrequency, this.audioContext.currentTime);
+        (this.nodes[0] as BiquadFilterNode).frequency.value = newFilterFrequency;
     }
 }
 
