@@ -12,9 +12,9 @@ class AudioContextWrapper {
     masterGainNode : GainNode
     currentlyPlayingNotes: PlayingNote[]
 
-    constructor(){
+    constructor(initialGain : number){
         this.audioContext = new window.AudioContext();
-        this.masterGainNode = masterGainNode(this.audioContext, 3)
+        this.masterGainNode = masterGainNode(this.audioContext, initialGain)
         this.currentlyPlayingNotes = [];
     }
 
@@ -34,6 +34,10 @@ class AudioContextWrapper {
             oscToStop.osc.stop();
         }
         this.currentlyPlayingNotes = this.currentlyPlayingNotes.filter((osc) => osc.note != note || osc.octave != octave );
+    }
+
+    setGain(newGain : number){
+        this.masterGainNode.gain.value = newGain;
     }
 }
 
