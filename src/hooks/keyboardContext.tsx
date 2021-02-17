@@ -3,31 +3,38 @@ import React, { createContext, useState } from 'react';
 import AudioContextWrapper from '../classes/audioContextWrapper';
 import waveforms from "../data/waveforms";
 
-type UpdateKeyboardContextType = {
-    updateKeyboardState: () => void | undefined;
-  };
+const initialOctave = 4;
+const initialGain = 2;
 
-const defaultOctave = 4;
 const defaultState = {
-    octave: defaultOctave,
+    octave: initialOctave,
     setIsClicked: false,
     wave: waveforms.sine,
-    audioContextWrapper: new AudioContextWrapper()
-  }
-
-type UpdateKeyboardValues = {
-    updateKeyboardState: () => void;
+    gain: initialGain,
+    audioContextWrapper: new AudioContextWrapper(initialGain)
 }
 
-const KeyboardContext = React.createContext<any>({...defaultState});
-const UpdateKeyboardContext = createContext<any>(undefined);
+interface KeyboardContextSignature {
+    octave: number,
+    setIsClicked: boolean,
+    gain: number,
+    wave: OscillatorType
+    audioContextWrapper: AudioContextWrapper
+}
 
-export function KeyboardProvider({children} : any){
-const [keyboardState, updateKeyboardState] = useState({...defaultState});
+interface KeyboardProviderType {
+    children: React.ReactNode
+}
+
+const KeyboardContext = createContext<KeyboardContextSignature>({ ...defaultState });
+const UpdateKeyboardContext = createContext<any>({});
+
+export function KeyboardProvider({ children }: KeyboardProviderType) {
+    const [keyboardState, updateKeyboardState] = useState({ ...defaultState });
 
     return (
-        <UpdateKeyboardContext.Provider value = {updateKeyboardState}>
-            <KeyboardContext.Provider value={ keyboardState }>
+        <UpdateKeyboardContext.Provider value={updateKeyboardState}>
+            <KeyboardContext.Provider value={keyboardState}>
                 {children}
             </KeyboardContext.Provider>
         </UpdateKeyboardContext.Provider>

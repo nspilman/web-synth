@@ -1,13 +1,24 @@
 import notes from "../data/notes";
 
+interface PlayingNote {
+    osc: OscillatorNode,
+    note: string,
+    octave: number
+}
+
 class AudioContextWrapper {
-    constructor(){//AudioContext){
+    audioContext : AudioContext
+    currentlyPlayingNotes: PlayingNote[]
+    nodes: AudioNode[]
+
+    constructor(initialGain : number){
         this.audioContext = new window.AudioContext();
-        this.initSignalChain();
+        this.initSignalChain(initialGain);
         this.currentlyPlayingNotes = [];
+        this.nodes = []
     }
 
-    playNote(note, octave, wave){
+    playNote(note : string, octave : number, wave : OscillatorType){
         let osc = this.audioContext.createOscillator();
         osc.connect(this.nodes[0]);
         const noteToPlay = notes[note][octave]
@@ -17,7 +28,7 @@ class AudioContextWrapper {
         osc.start()
     }
 
-    stopNote(note, octave){
+    stopNote(note : string, octave : number){
         const oscToStop = this.currentlyPlayingNotes.find((osc)=> osc.note == note && osc.octave == octave )
         if(oscToStop){
             oscToStop.osc.stop();
@@ -25,10 +36,10 @@ class AudioContextWrapper {
         this.currentlyPlayingNotes = this.currentlyPlayingNotes.filter((osc) => osc.note != note || osc.octave != octave );
     }
 
-    initSignalChain() {
+    initSignalChain(initialGain: number) {
         this.nodes = [
             this.createFilter(),
-            this.createGain()
+            this.createGain(initialGain)
         ];
 
         for (var i = 0; i < this.nodes.length - 1; i++) {
@@ -45,10 +56,14 @@ class AudioContextWrapper {
         return filterNode;
     }
 
-    createGain() {
+    createGain(initialGain: number) {
         var gainNode = this.audioContext.createGain();
-        gainNode.gain.value = 3;
+        gainNode.gain.value = initialGain;
         return gainNode;
+    }
+
+    setGain(newGain : number){
+        (this.nodes[1] as GainNode).gain.value = newGain;
     }
 }
 
