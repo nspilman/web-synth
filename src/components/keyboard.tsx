@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import notes from "../data/notes"
-import AudioContextWrapper from "../classes/audioContextWrapper";
 import styled from "styled-components";
 import Key from "./key";
 import OctaveControl from './octaveControl';
 import WaveControl from './waveControl';
+import GainControl from "./gainControl";
 
 import { KeyboardProvider } from "../hooks/keyboardContext";
 
@@ -36,6 +36,7 @@ function Keyboard() {
                 <StyledControlPanel>
                     <OctaveControl />
                     <WaveControl/>
+                    <GainControl/>
                 </StyledControlPanel>
                 <StyledKeys className="keyboard"
                     onMouseDown={() => setIsClicked(true)}
