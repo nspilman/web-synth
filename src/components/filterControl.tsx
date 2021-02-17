@@ -1,30 +1,57 @@
 import React, { useContext } from 'react';
 import { getAllFilterTypes } from '../data/filterTypes';
+import { setFilterType, setFilterFrequency } from "../hooks/setFilter";
+import styled from "styled-components";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
 
+const StyledFilterControl = styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+`
+
 
 function FilterControl(){
-    const setState = useContext(UpdateKeyboardContext);
     const state = useContext(KeyboardContext);
-    
-    const setFilter = (e : React.ChangeEvent<HTMLSelectElement>) =>{
-        setState({...state,
-            //wave: e.target.value
-            // filterType: e.target.value
-        })
+    const setState = useContext(UpdateKeyboardContext);
+
+    const setFilterTypeAndState = (newValue: string) => {
+        setFilterType(audioContextWrapper, newValue);
+        setState({ ...state, filterType: newValue });
+    }
+
+    const setFilterFrequencyAndState = (newValue: number) => {
+        setFilterFrequency(audioContextWrapper, newValue);
+        setState({ ...state, filterFrequency: newValue });
+    }
+
+    const { audioContextWrapper, filterType, filterFrequency } = state;
+
+    const setFilterTypeFromEvent = (e : React.ChangeEvent<HTMLSelectElement>) => {
+        setFilterTypeAndState(e.target.value);
+    }
+
+    const setFilterFrequencyFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
+        setFilterFrequencyAndState(Number(e.currentTarget.value));
     }
 
     const filterTypeOptions = getAllFilterTypes();
 
     return (
-        <div id="FilterControl">
-            <select id="filter-select-id" className="filter-select"
-                onChange={(e) => setFilter(e)}
+        <StyledFilterControl>
+            <span style={{fontSize:'1.4rem', color:'rgb(230,230,230)'}}>FILTER</span>
+            <select style={{height:'2rem',margin:'.2rem .1rem'}} id="filter-select-id" className="filter-select"
+                onChange={(e) => setFilterTypeFromEvent(e)}
             >
                 {filterTypeOptions.map(filter => <option value={filter} key={filter}>{filter}</option>)}
             </select>
-        </div>
+            <input type='range' id='filter-freq-id' className='filter-freq' min='20' max='20000' value={filterFrequency}
+                onInput={(e) => setFilterFrequencyFromEvent(e)}
+            >
+            </input>
+        </StyledFilterControl>
     )
 }
 

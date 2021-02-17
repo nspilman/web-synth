@@ -11,11 +11,11 @@ class AudioContextWrapper {
     currentlyPlayingNotes: PlayingNote[]
     nodes: AudioNode[]
 
-    constructor(initialGain : number){
+    constructor(initialGain : number, initialFilterType: string, initialFilterFrequency: number){
         this.audioContext = new window.AudioContext();
-        this.initSignalChain(initialGain);
-        this.currentlyPlayingNotes = [];
         this.nodes = []
+        this.initSignalChain(initialGain, initialFilterType, initialFilterFrequency);
+        this.currentlyPlayingNotes = [];
     }
 
     playNote(note : string, octave : number, wave : OscillatorType){
@@ -36,9 +36,9 @@ class AudioContextWrapper {
         this.currentlyPlayingNotes = this.currentlyPlayingNotes.filter((osc) => osc.note != note || osc.octave != octave );
     }
 
-    initSignalChain(initialGain: number) {
+    initSignalChain(initialGain: number, initialFilterType: string, initialFilterFrequency: number) {
         this.nodes = [
-            this.createFilter(),
+            this.createFilter(initialFilterType, initialFilterFrequency),
             this.createGain(initialGain)
         ];
 
@@ -49,10 +49,10 @@ class AudioContextWrapper {
         this.nodes[this.nodes.length - 1].connect(this.audioContext.destination);
     }
 
-    createFilter() {
+    createFilter(initialFilterType: string, initialFilterFrequency: number) {
         var filterNode = this.audioContext.createBiquadFilter();
-        filterNode.type = "lowpass";
-        filterNode.frequency.setValueAtTime(80, this.audioContext.currentTime);
+        filterNode.type = initialFilterType as BiquadFilterType;
+        filterNode.frequency.setValueAtTime(initialFilterFrequency, this.audioContext.currentTime);
         return filterNode;
     }
 
@@ -64,6 +64,14 @@ class AudioContextWrapper {
 
     setGain(newGain : number){
         (this.nodes[1] as GainNode).gain.value = newGain;
+    }
+
+    setFilterType(newFilterType: string) {
+        (this.nodes[0] as BiquadFilterNode).type = newFilterType as BiquadFilterType;
+    }
+
+    setFilterFrequency(newFilterFrequency: number) {
+        (this.nodes[0] as BiquadFilterNode).frequency.setValueAtTime(newFilterFrequency, this.audioContext.currentTime);
     }
 }
 
