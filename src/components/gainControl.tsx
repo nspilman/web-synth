@@ -29,8 +29,8 @@ const StyledControlButton = styled.div`
     }
 `
 
-const minOctave = 1;
-const maxOctave = 11;
+const minGain = 1;
+const maxGain = 11;
 
 function GainControl() {
     const state = useContext(KeyboardContext);
@@ -44,12 +44,12 @@ function GainControl() {
     const { audioContextWrapper, gain } = state;
 
     const decrementGain = () => {
-        const newValue = (gain - 1 < minOctave) ? minOctave : gain - 1;
+        const newValue = (gain - 1 < minGain) ? minGain : gain - 1;
         setGainAndState(newValue)
     }
 
     const incrementGain = () => {
-        const newValue = (gain + 1 > maxOctave) ? maxOctave : gain + 1;
+        const newValue = (gain + 1 > maxGain) ? maxGain : gain + 1;
         setGainAndState(newValue)
     }
 
