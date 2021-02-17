@@ -1,17 +1,24 @@
 import notes from "../data/notes";
 import masterGainNode from "./masterGainNode";
 
-class AudioContextWrapper {
-    // audioContext : AudioContext
-    // masterGainNode : any
+interface PlayingNote {
+    osc: OscillatorNode,
+    note: string,
+    octave: number
+}
 
-    constructor(){//AudioContext){
+class AudioContextWrapper {
+    audioContext : AudioContext
+    masterGainNode : GainNode
+    currentlyPlayingNotes: PlayingNote[]
+
+    constructor(){
         this.audioContext = new window.AudioContext();
         this.masterGainNode = masterGainNode(this.audioContext, 3)
         this.currentlyPlayingNotes = [];
     }
 
-    playNote(note, octave, wave){
+    playNote(note : string, octave : number, wave : OscillatorType){
         let osc = this.audioContext.createOscillator();
         osc.connect(this.masterGainNode);
         const noteToPlay = notes[note][octave]
@@ -21,7 +28,7 @@ class AudioContextWrapper {
         osc.start()
     }
 
-    stopNote(note, octave){
+    stopNote(note : string, octave : number){
         const oscToStop = this.currentlyPlayingNotes.find((osc)=> osc.note == note && osc.octave == octave )
         if(oscToStop){
             oscToStop.osc.stop();
