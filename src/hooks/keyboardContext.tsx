@@ -3,10 +3,6 @@ import React, { createContext, useState } from 'react';
 import AudioContextWrapper from '../classes/audioContextWrapper';
 import waveforms from "../data/waveforms";
 
-type UpdateKeyboardContextType = {
-    updateKeyboardState: () => void | undefined;
-  };
-
 const defaultOctave = 4;
 const defaultState = {
     octave: defaultOctave,
@@ -15,14 +11,26 @@ const defaultState = {
     audioContextWrapper: new AudioContextWrapper()
   }
 
-type UpdateKeyboardValues = {
-    updateKeyboardState: () => void;
+  interface KeyboardContextSignature {
+      octave : number,
+      setIsClicked : boolean,
+      wave: OscillatorType
+      audioContextWrapper: AudioContextWrapper
+  }
+
+
+interface KeyboardProviderType {
+    children : React.ReactNode
 }
 
-const KeyboardContext = React.createContext<any>({...defaultState});
-const UpdateKeyboardContext = createContext<any>(undefined);
+interface UpdateKeyboardStateSignature {
+    updateKeyboardState : React.SetStateAction<KeyboardContextSignature>
+}
 
-export function KeyboardProvider({children} : any){
+const KeyboardContext = createContext<KeyboardContextSignature>({...defaultState});
+const UpdateKeyboardContext = createContext<any>({});
+
+export function KeyboardProvider({children} : KeyboardProviderType){
 const [keyboardState, updateKeyboardState] = useState({...defaultState});
 
     return (

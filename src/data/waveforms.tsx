@@ -1,8 +1,8 @@
-const sine = 'sine'
-const square = 'square'
-const sawtooth = 'sawtooth'
-const triangle = 'triangle'
-
+const sine = 'sine' as OscillatorType;
+const square = 'square' as OscillatorType;
+const sawtooth = 'sawtooth' as OscillatorType;
+const triangle = 'triangle' as OscillatorType;
+ 
 const waveforms =  {
     sine,
     square,
