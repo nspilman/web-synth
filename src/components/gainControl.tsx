@@ -56,7 +56,7 @@ function GainControl() {
 
     return (
         <StyledGainControl id="GainControl">
-            <span style={{ fontSize: '1.4rem', color: 'rgb(230,230,230)' }} >GAIN : {gain.toFixed(1)}</span>
+            <span style={{ fontSize: '1.4rem', color: 'rgb(230,230,230)' }} >GAIN : {(gain * 10).toFixed(0)}</span>
             <div className='octave-buttons-wrapper'
                 style={{ flexDirection: 'row', display: 'flex' }}
             >
