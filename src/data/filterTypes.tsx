@@ -1,5 +1,5 @@
-const lowpass = 'lowpass'
-const highpass = 'highpass'
+const lowpass = 'lowpass' as BiquadFilterType
+const highpass = 'highpass' as BiquadFilterType
 
 const filterTypes =  {
     lowpass,

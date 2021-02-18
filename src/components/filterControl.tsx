@@ -12,7 +12,6 @@ const StyledFilterControl = styled.div`
     justify-content:center;
 `
 
-
 function FilterControl(){
     const state = useContext(KeyboardContext);
     const setState = useContext(UpdateKeyboardContext);

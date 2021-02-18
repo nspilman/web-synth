@@ -24,7 +24,7 @@ interface KeyboardContextSignature {
     setIsClicked: boolean,
     gain: number,
     wave: OscillatorType,
-    filterType: string,
+    filterType: BiquadFilterType,
     filterFrequency: number,
     audioContextWrapper: AudioContextWrapper
 }
