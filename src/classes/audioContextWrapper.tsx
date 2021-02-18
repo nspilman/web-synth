@@ -1,39 +1,37 @@
-import notes from "../data/notes";
+import notes, { getNoteArray } from "../data/notes";
 import masterGainNode from "./masterGainNode";
-
-interface PlayingNote {
-    osc: OscillatorNode,
-    note: string,
-    octave: number
-}
+import OscillatorWrapper from "./OscillatorWrapper"
 
 class AudioContextWrapper {
     audioContext : AudioContext
     masterGainNode : GainNode
-    currentlyPlayingNotes: PlayingNote[]
+    oscilators: OscillatorWrapper[]
 
-    constructor(initialGain : number){
+    constructor(defaultGain : number){
         this.audioContext = new window.AudioContext();
-        this.masterGainNode = masterGainNode(this.audioContext, initialGain)
-        this.currentlyPlayingNotes = [];
+        this.masterGainNode = masterGainNode(this.audioContext, defaultGain)
+        this.oscilators = getNoteArray().map(
+            note => new OscillatorWrapper(
+                note.noteName,
+                note.octave, 
+                this.audioContext                )
+            )
     }
 
     playNote(note : string, octave : number, wave : OscillatorType){
-        let osc = this.audioContext.createOscillator();
-        osc.connect(this.masterGainNode);
-        const noteToPlay = notes[note][octave]
-        osc.type = wave;
-        osc.frequency.value = noteToPlay;
-        this.currentlyPlayingNotes.push({osc, note, octave})
-        osc.start()
+        const oscWrapper = this.oscilators.find(osc => osc.octave == octave && osc.note == note);
+        if(!oscWrapper){
+            return
+        }
+        oscWrapper.play(this.masterGainNode, wave)
     }
 
     stopNote(note : string, octave : number){
-        const oscToStop = this.currentlyPlayingNotes.find((osc)=> osc.note == note && osc.octave == octave )
-        if(oscToStop){
-            oscToStop.osc.stop();
+        const oscWrapper = this.oscilators.find(osc => osc.octave == octave && osc.note == note);
+        if(!oscWrapper){
+            return
         }
-        this.currentlyPlayingNotes = this.currentlyPlayingNotes.filter((osc) => osc.note != note || osc.octave != octave );
+        oscWrapper.stop();
     }
 
     setGain(newGain : number){
