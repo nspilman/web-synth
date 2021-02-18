@@ -7,6 +7,7 @@ import WaveControl from './waveControl';
 import GainControl from "./gainControl";
 
 import { KeyboardProvider } from "../hooks/keyboardContext";
+import FilterControl from './filterControl';
 
 const StyledKeys = styled.div`
     display: flex;
@@ -37,6 +38,7 @@ function Keyboard() {
                     <OctaveControl />
                     <WaveControl/>
                     <GainControl/>
+                    <FilterControl/>
                 </StyledControlPanel>
                 <StyledKeys className="keyboard"
                     onMouseDown={() => setIsClicked(true)}

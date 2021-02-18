@@ -1,24 +1,31 @@
 
 import React, { createContext, useState } from 'react';
 import AudioContextWrapper from '../classes/audioContextWrapper';
+import filterTypes from '../data/filterTypes';
 import waveforms from "../data/waveforms";
 
 const initialOctave = 4;
-const initialGain = 2;
+const initialGain = 1;
+const initialFilterType = filterTypes.lowpass;
+const initialFilterFrequency = 20000;
 
 const defaultState = {
     octave: initialOctave,
     setIsClicked: false,
     wave: waveforms.sine,
     gain: initialGain,
-    audioContextWrapper: new AudioContextWrapper(initialGain)
+    filterType: initialFilterType,
+    filterFrequency: initialFilterFrequency,
+    audioContextWrapper: new AudioContextWrapper(initialGain, initialFilterType, initialFilterFrequency)
 }
 
 interface KeyboardContextSignature {
     octave: number,
     setIsClicked: boolean,
     gain: number,
-    wave: OscillatorType
+    wave: OscillatorType,
+    filterType: BiquadFilterType,
+    filterFrequency: number,
     audioContextWrapper: AudioContextWrapper
 }
 

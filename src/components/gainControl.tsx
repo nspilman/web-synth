@@ -29,8 +29,9 @@ const StyledControlButton = styled.div`
     }
 `
 
-const minGain = 1;
-const maxGain = 11;
+const minGain = 0;
+const maxGain = 1;
+const gainStep = 0.1;
 
 function GainControl() {
     const state = useContext(KeyboardContext);
@@ -44,18 +45,18 @@ function GainControl() {
     const { audioContextWrapper, gain } = state;
 
     const decrementGain = () => {
-        const newValue = (gain - 1 < minGain) ? minGain : gain - 1;
+        const newValue = (gain - gainStep < minGain) ? minGain : gain - gainStep;
         setGainAndState(newValue)
     }
 
     const incrementGain = () => {
-        const newValue = (gain + 1 > maxGain) ? maxGain : gain + 1;
+        const newValue = (gain + gainStep > maxGain) ? maxGain : gain + gainStep;
         setGainAndState(newValue)
     }
 
     return (
         <StyledGainControl id="GainControl">
-            <span style={{ fontSize: '1.4rem', color: 'rgb(230,230,230)' }} >GAIN : {gain}</span>
+            <span style={{ fontSize: '1.4rem', color: 'rgb(230,230,230)' }} >GAIN : {(gain * 10).toFixed(0)}</span>
             <div className='octave-buttons-wrapper'
                 style={{ flexDirection: 'row', display: 'flex' }}
             >
