@@ -18,10 +18,10 @@ export default class OscillatorWrapper {
         this.audioContext = audioContext;
     }
 
-    play(gain: GainNode, wave: OscillatorType) {
+    play(nodeToConnect: AudioNode, wave: OscillatorType) {
         const osc = this.audioContext.createOscillator();
         osc.frequency.value = this.frequency;
-        osc.connect(gain);
+        osc.connect(nodeToConnect);
         osc.type = wave;
         this.playingOsc = osc;
         this.playingOsc.start()

@@ -5,5 +5,5 @@ export function setFilterType(audioContextWrapper: AudioContextWrapper, newFilte
 }
 
 export function setFilterFrequency(audioContextWrapper: AudioContextWrapper, newFilterFrequency: number) : void {
-    audioContextWrapper.setFilterFrequency(newFilterFrequency);
+    audioContextWrapper.setFilterFreq(newFilterFrequency);
 }
