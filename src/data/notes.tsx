@@ -2,6 +2,13 @@ type NotesHashType = {
     [key:string]: number[]
 }
 
+type NoteIdentifier = {
+    frequency : number,
+    noteName : string,
+    octave : number,
+    nameAndOctave : string
+}
+
 const noteHash : NotesHashType = {
         "C":   [16.35, 32.70, 65.41, 130.81, 261.63, 523.25, 1046.50, 2093.00, 4186.01],
        "Db":   [17.32, 34.65, 69.30, 138.59, 277.18, 554.37, 1108.73, 2217.46, 4434.92],
@@ -18,3 +25,25 @@ const noteHash : NotesHashType = {
      }
 
 export default noteHash;
+
+export const getFrequency = (note: string, octave : number) => {
+    return noteHash[note][octave]
+}
+export const getNoteArray = () => {
+    const output : NoteIdentifier[] = [];
+    Object.keys(noteHash).forEach(
+        noteName => {
+            noteHash[noteName].forEach(
+                (frequency, i) => output.push(
+                    {
+                        frequency,
+                        noteName,
+                        octave: i,
+                        nameAndOctave: `${noteHash}${i}`
+                    }
+                )
+            )
+        }
+    )
+    return output
+}
