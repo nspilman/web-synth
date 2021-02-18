@@ -13,7 +13,7 @@ class AudioContextWrapper {
         this.audioContext = new window.AudioContext();
         this.masterGainNode = masterGainNode(this.audioContext, defaultGain);
         this.filterNode = filterNode(this.audioContext, defaultFilterType, defaultFilterFreq);
-        
+
         this.filterNode.connect(this.masterGainNode);
         this.masterGainNode.connect(this.audioContext.destination);
 
@@ -21,7 +21,7 @@ class AudioContextWrapper {
             note => new OscillatorWrapper(
                 note.noteName,
                 note.octave, 
-                this.audioContext                )
+                this.audioContext)
             )
     }
 
