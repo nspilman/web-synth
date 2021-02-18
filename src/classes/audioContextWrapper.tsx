@@ -52,7 +52,7 @@ class AudioContextWrapper {
     createFilter(initialFilterType: string, initialFilterFrequency: number) {
         var filterNode = this.audioContext.createBiquadFilter();
         filterNode.type = initialFilterType as BiquadFilterType;
-        filterNode.frequency.setValueAtTime(initialFilterFrequency, this.audioContext.currentTime);
+        filterNode.frequency.value = initialFilterFrequency;
         return filterNode;
     }
 

@@ -47,7 +47,7 @@ function FilterControl(){
             >
                 {filterTypeOptions.map(filter => <option value={filter} key={filter}>{filter}</option>)}
             </select>
-            <input type='range' id='filter-freq-id' className='filter-freq' min='20' max='20000' value={filterFrequency}
+            <input type='range' id='filter-freq-id' className='filter-freq' min='40' max='20000' value={filterFrequency}
                 onInput={(e) => setFilterFrequencyFromEvent(e)}
             >
             </input>
