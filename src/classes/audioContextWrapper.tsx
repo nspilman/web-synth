@@ -18,11 +18,11 @@ class AudioContextWrapper {
         this.masterGainNode.connect(this.audioContext.destination);
 
         this.oscilators = getNoteArray().map(
-            note => new OscillatorWrapper(
-                note.noteName,
-                note.octave, 
-                this.audioContext)
-            )
+        note => new OscillatorWrapper(
+            note.noteName,
+            note.octave, 
+            this.audioContext)
+        )
     }
 
     playNote(note : string, octave : number, wave : OscillatorType){
@@ -45,8 +45,8 @@ class AudioContextWrapper {
         this.masterGainNode.gain.value = newGain;
     }
 
-    setFilterType(newType : string) {
-        this.filterNode.type = newType as BiquadFilterType;
+    setFilterType(newType : BiquadFilterType) {
+        this.filterNode.type = newType;
     }
 
     setFilterFreq(newFreq : number) {

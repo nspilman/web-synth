@@ -1,6 +1,6 @@
 import AudioContextWrapper from "../classes/audioContextWrapper";
 
-export function setFilterType(audioContextWrapper: AudioContextWrapper, newFilterType: string) : void {
+export function setFilterType(audioContextWrapper: AudioContextWrapper, newFilterType: BiquadFilterType) : void {
     audioContextWrapper.setFilterType(newFilterType);
 }
 

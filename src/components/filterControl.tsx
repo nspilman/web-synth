@@ -18,7 +18,7 @@ function FilterControl(){
     const setState = useContext(UpdateKeyboardContext);
 
     const setFilterTypeAndState = (newValue: string) => {
-        setFilterType(audioContextWrapper, newValue);
+        setFilterType(audioContextWrapper, newValue as BiquadFilterType);
         setState({ ...state, filterType: newValue });
     }
 
