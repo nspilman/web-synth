@@ -30,6 +30,7 @@ export default class OscillatorWrapper {
     stop() {
         if (this.playingOsc) {
             this.playingOsc.stop();
+            this.playingOsc.disconnect();
             this.playingOsc = undefined;
         }
     }

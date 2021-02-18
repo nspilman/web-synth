@@ -5,7 +5,7 @@ import filterTypes from '../data/filterTypes';
 import waveforms from "../data/waveforms";
 
 const initialOctave = 4;
-const initialGain = 2;
+const initialGain = 1;
 const initialFilterType = filterTypes.lowpass;
 const initialFilterFrequency = 20000;
 
