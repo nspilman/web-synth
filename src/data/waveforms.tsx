@@ -12,6 +12,6 @@ const waveforms =  {
 
 export default waveforms
 
-export const getAllWaveTypes = () : string[] =>{
-    return Object.keys(waveforms);
+export const getAllWaveTypes = () : OscillatorType[] =>{
+    return Object.keys(waveforms).map(waveform => waveform as OscillatorType);
 }

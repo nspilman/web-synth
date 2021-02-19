@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { getAllFilterTypes } from '../data/filterTypes';
-import { setFilterType, setFilterFrequency } from "../hooks/setFilter";
 import styled from "styled-components";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
@@ -17,16 +16,14 @@ function FilterControl(){
     const setState = useContext(UpdateKeyboardContext);
 
     const setFilterTypeAndState = (newValue: string) => {
-        setFilterType(audioContextWrapper, newValue as BiquadFilterType);
         setState({ ...state, filterType: newValue });
     }
 
     const setFilterFrequencyAndState = (newValue: number) => {
-        setFilterFrequency(audioContextWrapper, newValue);
         setState({ ...state, filterFrequency: newValue });
     }
 
-    const { audioContextWrapper, filterType, filterFrequency } = state;
+    const { filterFrequency } = state;
 
     const setFilterTypeFromEvent = (e : React.ChangeEvent<HTMLSelectElement>) => {
         setFilterTypeAndState(e.target.value);
@@ -40,8 +37,16 @@ function FilterControl(){
 
     return (
         <StyledFilterControl>
-            <span style={{fontSize:'1.4rem', color:'rgb(230,230,230)'}}>FILTER</span>
-            <select style={{height:'2rem',margin:'.2rem .1rem'}} id="filter-select-id" className="filter-select"
+            <span style={{
+                        fontSize:'1.4rem', 
+                        color:'rgb(230,230,230)'
+                    }}>
+                        FILTER
+                        </span>
+            <select style={{
+                height:'2rem',
+                margin:'.2rem .1rem'
+            }} id="filter-select-id" className="filter-select"
                 onChange={(e) => setFilterTypeFromEvent(e)}
             >
                 {filterTypeOptions.map(filter => <option value={filter} key={filter}>{filter}</option>)}

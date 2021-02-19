@@ -1,12 +1,7 @@
-interface Note {
-    key: string,
-    octave: number,
-    wave: string
-}
+import AudioContextWrapper from "../classes/audioContextWrapper";
 
-function playNote(audioContextWrapper: any, note: Note) : void{
-    const {key, octave, wave} = note;
-    audioContextWrapper.playNote(key, octave, wave)
+function playNote(audioContextWrapper: AudioContextWrapper, note: string) : void{
+    audioContextWrapper.playNote(note)
 }
 
 export default playNote;

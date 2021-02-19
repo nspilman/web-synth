@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
-import setGain from "../hooks/setGain";
 import styled from "styled-components";
 
 const StyledGainControl = styled.div`
@@ -38,11 +37,10 @@ function GainControl() {
     const setState = useContext(UpdateKeyboardContext);
 
     const setGainAndState = (newValue: number) => {
-        setGain(audioContextWrapper, newValue)
         setState({ ...state, gain: newValue })
     }
 
-    const { audioContextWrapper, gain } = state;
+    const { gain } = state;
 
     const decrementGain = () => {
         const newValue = (gain - gainStep < minGain) ? minGain : gain - gainStep;

@@ -1,12 +1,8 @@
-interface Note {
-    key: string,
-    octave: number,
-    wave: string
-}
+import AudioContextWrapper from "../classes/audioContextWrapper";
 
-function stopNote(audioContextWrapper: any, note: Note) : void{
-    const {key, octave, wave} = note;
-    audioContextWrapper.stopNote(key, octave);
+
+function stopNote(audioContextWrapper: AudioContextWrapper, note: string) : void{
+    audioContextWrapper.stopNote(note);
 }
 
 export default stopNote;
