@@ -10,6 +10,7 @@ const initialGain = 1;
 const initialOctave = 4;
 const initialFilterType = filterTypes.lowpass;
 const initialFilterFrequency = 20000;
+const initialDistortionAmount = 0;
 
 const defaultContextWrapperValues : IAudioContextParameters = {
     gain : initialGain,
@@ -17,9 +18,8 @@ const defaultContextWrapperValues : IAudioContextParameters = {
     filterFreq : initialFilterFrequency,
     filterType : initialFilterType,
     waveForm: waveforms.sine,
+    distortionAmount: initialDistortionAmount
 }
-
-const initialDistortionAmount = 0;
 
 const defaultState = {
     setIsClicked: false,
@@ -28,6 +28,7 @@ const defaultState = {
     octave: initialOctave,
     filterType: initialFilterType,
     filterFrequency: initialFilterFrequency,
+    distortionAmount: initialDistortionAmount,
     audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
 }
 
