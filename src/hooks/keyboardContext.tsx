@@ -8,6 +8,7 @@ const initialOctave = 4;
 const initialGain = 1;
 const initialFilterType = filterTypes.lowpass;
 const initialFilterFrequency = 20000;
+const initialDistortionAmount = 0;
 
 const defaultState = {
     octave: initialOctave,
@@ -16,6 +17,7 @@ const defaultState = {
     gain: initialGain,
     filterType: initialFilterType,
     filterFrequency: initialFilterFrequency,
+    distortionAmount: initialDistortionAmount,
     audioContextWrapper: new AudioContextWrapper(initialGain, initialFilterType, initialFilterFrequency)
 }
 
@@ -26,6 +28,7 @@ interface KeyboardContextSignature {
     wave: OscillatorType,
     filterType: BiquadFilterType,
     filterFrequency: number,
+    distortionAmount: number,
     audioContextWrapper: AudioContextWrapper
 }
 
