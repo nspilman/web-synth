@@ -5,6 +5,7 @@ import Key from "./key";
 import OctaveControl from './octaveControl';
 import WaveControl from './waveControl';
 import GainControl from "./gainControl";
+import DistortionControl from "./distortionControl";
 
 import { KeyboardProvider } from "../hooks/keyboardContext";
 import FilterControl from './filterControl';
@@ -37,8 +38,9 @@ function Keyboard() {
                 <StyledControlPanel>
                     <OctaveControl />
                     <WaveControl/>
-                    <GainControl/>
                     <FilterControl/>
+                    <DistortionControl/>
+                    <GainControl/>
                 </StyledControlPanel>
                 <StyledKeys className="keyboard"
                     onMouseDown={() => setIsClicked(true)}
