@@ -18,8 +18,8 @@ class AudioContextWrapper {
         const { gain, filterType, filterFreq, waveForm, octave } = defaultParameters
         this.audioContext = new window.AudioContext();
 
-        this.masterGainNode = masterGainNode(this.audioContext, defaultGain);
-        this.filterNode = filterNode(this.audioContext, defaultFilterType, defaultFilterFreq);
+        this.masterGainNode = masterGainNode(this.audioContext, gain);
+        this.filterNode = filterNode(this.audioContext, filterType, filterFreq);
         this.waveshaperNode = new WaveshaperNodeWrapper(this.audioContext);
 
         this.filterNode.connect(this.waveshaperNode.waveshaperNode);

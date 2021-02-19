@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { getAllFilterTypes } from '../data/filterTypes';
-import { setFilterType, setFilterFrequency } from "../hooks/setFilter";
 import styled from "styled-components";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
