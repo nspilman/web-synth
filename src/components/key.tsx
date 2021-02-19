@@ -22,25 +22,19 @@ const StyledKey = styled.div`
     }
 `
 
-interface Note {
-    key: string,
-}
-
 interface KeyProps {
     note: string,
     isMouseDown: boolean,
-    octave: number,
 }
 
-function Key({ note, isMouseDown, octave }: KeyProps) {
+function Key({ note, isMouseDown }: KeyProps) {
     const { audioContextWrapper } = useContext(KeyboardContext);
-    const key = note;
     return (<StyledKey
-        onMouseDown={() => playNote(audioContextWrapper, { key, octave })}
-        onMouseLeave={() => stopNote(audioContextWrapper, { key, octave })}
-        onMouseUp={() => stopNote(audioContextWrapper, { key, octave })}
-        onMouseEnter={() => isMouseDown && playNote(audioContextWrapper, { key, octave })}
-    >{key}</StyledKey>)
+        onMouseDown={() => playNote(audioContextWrapper, note )}
+        onMouseLeave={() => stopNote(audioContextWrapper, note )}
+        onMouseUp={() => stopNote(audioContextWrapper,  note )}
+        onMouseEnter={() => isMouseDown && playNote(audioContextWrapper, note )}
+    >{note}</StyledKey>)
 }
 
 export default Key

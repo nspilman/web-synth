@@ -31,15 +31,11 @@ const StyledControlPanel = styled.div`
 
 function Keyboard() {
     const [isClicked, setIsClicked] = useState(false);
-    const [ octave, setOctave ] = useState(4);
     return (
         <KeyboardProvider>
             <StyledKeyboard id="Keyboard">
                 <StyledControlPanel>
-                    <OctaveControl
-                    octave={octave}
-                    setOctave={setOctave}
-                    />
+                    <OctaveControl />
                     <WaveControl/>
                     <GainControl/>
                     <FilterControl/>
@@ -53,7 +49,6 @@ function Keyboard() {
                         isMouseDown={isClicked}
                         note={ note }
                         key={ note }
-                        octave = { octave }
                     />)}
                 </StyledKeys>
             </StyledKeyboard>

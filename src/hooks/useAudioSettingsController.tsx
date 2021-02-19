@@ -3,6 +3,7 @@ import AudioContextWrapper from "../classes/audioContextWrapper";
 
 interface KeyboardContextSignature {
     setIsClicked: boolean,
+    octave: number,
     gain: number,
     wave: OscillatorType,
     filterType: BiquadFilterType,
@@ -26,6 +27,9 @@ const useStateWrapper = (initialState: KeyboardContextSignature) => {
         }
         if(state.wave !== newState.wave){
             audioContextWrapper.waveform = newState.wave;
+        }
+        if(state.octave !== newState.octave){
+            audioContextWrapper.octave = newState.octave;
         }
 
       regularSetState((prevState: KeyboardContextSignature)  => ({
