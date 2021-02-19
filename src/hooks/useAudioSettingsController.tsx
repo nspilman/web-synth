@@ -8,6 +8,7 @@ interface KeyboardContextSignature {
     wave: OscillatorType,
     filterType: BiquadFilterType,
     filterFrequency: number,
+    distortionAmount: number,
     audioContextWrapper: AudioContextWrapper
 }
 
@@ -30,6 +31,9 @@ const useStateWrapper = (initialState: KeyboardContextSignature) => {
         }
         if(state.octave !== newState.octave){
             audioContextWrapper.octave = newState.octave;
+        }
+        if(state.distortionAmount != newState.distortionAmount) {
+            audioContextWrapper.setDistortionAmount(newState.distortionAmount);
         }
 
       regularSetState((prevState: KeyboardContextSignature)  => ({

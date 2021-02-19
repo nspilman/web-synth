@@ -3,7 +3,6 @@ import { getAllFilterTypes } from '../data/filterTypes';
 import styled from "styled-components";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
-import setDistortionAmount from '../hooks/setDistortionAmount';
 
 const StyledDistortionControl = styled.div`
     display:flex;
@@ -17,7 +16,6 @@ function FilterControl(){
     const setState = useContext(UpdateKeyboardContext);
 
     const setDistortionAmountAndState = (newValue: number) => {
-        setDistortionAmount(audioContextWrapper, newValue);
         setState({ ...state, distortionAmount: newValue });
     }
 
