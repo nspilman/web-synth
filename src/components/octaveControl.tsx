@@ -31,19 +31,22 @@ const StyledControlButton = styled.div`
 const minOctave = 0;
 const maxOctave = 8;
 
-function OctaveControl() {
-    const state = useContext(KeyboardContext);
-    const { octave } = state;
+interface OctaveProps {
+    octave: number,
+    setOctave: (newOctave : number) => void
+}
+
+function OctaveControl({ octave, setOctave} : OctaveProps) {
     const updateContext = useContext(UpdateKeyboardContext);
 
     const decrementOctave = () => {
-        const newValue = (octave - 1 < minOctave) ? minOctave : octave - 1;
-        updateContext({...state,octave:newValue})
+        const newOctave = (octave - 1 < minOctave) ? minOctave : octave - 1;
+        setOctave(newOctave)
     }
 
     const incrementOctave = () => {
-        const newValue = (octave + 1 > maxOctave) ? maxOctave : octave + 1;
-        updateContext({...state,octave:newValue})
+        const newOctave = (octave + 1 > maxOctave) ? maxOctave : octave + 1;
+        setOctave(newOctave)
     }
 
     return (

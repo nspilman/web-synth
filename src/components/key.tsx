@@ -24,23 +24,22 @@ const StyledKey = styled.div`
 
 interface Note {
     key: string,
-    wave: string,
-    octave: number,
 }
 
 interface KeyProps {
-    note : string,
+    note: string,
     isMouseDown: boolean,
+    octave: number,
 }
 
-function Key({note, isMouseDown}: KeyProps){
-    const { octave, wave, audioContextWrapper } = useContext(KeyboardContext);
-    const  key  = note;
+function Key({ note, isMouseDown, octave }: KeyProps) {
+    const { audioContextWrapper } = useContext(KeyboardContext);
+    const key = note;
     return (<StyledKey
-        onMouseDown ={()=> playNote(audioContextWrapper,{key, octave, wave})}
-        onMouseLeave = {()=>stopNote(audioContextWrapper,{key,octave, wave})}
-        onMouseUp = {()=>stopNote(audioContextWrapper,{key, octave, wave})}
-        onMouseEnter = {() => isMouseDown && playNote(audioContextWrapper,{key, octave, wave}) }
+        onMouseDown={() => playNote(audioContextWrapper, { key, octave })}
+        onMouseLeave={() => stopNote(audioContextWrapper, { key, octave })}
+        onMouseUp={() => stopNote(audioContextWrapper, { key, octave })}
+        onMouseEnter={() => isMouseDown && playNote(audioContextWrapper, { key, octave })}
     >{key}</StyledKey>)
 }
 

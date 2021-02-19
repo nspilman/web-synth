@@ -1,21 +1,24 @@
-import notes, { getNoteArray } from "../data/notes";
+import { getNoteArray } from "../data/notes";
 import masterGainNode from "./masterGainNode";
 import filterNode from "./filterNode";
 import OscillatorWrapper from "./OscillatorWrapper"
+import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 
 class AudioContextWrapper {
     audioContext : AudioContext
     masterGainNode : GainNode
     filterNode : BiquadFilterNode
     oscilators: OscillatorWrapper[]
+    waveform : OscillatorType
 
-    constructor(defaultGain : number, defaultFilterType : string, defaultFilterFreq : number){
+    constructor(defaultParameters : IAudioContextParameters){
+        const { gain, filterType, filterFreq, waveForm } = defaultParameters
         this.audioContext = new window.AudioContext();
-        this.masterGainNode = masterGainNode(this.audioContext, defaultGain);
-        this.filterNode = filterNode(this.audioContext, defaultFilterType, defaultFilterFreq);
-
+        this.masterGainNode = masterGainNode(this.audioContext, gain);
+        this.filterNode = filterNode(this.audioContext, filterType, filterFreq);
         this.filterNode.connect(this.masterGainNode);
         this.masterGainNode.connect(this.audioContext.destination);
+        this.waveform = waveForm;
 
         this.oscilators = getNoteArray().map(
         note => new OscillatorWrapper(
@@ -25,12 +28,12 @@ class AudioContextWrapper {
         )
     }
 
-    playNote(note : string, octave : number, wave : OscillatorType){
+    playNote(note : string, octave : number){
         const oscWrapper = this.oscilators.find(osc => osc.octave == octave && osc.note == note);
         if(!oscWrapper){
             return
         }
-        oscWrapper.play(this.filterNode, wave)
+        oscWrapper.play(this.filterNode, this.waveform)
     }
 
     stopNote(note : string, octave : number){

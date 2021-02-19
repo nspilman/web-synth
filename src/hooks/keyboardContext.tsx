@@ -1,26 +1,31 @@
 
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
+import useAudioSettingsController from "./useAudioSettingsController"
 import AudioContextWrapper from '../classes/audioContextWrapper';
 import filterTypes from '../data/filterTypes';
 import waveforms from "../data/waveforms";
+import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 
-const initialOctave = 4;
 const initialGain = 1;
 const initialFilterType = filterTypes.lowpass;
 const initialFilterFrequency = 20000;
+const defaultContextWrapperValues : IAudioContextParameters = {
+    gain : initialGain,
+    filterFreq : initialFilterFrequency,
+    filterType : initialFilterType,
+    waveForm: waveforms.sine,
+}
 
 const defaultState = {
-    octave: initialOctave,
     setIsClicked: false,
     wave: waveforms.sine,
     gain: initialGain,
     filterType: initialFilterType,
     filterFrequency: initialFilterFrequency,
-    audioContextWrapper: new AudioContextWrapper(initialGain, initialFilterType, initialFilterFrequency)
+    audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
 }
 
 interface KeyboardContextSignature {
-    octave: number,
     setIsClicked: boolean,
     gain: number,
     wave: OscillatorType,
@@ -33,11 +38,11 @@ interface KeyboardProviderType {
     children: React.ReactNode
 }
 
-const KeyboardContext = createContext<KeyboardContextSignature>({ ...defaultState });
+const KeyboardContext = createContext<any>({ ...defaultState });
 const UpdateKeyboardContext = createContext<any>({});
 
 export function KeyboardProvider({ children }: KeyboardProviderType) {
-    const [keyboardState, updateKeyboardState] = useState({ ...defaultState });
+    const [keyboardState, updateKeyboardState] = useAudioSettingsController({...defaultState});
 
     return (
         <UpdateKeyboardContext.Provider value={updateKeyboardState}>
