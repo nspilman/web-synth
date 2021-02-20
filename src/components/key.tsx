@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useContext } from 'react';
 import stopNote from '../hooks/stopNote';
 import playNote from '../hooks/playNote';
+import keyboardToNoteHash from "../data/keyboardToNoteHash"
 
 import { KeyboardContext } from "../hooks/keyboardContext";
 
@@ -28,7 +29,8 @@ interface KeyProps {
 }
 
 function Key({ note, isMouseDown }: KeyProps) {
-    const { audioContextWrapper } = useContext(KeyboardContext);
+    const { audioContextWrapper } = useContext(KeyboardContext)
+  
     return (<StyledKey
         onMouseDown={() => playNote(audioContextWrapper, note )}
         onMouseLeave={() => stopNote(audioContextWrapper, note )}

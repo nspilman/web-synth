@@ -6,6 +6,7 @@ import OctaveControl from './octaveControl';
 import WaveControl from './waveControl';
 import GainControl from "./gainControl";
 import DistortionControl from "./distortionControl";
+import PhysicalKeyboardInputController from "./physicalKeyboardInputController"
 
 import { KeyboardProvider } from "../hooks/keyboardContext";
 import FilterControl from './filterControl';
@@ -29,11 +30,11 @@ const StyledKeyboard = styled.div`
 const StyledControlPanel = styled.div`
     display:flex;
 `
-
 function Keyboard() {
     const [isClicked, setIsClicked] = useState(false);
     return (
         <KeyboardProvider>
+            <PhysicalKeyboardInputController/>
             <StyledKeyboard id="Keyboard">
                 <StyledControlPanel>
                     <OctaveControl />

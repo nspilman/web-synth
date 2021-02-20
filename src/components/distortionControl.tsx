@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { getAllFilterTypes } from '../data/filterTypes';
 import styled from "styled-components";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
@@ -19,13 +18,11 @@ function FilterControl(){
         setState({ ...state, distortionAmount: newValue });
     }
 
-    const { audioContextWrapper, distortionAmount } = state;
+    const { distortionAmount } = state;
 
     const setDistortionAmountFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
         setDistortionAmountAndState(Number(e.currentTarget.value));
     }
-
-    const filterTypeOptions = getAllFilterTypes();
 
     return (
         <StyledDistortionControl>

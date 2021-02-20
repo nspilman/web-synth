@@ -45,6 +45,7 @@ class AudioContextWrapper {
         oscWrapper.play(this.filterNode, this.waveform)
     }
 
+
     stopNote(note : string){
         const oscWrapper = this.oscilators.find(osc => osc.octave == this.octave && osc.note == note);
         if(!oscWrapper){
