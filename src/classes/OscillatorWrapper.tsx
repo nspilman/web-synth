@@ -6,6 +6,7 @@ export default class OscillatorWrapper {
     note: string
     octave: number
     playingOsc?: OscillatorNode
+    detune: number
     audioContext: AudioContext
 
     constructor(note: string,
@@ -15,6 +16,7 @@ export default class OscillatorWrapper {
         this.note = note;
         this.octave = octave;
         this.frequency = getFrequency(note, octave);
+        this.detune = 0;
         this.audioContext = audioContext;
     }
 
@@ -24,6 +26,7 @@ export default class OscillatorWrapper {
             osc.frequency.value = this.frequency;
             osc.connect(nodeToConnect);
             osc.type = wave;
+            osc.detune.value = this.detune;
             this.playingOsc = osc;
             this.playingOsc.start()
         }
@@ -33,5 +36,12 @@ export default class OscillatorWrapper {
         this.playingOsc?.stop();
         this.playingOsc?.disconnect();
         this.playingOsc = undefined;
+    }
+
+    setDetune(detune: number) {
+        this.detune = detune;
+        if (this.playingOsc) {
+            this.playingOsc.detune.value = detune;
+        }
     }
 }

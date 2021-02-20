@@ -10,12 +10,15 @@ class AudioContextWrapper {
     masterGainNode : GainNode
     filterNode : BiquadFilterNode
     waveshaperNode : WaveshaperNodeWrapper
-    oscilators: OscillatorWrapper[]
+    primaryOscillators: OscillatorWrapper[]
+    secondaryOscillators: OscillatorWrapper[]
     waveform : OscillatorType
     octave : number
+    numOscillators: number
+    oscillatorUnisonDetune: number
 
     constructor(defaultParameters : IAudioContextParameters){
-        const { gain, filterType, filterFreq, waveForm, octave } = defaultParameters
+        const { gain, filterType, filterFreq, waveForm, octave, numOscillators, oscillatorUnisonDetune } = defaultParameters
         this.audioContext = new window.AudioContext();
 
         this.masterGainNode = masterGainNode(this.audioContext, gain);
@@ -29,29 +32,45 @@ class AudioContextWrapper {
         this.waveform = waveForm;
         this.octave = octave;
 
-        this.oscilators = getNoteArray().map(
-        note => new OscillatorWrapper(
-            note.noteName,
-            note.octave, 
-            this.audioContext)
-        )
+        this.primaryOscillators = this.getOscillatorWrapperArray();
+        this.secondaryOscillators = this.getOscillatorWrapperArray();
+        this.numOscillators = numOscillators;
+        this.oscillatorUnisonDetune = oscillatorUnisonDetune;
     }
 
     playNote(note : string){
-        const oscWrapper = this.oscilators.find(osc => osc.octave == this.octave && osc.note == note);
-        if(!oscWrapper){
+        const primaryOsc = this.findOscWithNoteAndOctave(this.primaryOscillators, note);
+        if (!primaryOsc) {
+            console.log("Unable to find primary osc with note " + note + " and octave " + this.octave);
             return
         }
-        oscWrapper.play(this.filterNode, this.waveform)
+
+        const secondaryOsc = this.numOscillators == 2 ? this.findOscWithNoteAndOctave(this.secondaryOscillators, note) : undefined;
+        if (this.numOscillators == 2 && !secondaryOsc) {
+            console.log("Unable to find secondadry osc with note " + note + " and octave " + this.octave);
+            return;
+        }
+
+        primaryOsc.play(this.filterNode, this.waveform);
+        secondaryOsc?.play(this.filterNode, this.waveform);
     }
 
 
     stopNote(note : string){
-        const oscWrapper = this.oscilators.find(osc => osc.octave == this.octave && osc.note == note);
-        if(!oscWrapper){
-            return
+        const primaryOsc = this.findOscWithNoteAndOctave(this.primaryOscillators, note);
+        if (!primaryOsc) {
+            console.log("Unable to find primary osc with note " + note + " and octave " + this.octave);
+            return;
         }
-        oscWrapper.stop();
+
+        const secondaryOsc = this.numOscillators == 2 ? this.findOscWithNoteAndOctave(this.secondaryOscillators, note) : undefined;
+        if (this.numOscillators == 2 && !secondaryOsc) {
+            console.log("Unable to find secondadry osc with note " + note + " and octave " + this.octave);
+            return;
+        }
+
+        primaryOsc.stop();
+        secondaryOsc?.stop();
     }
 
     setGain(newGain : number){
@@ -68,6 +87,31 @@ class AudioContextWrapper {
 
     setDistortionAmount(newAmount: number) {
         this.waveshaperNode.setCurveForAmount(newAmount);
+    }
+
+    setNumOscillators(newNum: number) {
+        this.numOscillators = newNum;
+    }
+
+    setOscillatorUnisonDetune(newDetune: number) {
+        this.oscillatorUnisonDetune = newDetune;
+        for (var i = 0; i < this.primaryOscillators.length; i++) {
+            this.primaryOscillators[i].setDetune(newDetune);
+            this.secondaryOscillators[i].setDetune(-newDetune);
+        }
+    }
+
+    getOscillatorWrapperArray() {
+        return getNoteArray().map(
+            note => new OscillatorWrapper(
+                note.noteName,
+                note.octave, 
+                this.audioContext)
+        );
+    }
+
+    findOscWithNoteAndOctave(oscList: OscillatorWrapper[], note: string) {
+        return oscList.find(osc => osc.octave == this.octave && osc.note == note);
     }
 }
 

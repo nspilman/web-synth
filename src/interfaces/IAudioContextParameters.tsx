@@ -4,5 +4,7 @@ export default interface IAudioContextParameters {
     filterFreq : number,
     waveForm : OscillatorType
     octave : number,
-    distortionAmount: number
+    distortionAmount: number,
+    numOscillators: number,
+    oscillatorUnisonDetune: number
 }

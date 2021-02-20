@@ -11,6 +11,8 @@ const initialOctave = 4;
 const initialFilterType = filterTypes.lowpass;
 const initialFilterFrequency = 20000;
 const initialDistortionAmount = 0;
+const initialNumOscillators = 1;
+const initialOscillatorUnisonDetune = 0;
 
 const defaultContextWrapperValues : IAudioContextParameters = {
     gain : initialGain,
@@ -18,7 +20,9 @@ const defaultContextWrapperValues : IAudioContextParameters = {
     filterFreq : initialFilterFrequency,
     filterType : initialFilterType,
     waveForm: waveforms.sine,
-    distortionAmount: initialDistortionAmount
+    distortionAmount: initialDistortionAmount,
+    numOscillators: initialNumOscillators,
+    oscillatorUnisonDetune: initialOscillatorUnisonDetune 
 }
 
 const defaultState = {
@@ -29,18 +33,9 @@ const defaultState = {
     filterType: initialFilterType,
     filterFrequency: initialFilterFrequency,
     distortionAmount: initialDistortionAmount,
+    numOscillators: initialNumOscillators,
+    oscillatorUnisonDetune: initialOscillatorUnisonDetune,
     audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
-}
-
-interface KeyboardContextSignature {
-    setIsClicked: boolean,
-    gain: number,
-    octave: number,
-    wave: OscillatorType,
-    filterType: BiquadFilterType,
-    filterFrequency: number,
-    distortionAmount: number,
-    audioContextWrapper: AudioContextWrapper
 }
 
 interface KeyboardProviderType {
