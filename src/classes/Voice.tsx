@@ -1,5 +1,7 @@
 import { getFrequency } from "../data/notes";
 
+const maxNumOscillators = 2;
+
 export default class Voice {
     numPlayingOscillators: number
     frequency: number
@@ -15,14 +17,18 @@ export default class Voice {
         numOscillators: number,
         unisonDetune: number,
         audioContext: AudioContext) {
-        this.audioContext = audioContext;
         this.numPlayingOscillators = 0;
-        this.oscillators = [this.audioContext.createOscillator(), this.audioContext.createOscillator()];
         this.note = note;
         this.octave = octave;
         this.numOscillators = numOscillators;
         this.frequency = getFrequency(note, octave);
         this.detune = unisonDetune;
+        this.audioContext = audioContext;
+
+        this.oscillators = [];
+        for (var i = 0; i < maxNumOscillators; i++) {
+            this.oscillators.push(this.audioContext.createOscillator());
+        }
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
@@ -66,6 +72,10 @@ export default class Voice {
     }
 
     setNumOscillators(newNum: number) {
+        if (newNum > maxNumOscillators) {
+            throw newNum + " is greater than max number of oscillators";
+        }
+        
         this.numOscillators = newNum;
     }
 
