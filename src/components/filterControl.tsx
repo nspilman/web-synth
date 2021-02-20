@@ -23,7 +23,11 @@ function FilterControl(){
         setState({ ...state, filterFrequency: newValue });
     }
 
-    const { filterFrequency } = state;
+    const setFilterQAndState = (newValue: number) => {
+        setState({ ...state, filterQ: newValue });
+    }
+
+    const { filterFrequency, filterQ } = state;
 
     const setFilterTypeFromEvent = (e : React.ChangeEvent<HTMLSelectElement>) => {
         setFilterTypeAndState(e.target.value);
@@ -31,6 +35,10 @@ function FilterControl(){
 
     const setFilterFrequencyFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
         setFilterFrequencyAndState(Number(e.currentTarget.value));
+    }
+
+    const setFilterQFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
+        setFilterQAndState(Number(e.currentTarget.value));
     }
 
     const filterTypeOptions = getAllFilterTypes();
@@ -42,7 +50,7 @@ function FilterControl(){
                         color:'rgb(230,230,230)'
                     }}>
                         FILTER
-                        </span>
+            </span>
             <select style={{
                 height:'2rem',
                 margin:'.2rem .1rem'
@@ -51,8 +59,24 @@ function FilterControl(){
             >
                 {filterTypeOptions.map(filter => <option value={filter} key={filter}>{filter}</option>)}
             </select>
+            <span style={{
+                        fontSize:'1.0rem', 
+                        color:'rgb(230,230,230)'
+                    }}>
+                        FREQUENCY
+            </span>
             <input type='range' id='filter-freq-id' className='filter-freq' min='40' max='20000' value={filterFrequency}
                 onInput={(e) => setFilterFrequencyFromEvent(e)}
+            >
+            </input>
+            <span style={{
+                        fontSize:'1.0rem', 
+                        color:'rgb(230,230,230)'
+                    }}>
+                        Q
+            </span>
+            <input type='range' id='filter-q-id' className='filter-q' min='0.001' max='20' step='0.01' value={filterQ}
+                onInput={(e) => setFilterQFromEvent(e)}
             >
             </input>
         </StyledFilterControl>

@@ -3,7 +3,7 @@ import masterGainNode from "./masterGainNode";
 import filterNode from "./filterNode";
 import OscillatorWrapper from "./OscillatorWrapper"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
-import WaveshaperNodeWrapper from "./waveshaperNode";
+import WaveshaperNodeWrapper from "./WaveshaerNodeWrapper";
 
 class AudioContextWrapper {
     audioContext : AudioContext
@@ -83,6 +83,10 @@ class AudioContextWrapper {
 
     setFilterFreq(newFreq : number) {
         this.filterNode.frequency.value = newFreq;
+    }
+
+    setFilterQ(newQ : number) {
+        this.filterNode.Q.value = newQ;
     }
 
     setDistortionAmount(newAmount: number) {
