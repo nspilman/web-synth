@@ -66,7 +66,7 @@ export default class Voice {
 
     setDetune(detune: number) {
         this.detune = detune;
-        for (var i = 0; i < this.numPlayingOscillators; i++) {
+        for (var i = 0; i < this.oscillators.length; i++) {
             this.oscillators[i].detune.value = this.getDetuneVal(i, this.detune);
         }
     }
@@ -75,7 +75,7 @@ export default class Voice {
         if (newNum > maxNumOscillators) {
             throw newNum + " is greater than max number of oscillators";
         }
-        
+
         this.numOscillators = newNum;
     }
 
