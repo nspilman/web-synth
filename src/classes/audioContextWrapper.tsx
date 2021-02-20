@@ -1,21 +1,18 @@
 import { getNoteArray } from "../data/notes";
 import masterGainNode from "./masterGainNode";
 import filterNode from "./filterNode";
-import OscillatorWrapper from "./OscillatorWrapper"
+import Voice from "./Voice"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
-import WaveshaperNodeWrapper from "./WaveshaerNodeWrapper";
+import WaveshaperNodeWrapper from "./WaveshaperNodeWrapper";
 
 class AudioContextWrapper {
     audioContext : AudioContext
     masterGainNode : GainNode
     filterNode : BiquadFilterNode
     waveshaperNode : WaveshaperNodeWrapper
-    primaryOscillators: OscillatorWrapper[]
-    secondaryOscillators: OscillatorWrapper[]
+    voices: Voice[]
     waveform : OscillatorType
     octave : number
-    numOscillators: number
-    oscillatorUnisonDetune: number
 
     constructor(defaultParameters : IAudioContextParameters){
         const { gain, filterType, filterFreq, waveForm, octave, numOscillators, oscillatorUnisonDetune } = defaultParameters
@@ -32,45 +29,35 @@ class AudioContextWrapper {
         this.waveform = waveForm;
         this.octave = octave;
 
-        this.primaryOscillators = this.getOscillatorWrapperArray();
-        this.secondaryOscillators = this.getOscillatorWrapperArray();
-        this.numOscillators = numOscillators;
-        this.oscillatorUnisonDetune = oscillatorUnisonDetune;
+        this.voices = getNoteArray().map(
+            note => new Voice(
+                note.noteName,
+                note.octave,
+                numOscillators,
+                oscillatorUnisonDetune, 
+                this.audioContext)
+        );
     }
 
     playNote(note : string){
-        const primaryOsc = this.findOscWithNoteAndOctave(this.primaryOscillators, note);
-        if (!primaryOsc) {
-            console.log("Unable to find primary osc with note " + note + " and octave " + this.octave);
+        const voice = this.findOscWithNoteAndOctave(this.voices, note);
+        if (!voice) {
+            console.log("Unable to find voice with note " + note + " and octave " + this.octave);
             return
         }
 
-        const secondaryOsc = this.numOscillators == 2 ? this.findOscWithNoteAndOctave(this.secondaryOscillators, note) : undefined;
-        if (this.numOscillators == 2 && !secondaryOsc) {
-            console.log("Unable to find secondadry osc with note " + note + " and octave " + this.octave);
-            return;
-        }
-
-        primaryOsc.play(this.filterNode, this.waveform);
-        secondaryOsc?.play(this.filterNode, this.waveform);
+        voice.play(this.filterNode, this.waveform);
     }
 
 
     stopNote(note : string){
-        const primaryOsc = this.findOscWithNoteAndOctave(this.primaryOscillators, note);
-        if (!primaryOsc) {
-            console.log("Unable to find primary osc with note " + note + " and octave " + this.octave);
+        const voice = this.findOscWithNoteAndOctave(this.voices, note);
+        if (!voice) {
+            console.log("Unable to find voice with note " + note + " and octave " + this.octave);
             return;
         }
 
-        const secondaryOsc = this.numOscillators == 2 ? this.findOscWithNoteAndOctave(this.secondaryOscillators, note) : undefined;
-        if (this.numOscillators == 2 && !secondaryOsc) {
-            console.log("Unable to find secondadry osc with note " + note + " and octave " + this.octave);
-            return;
-        }
-
-        primaryOsc.stop();
-        secondaryOsc?.stop();
+        voice.stop();
     }
 
     setGain(newGain : number){
@@ -94,28 +81,19 @@ class AudioContextWrapper {
     }
 
     setNumOscillators(newNum: number) {
-        this.numOscillators = newNum;
-    }
-
-    setOscillatorUnisonDetune(newDetune: number) {
-        this.oscillatorUnisonDetune = newDetune;
-        for (var i = 0; i < this.primaryOscillators.length; i++) {
-            this.primaryOscillators[i].setDetune(newDetune);
-            this.secondaryOscillators[i].setDetune(-newDetune);
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].setNumOscillators(newNum);
         }
     }
 
-    getOscillatorWrapperArray() {
-        return getNoteArray().map(
-            note => new OscillatorWrapper(
-                note.noteName,
-                note.octave, 
-                this.audioContext)
-        );
+    setOscillatorUnisonDetune(newDetune: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].setDetune(newDetune);
+        }
     }
 
-    findOscWithNoteAndOctave(oscList: OscillatorWrapper[], note: string) {
-        return oscList.find(osc => osc.octave == this.octave && osc.note == note);
+    findOscWithNoteAndOctave(voiceList: Voice[], note: string) {
+        return voiceList.find(osc => osc.octave == this.octave && osc.note == note);
     }
 }
 
