@@ -23,34 +23,14 @@ const StyledKey = styled.div`
     }
 `
 
-
-
 interface KeyProps {
     note: string,
     isMouseDown: boolean,
 }
 
 function Key({ note, isMouseDown }: KeyProps) {
-    const { audioContextWrapper } = useContext(KeyboardContext);
-    const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
-        const translatedNote = keyboardToNoteHash[key];
-        if(note == translatedNote){
-            console.log(note)
-            playNote(audioContextWrapper, note)
-        }
-    }
-
-    const parseAndStopKeyCommand = ({key} : KeyboardEvent) => {
-        const translatedNote = keyboardToNoteHash[key];
-        if(note == translatedNote){
-            console.log(note)
-            stopNote(audioContextWrapper, note)
-        }
-    }
-    
-    window.addEventListener('keydown', parseAndPlayKeyCommand);
-    window.addEventListener('keyup', parseAndStopKeyCommand);
-
+    const { audioContextWrapper } = useContext(KeyboardContext)
+  
     return (<StyledKey
         onMouseDown={() => playNote(audioContextWrapper, note )}
         onMouseLeave={() => stopNote(audioContextWrapper, note )}

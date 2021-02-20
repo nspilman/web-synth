@@ -19,19 +19,19 @@ export default class OscillatorWrapper {
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
-        const osc = this.audioContext.createOscillator();
-        osc.frequency.value = this.frequency;
-        osc.connect(nodeToConnect);
-        osc.type = wave;
-        this.playingOsc = osc;
-        this.playingOsc.start()
+        if(!this.playingOsc){
+            const osc = this.audioContext.createOscillator();
+            osc.frequency.value = this.frequency;
+            osc.connect(nodeToConnect);
+            osc.type = wave;
+            this.playingOsc = osc;
+            this.playingOsc.start()
+        }
     }
 
     stop() {
-        if (this.playingOsc) {
-            this.playingOsc.stop();
-            this.playingOsc.disconnect();
-            this.playingOsc = undefined;
-        }
+        this.playingOsc?.stop();
+        this.playingOsc?.disconnect();
+        this.playingOsc = undefined;
     }
 }
