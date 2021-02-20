@@ -16,6 +16,10 @@ class WaveshaperNodeWrapper {
     }
 
     setCurveForAmount(amount: number) {
+        if (amount >= this.curveCache.length) {
+            throw "Distortion amount " + amount + " is out of range";
+        }
+
         this.waveshaperNode.curve = this.curveCache[amount];
     }
 
