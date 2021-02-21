@@ -91,6 +91,7 @@ function OscillatorsControl() {
                 onInput={(e) => setOscillatorUnisonDetuneFromEvent(e)}
             >
             </input>
+            <br />
             <span style={{
                         fontSize:'1.0rem', 
                         color:'rgb(230,230,230)'

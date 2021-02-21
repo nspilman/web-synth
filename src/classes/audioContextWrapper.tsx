@@ -51,8 +51,9 @@ class AudioContextWrapper {
                 this.audioContext)
         );
 
-        this.numPlayingVoices = 0;
         this.noiseOsc = new WhiteNoiseOscillator(this.audioContext, noiseGain, this.filterNode);
+
+        this.numPlayingVoices = 0;
     }
 
     playNote(note : string){
@@ -68,6 +69,7 @@ class AudioContextWrapper {
 
         voice.play(this.filterNode, this.waveform);
 
+        // noise always plays behind voice
         this.noiseOsc.play();
         this.numPlayingVoices++;
     }
@@ -86,7 +88,9 @@ class AudioContextWrapper {
 
         voice.stop();
 
-        this.numPlayingVoices--;
+        this.numPlayingVoices = (this.numPlayingVoices - 1) < 0 ? 0 : this.numPlayingVoices - 1;
+
+        // only stop noise when all voices have stopped
         if (this.numPlayingVoices == 0) {
             this.noiseOsc.stop();
         }

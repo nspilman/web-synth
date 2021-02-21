@@ -7,13 +7,10 @@ class WhiteNoiseOscillator {
 
     constructor(audioContext: AudioContext, initialGain: number, nodeToConnect: AudioNode) {
         this.audioContext = audioContext;
+        
         var bufferSize = audioContext.sampleRate * 2;
         this.buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-        var output = this.buffer.getChannelData(0);
-        for (var i = 0; i < bufferSize; i++) {
-            // generate random value between -1 and 1
-            output[i] = Math.random() * 2 - 1;
-        }
+        this.setNoiseData();
 
         this.gain = audioContext.createGain();
         this.gain.gain.value = initialGain;
@@ -49,6 +46,14 @@ class WhiteNoiseOscillator {
         this.playingOsc.stop();
         this.playingOsc.disconnect();
         this.isPlaying = false;
+    }
+
+    setNoiseData() {
+        var output = this.buffer.getChannelData(0);
+        for (var i = 0; i < this.buffer.length; i++) {
+            // generate random value between -1 and 1
+            output[i] = Math.random() * 2 - 1;
+        }
     }
 }
 
