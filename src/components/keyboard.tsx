@@ -10,6 +10,7 @@ import PhysicalKeyboardInputController from "./physicalKeyboardInputController"
 
 import { KeyboardProvider } from "../hooks/keyboardContext";
 import FilterControl from './filterControl';
+import OscillatorsControl from './oscillatorsControl';
 
 const StyledKeys = styled.div`
     display: flex;
@@ -37,7 +38,8 @@ function Keyboard() {
             <PhysicalKeyboardInputController/>
             <StyledKeyboard id="Keyboard">
                 <StyledControlPanel>
-                    <OctaveControl />
+                    <OscillatorsControl/>
+                    <OctaveControl/>
                     <WaveControl/>
                     <FilterControl/>
                     <DistortionControl/>
