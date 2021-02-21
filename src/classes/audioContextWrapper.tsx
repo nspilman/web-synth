@@ -4,6 +4,7 @@ import filterNode from "./filterNode";
 import Voice from "./Voice"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 import WaveshaperNodeWrapper from "./WaveshaperNodeWrapper";
+import WhiteNoiseOscillator from "./WhiteNoiseOscillator";
 
 class AudioContextWrapper {
     audioContext : AudioContext
@@ -11,11 +12,23 @@ class AudioContextWrapper {
     filterNode : BiquadFilterNode
     waveshaperNode : WaveshaperNodeWrapper
     voices: Voice[]
+    numPlayingVoices: number
     waveform : OscillatorType
     octave : number
+    noiseOsc: WhiteNoiseOscillator
 
     constructor(defaultParameters : IAudioContextParameters){
-        const { gain, filterType, filterFreq, waveForm, octave, numOscillators, oscillatorUnisonDetune } = defaultParameters
+        const {
+            gain, 
+            filterType, 
+            filterFreq, 
+            waveForm, 
+            octave, 
+            numOscillators, 
+            oscillatorUnisonDetune,
+            noiseGain
+        } = defaultParameters
+
         this.audioContext = new window.AudioContext();
 
         this.masterGainNode = masterGainNode(this.audioContext, gain);
@@ -37,6 +50,10 @@ class AudioContextWrapper {
                 oscillatorUnisonDetune, 
                 this.audioContext)
         );
+
+        this.noiseOsc = new WhiteNoiseOscillator(this.audioContext, noiseGain, this.filterNode);
+
+        this.numPlayingVoices = 0;
     }
 
     playNote(note : string){
@@ -46,7 +63,15 @@ class AudioContextWrapper {
             return
         }
 
+        if (voice.isPlaying()) {
+            return;
+        }
+
         voice.play(this.filterNode, this.waveform);
+
+        // noise always plays behind voice
+        this.noiseOsc.play();
+        this.numPlayingVoices++;
     }
 
 
@@ -57,7 +82,18 @@ class AudioContextWrapper {
             return;
         }
 
+        if (!voice.isPlaying()) {
+            return;
+        }
+
         voice.stop();
+
+        this.numPlayingVoices = (this.numPlayingVoices - 1) < 0 ? 0 : this.numPlayingVoices - 1;
+
+        // only stop noise when all voices have stopped
+        if (this.numPlayingVoices == 0) {
+            this.noiseOsc.stop();
+        }
     }
 
     setGain(newGain : number){
@@ -84,6 +120,10 @@ class AudioContextWrapper {
         for (var i = 0; i < this.voices.length; i++) {
             this.voices[i].setNumOscillators(newNum);
         }
+    }
+
+    setNoiseGain(newGain: number) {
+        this.noiseOsc.setGain(newGain);
     }
 
     setOscillatorUnisonDetune(newDetune: number) {

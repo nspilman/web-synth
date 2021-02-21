@@ -34,7 +34,7 @@ const maxNumOscillators = 2;
 function OscillatorsControl() {
     const state = useContext(KeyboardContext);
     const setState = useContext(UpdateKeyboardContext);
-    const { numOscillators, oscillatorUnisonDetune } = state;
+    const { numOscillators, oscillatorUnisonDetune, noiseGain } = state;
     const updateContext = useContext(UpdateKeyboardContext);
 
     const decrementNumOscillators = () => {
@@ -51,8 +51,16 @@ function OscillatorsControl() {
         setState({ ...state, oscillatorUnisonDetune: newValue });
     }
 
+    const setNoiseGainState = (newGain: number) => {
+        setState({ ...state, noiseGain: newGain });
+    }
+
     const setOscillatorUnisonDetuneFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
         setOscillatorUnisonDetuneAndState(Number(e.currentTarget.value));
+    }
+
+    const setNoiseGainFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
+        setNoiseGainState(Number(e.currentTarget.value));
     }
 
     return (
@@ -81,6 +89,17 @@ function OscillatorsControl() {
             </span>
             <input type='range' id='oscillator-unison-detune-id' className='oscillator-unison-detune' min='0' max='100' value={oscillatorUnisonDetune}
                 onInput={(e) => setOscillatorUnisonDetuneFromEvent(e)}
+            >
+            </input>
+            <br />
+            <span style={{
+                        fontSize:'1.0rem', 
+                        color:'rgb(230,230,230)'
+                    }}>
+                        NOISE LEVEL
+            </span>
+            <input type='range' id='noise-gain-id' className='noise-gain' min='0' max='1' step='0.01' value={noiseGain}
+                onInput={(e) => setNoiseGainFromEvent(e)}
             >
             </input>
         </StyledOscillatorsControl>
