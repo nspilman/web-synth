@@ -18,7 +18,7 @@ class AudioContextWrapper {
     noiseOsc: WhiteNoiseOscillator
 
     constructor(defaultParameters : IAudioContextParameters){
-        const { 
+        const {
             gain, 
             filterType, 
             filterFreq, 
