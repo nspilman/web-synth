@@ -12,6 +12,7 @@ interface KeyboardContextSignature {
     distortionAmount: number,
     numOscillators: number,
     oscillatorUnisonDetune: number,
+    noiseGain: number,
     audioContextWrapper: AudioContextWrapper
 }
 
@@ -46,6 +47,9 @@ const useStateWrapper = (initialState: KeyboardContextSignature) => {
         }
         if(state.oscillatorUnisonDetune != newState.oscillatorUnisonDetune) {
             audioContextWrapper.setOscillatorUnisonDetune(newState.oscillatorUnisonDetune);
+        }
+        if(state.noiseGain != newState.noiseGain) {
+            audioContextWrapper.setNoiseGain(newState.noiseGain);
         }
 
       regularSetState((prevState: KeyboardContextSignature)  => ({

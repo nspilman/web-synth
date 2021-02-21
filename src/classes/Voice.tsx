@@ -42,7 +42,6 @@ export default class Voice {
             osc.connect(nodeToConnect);
             osc.type = wave;
             osc.detune.value = this.getDetuneVal(i, this.detune);
-            console.log(osc.detune.value);
             osc.start();
             this.oscillators[i] = osc;
         }
@@ -62,6 +61,10 @@ export default class Voice {
         }
         
         this.numPlayingOscillators = 0;
+    }
+
+    isPlaying() {
+        return this.numPlayingOscillators > 0;
     }
 
     setDetune(detune: number) {

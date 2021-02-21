@@ -14,6 +14,7 @@ const initialFilterQ = 0.0001;
 const initialDistortionAmount = 0;
 const initialNumOscillators = 1;
 const initialOscillatorUnisonDetune = 0;
+const initialNoiseGain = 0;
 
 const defaultContextWrapperValues : IAudioContextParameters = {
     gain : initialGain,
@@ -24,7 +25,8 @@ const defaultContextWrapperValues : IAudioContextParameters = {
     waveForm: waveforms.sine,
     distortionAmount: initialDistortionAmount,
     numOscillators: initialNumOscillators,
-    oscillatorUnisonDetune: initialOscillatorUnisonDetune 
+    oscillatorUnisonDetune: initialOscillatorUnisonDetune,
+    noiseGain: initialNoiseGain
 }
 
 const defaultState = {
@@ -38,6 +40,7 @@ const defaultState = {
     distortionAmount: initialDistortionAmount,
     numOscillators: initialNumOscillators,
     oscillatorUnisonDetune: initialOscillatorUnisonDetune,
+    noiseGain: initialNoiseGain,
     audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
 }
 
