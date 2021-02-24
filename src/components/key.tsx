@@ -36,12 +36,14 @@ function Key({ note, isMouseDown }: KeyProps) {
         const triggeredNote = keyboardToNoteHash[key];
         if(note === triggeredNote){
             setIsPlaying(true)
+            playNote(audioContextWrapper, note)
         }
     }
 
     const parseAndStopKeyCommand = ({key} : KeyboardEvent) => {
-        const triggeredNote = keyboardToNoteHash[key];
-        if(note === triggeredNote){
+        const note = keyboardToNoteHash[key];
+        if(note){
+            stopNote(audioContextWrapper, note)
             setIsPlaying(false)
         }
     }
