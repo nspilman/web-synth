@@ -6,16 +6,25 @@ import keyboardToNoteHash from "../data/keyboardToNoteHash"
 
 import { KeyboardContext } from "../hooks/keyboardContext";
 
-const StyledKey = styled.div`
-    height:10rem;
-    width:5rem;
-    background-color:${(props:{isPlaying : boolean}) => props.isPlaying ? 'rgb(55,55,55)' : 'rgb(250,250,250)'};
-    margin:.1rem;
+interface StyledKeyProps {
+    isPlaying : boolean,
+    isFlat : boolean,
+}
+
+const StyledKey = styled.li`
+    height:${(props: StyledKeyProps) => props.isFlat ? '5rem' : '10rem'};
+    width:${(props: StyledKeyProps) => props.isFlat ? '2.5rem' : '5rem'};
+    background-color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(55,55,55)' : props.isFlat ? 'rgb(20,20,20)': 'rgb(250,250,250)'};
+    margin:${(props: StyledKeyProps) => props.isFlat? '0 -1.5em':'.1rem'};
     display:flex;
+    position:relative;
+    float:left;
     align-items:center;
+    z-index:${(props: StyledKeyProps) => props.isFlat? '2':'1'};
+
     justify-content:center;
     &:hover{
-        background-color:${(props:{isPlaying : boolean}) => props.isPlaying ? 'rgb(55,55,55)' : 'rgb(230,230,230)'};
+        background-color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(55,55,55)' : 'rgb(230,230,230)'};
         color:rgb(90,20,20);
     }
     &::selection{
@@ -31,6 +40,8 @@ interface KeyProps {
 function Key({ note, isMouseDown }: KeyProps) {
     const { audioContextWrapper } = useContext(KeyboardContext)
     const [isPlaying, setIsPlaying] = useState(false)
+    const isFlat = note.endsWith('b')
+    console.log(isFlat)
   
     const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
         const triggeredNote = keyboardToNoteHash[key];
@@ -53,6 +64,7 @@ function Key({ note, isMouseDown }: KeyProps) {
 
     return (<StyledKey
         isPlaying = {isPlaying}
+        isFlat = {isFlat}
         onMouseDown={() => playNote(audioContextWrapper, note )}
         onMouseLeave={() => stopNote(audioContextWrapper, note )}
         onMouseUp={() => stopNote(audioContextWrapper,  note )}
