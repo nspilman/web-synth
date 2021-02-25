@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
-import { getAllFilterTypes } from '../data/filterTypes';
+import { getAllFilterTypes } from '../../data/filterTypes';
 import styled from "styled-components";
+import StyledLabel from "../styled/controlLabels";
+import StyledSelect from "../styled/controlSelect";
+import StyledRange from "../styled/controlRange";
 
-import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
+import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 
 const StyledFilterControl = styled.div`
     display:flex;
@@ -45,40 +48,28 @@ function FilterControl(){
 
     return (
         <StyledFilterControl>
-            <span style={{
-                        fontSize:'1.4rem', 
-                        color:'rgb(230,230,230)'
-                    }}>
+            <StyledLabel>
                         FILTER
-            </span>
-            <select style={{
-                height:'2rem',
-                margin:'.2rem .1rem'
-            }} id="filter-select-id" className="filter-select"
+            </StyledLabel>
+            <StyledSelect id="filter-select-id" className="filter-select"
                 onChange={(e) => setFilterTypeFromEvent(e)}
             >
                 {filterTypeOptions.map(filter => <option value={filter} key={filter}>{filter}</option>)}
-            </select>
-            <span style={{
-                        fontSize:'1.0rem', 
-                        color:'rgb(230,230,230)'
-                    }}>
+            </StyledSelect>
+            <StyledLabel>
                         FREQUENCY
-            </span>
-            <input type='range' id='filter-freq-id' className='filter-freq' min='40' max='20000' value={filterFrequency}
+            </StyledLabel>
+            <StyledRange type='range' id='filter-freq-id' className='filter-freq' min='40' max='20000' value={filterFrequency}
                 onInput={(e) => setFilterFrequencyFromEvent(e)}
             >
-            </input>
-            <span style={{
-                        fontSize:'1.0rem', 
-                        color:'rgb(230,230,230)'
-                    }}>
+            </StyledRange>
+                  <StyledLabel>
                         Q
-            </span>
-            <input type='range' id='filter-q-id' className='filter-q' min='0.001' max='20' step='0.01' value={filterQ}
+                </StyledLabel>
+            <StyledRange type='range' id='filter-q-id' className='filter-q' min='0.001' max='20' step='0.01' value={filterQ}
                 onInput={(e) => setFilterQFromEvent(e)}
             >
-            </input>
+            </StyledRange>
         </StyledFilterControl>
     )
 }

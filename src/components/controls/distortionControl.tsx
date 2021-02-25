@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import styled from "styled-components";
+import StyledLabel from "../styled/controlLabels";
+import StyledRange from "../styled/controlRange";
 
-import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
+import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 
 const StyledDistortionControl = styled.div`
     display:flex;
@@ -26,11 +28,11 @@ function FilterControl(){
 
     return (
         <StyledDistortionControl>
-            <span style={{fontSize:'1.4rem', color:'rgb(230,230,230)'}}>DISTORTION</span>
-            <input type='range' id='distortion-amount-id' className='distortion-amount' min='0' max='10' value={distortionAmount}
+            <StyledLabel>DISTORTION</StyledLabel>
+            <StyledRange type='range' id='distortion-amount-id' className='distortion-amount' min='0' max='10' value={distortionAmount}
                 onInput={(e) => setDistortionAmountFromEvent(e)}
             >
-            </input>
+            </StyledRange>
         </StyledDistortionControl>
     )
 }
