@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
-import { getAllWaveTypes } from "../data/waveforms";
+import { getAllWaveTypes } from "../../data/waveforms";
 import styled from "styled-components";
+import StyledLabel from "../styled/controlLabels";
+import StyledSelect from "../styled/controlSelect";
 
-import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
+import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 
 const StyledWaveControl = styled.div`
     display:flex;
@@ -23,12 +25,12 @@ function WaveControl(){
     const waveTypeOptions = getAllWaveTypes();
     return (
         <StyledWaveControl id="WaveControl">
-            <span style={{fontSize:'1.4rem', color:'rgb(230,230,230)'}}>WAVEFORM</span>
-            <select style={{height:'2rem',margin:'.2rem .1rem'}} id="wave-select-id" className="wave-select"
+            <StyledLabel>WAVEFORM</StyledLabel>
+            <StyledSelect id="wave-select-id" className="wave-select"
                 onChange={(e) => setWave(e)}
             >
                 {waveTypeOptions.map(waveform => <option value={waveform} key={waveform}>{waveform}</option>)}
-            </select>
+            </StyledSelect>
         </StyledWaveControl>
     )
 }

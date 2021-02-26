@@ -1,31 +1,16 @@
 import React, { useContext } from 'react';
-import { KeyboardContext, UpdateKeyboardContext } from "../hooks/keyboardContext";
+import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 import styled from "styled-components";
+import StyledLabel from "../styled/controlLabels";
+import StyledButton from "../styled/controlButton";
+import StyledRange from "../styled/controlRange";
+
 
 const StyledOscillatorsControl = styled.div`
     display:flex;
     flex-direction:column;
-    padding:1rem;
     width:200px;
     align-items:center;
-`
-
-const StyledControlButton = styled.div`
-    height:2rem;
-    width:2rem;
-    background-color:rgb(230,230,230);
-    margin:.1rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    &:hover{
-        background-color:rgb(90,20,20);
-        color:white;
-        cursor:pointer;
-    }
-    &::selection{
-        background: transparent;
-    }
 `
 
 const minNumOscillators = 1;
@@ -65,43 +50,37 @@ function OscillatorsControl() {
 
     return (
         <StyledOscillatorsControl id="OscillatorsControl">
-            <span style = {{fontSize:'1.4rem', color:'rgb(230,230,230)'}}>OSCILLATORS : {numOscillators}</span>
+            <StyledLabel>OSCILLATORS : {numOscillators}</StyledLabel>
             <div className = 'num-oscillators-buttons-wrapper'
                 style={{flexDirection:'row', display:'flex'}}
             >
-                <StyledControlButton className="lower-num-oscillators"
+                <StyledButton className="lower-num-oscillators"
                     onClick={() : void => decrementNumOscillators()}
                 >
                     -
-                </StyledControlButton>
-                <StyledControlButton className="upper-num-oscillators"
+                </StyledButton>
+                <StyledButton className="upper-num-oscillators"
                     onClick={() : void => incrementNumOscillators()}
                 >
                     +
-                </StyledControlButton>
+                </StyledButton>
             </div>
             <br/>
-            <span style={{
-                        fontSize:'1.0rem', 
-                        color:'rgb(230,230,230)'
-                    }}>
+            <StyledLabel>
                         UNISON DETUNE
-            </span>
-            <input type='range' id='oscillator-unison-detune-id' className='oscillator-unison-detune' min='0' max='100' value={oscillatorUnisonDetune}
+            </StyledLabel>
+            <StyledRange type='range' id='oscillator-unison-detune-id' className='oscillator-unison-detune' min='0' max='100' value={oscillatorUnisonDetune}
                 onInput={(e) => setOscillatorUnisonDetuneFromEvent(e)}
             >
-            </input>
+            </StyledRange>
             <br />
-            <span style={{
-                        fontSize:'1.0rem', 
-                        color:'rgb(230,230,230)'
-                    }}>
+            <StyledLabel>
                         NOISE LEVEL
-            </span>
-            <input type='range' id='noise-gain-id' className='noise-gain' min='0' max='1' step='0.01' value={noiseGain}
+            </StyledLabel>
+            <StyledRange type='range' id='noise-gain-id' className='noise-gain' min='0' max='1' step='0.01' value={noiseGain}
                 onInput={(e) => setNoiseGainFromEvent(e)}
             >
-            </input>
+            </StyledRange>
         </StyledOscillatorsControl>
     )
 }
