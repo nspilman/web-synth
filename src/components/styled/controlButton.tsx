@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledControlButton = styled.div`
+const ControlButton = styled.div`
 background-color:rgb(230,230,230);
 margin:.1rem;
 display:flex;
@@ -18,4 +18,4 @@ justify-content:center;
 }
 `
 
-export default StyledControlButton;
+export default ControlButton;
