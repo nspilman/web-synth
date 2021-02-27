@@ -8,6 +8,7 @@ import { KeyboardProvider } from "../hooks/keyboardContext";
 const StyledKeys = styled.ul`
     display: flex;
     margin:1rem 2rem 0 2rem;
+    padding-inline-start: unset;
     border-top:1rem solid rgb(90,20,20);
     border-right:.5rem solid rgb(90,20,20);
     border-left:.5rem solid rgb(90,20,20);
