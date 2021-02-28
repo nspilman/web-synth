@@ -5,7 +5,7 @@ import Key from "./key";
 import ControlPanel from "./controlPanel"
 import { KeyboardProvider } from "../hooks/keyboardContext";
 
-const StyledKeys = styled.ul`
+const StyledKeys = styled.div`
     display: flex;
     margin:1rem 2rem 0 2rem;
     padding-inline-start: unset;

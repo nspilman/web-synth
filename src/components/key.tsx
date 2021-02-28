@@ -12,7 +12,7 @@ interface StyledKeyProps {
     isPlaying : boolean,
 }
 
-const StyledKey = styled.li`
+const StyledKey = styled.button`
     display:flex;
     position:relative;
     float:left;
@@ -40,7 +40,7 @@ const StyledFlat = styled(StyledKey)`
     width: 4rem;
     background-color: ${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor :'rgb(20,20,20)'};
     color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(0,0,0)'};
-    margin:0 -2em;
+    margin:0 -3em;
     z-index: 2;
     &:hover{
         background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor: 'rgb(170,120,100)'};
