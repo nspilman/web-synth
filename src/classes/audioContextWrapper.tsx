@@ -29,7 +29,8 @@ class AudioContextWrapper {
             noiseGain
         } = defaultParameters
 
-        this.audioContext = new window.AudioContext();
+        const browserCompatibleAudioContext = window.AudioContext || window.webkitAudioContext;
+        this.audioContext = new browserCompatibleAudioContext();
 
         this.masterGainNode = masterGainNode(this.audioContext, gain);
         this.filterNode = filterNode(this.audioContext, filterType, filterFreq);
