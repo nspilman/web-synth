@@ -6,20 +6,44 @@ import keyboardToNoteHash from "../data/keyboardToNoteHash"
 
 import { KeyboardContext } from "../hooks/keyboardContext";
 
-const StyledKey = styled.div`
-    height:10rem;
-    width:5rem;
-    background-color:${(props:{isPlaying : boolean}) => props.isPlaying ? 'rgb(55,55,55)' : 'rgb(250,250,250)'};
-    margin:.1rem;
+const playingNoteBackgroundColor = 'rgb(90,20,20)';
+
+interface StyledKeyProps {
+    isPlaying : boolean,
+}
+
+const StyledKey = styled.li`
     display:flex;
+    position:relative;
+    float:left;
     align-items:center;
     justify-content:center;
-    &:hover{
-        background-color:${(props:{isPlaying : boolean}) => props.isPlaying ? 'rgb(55,55,55)' : 'rgb(230,230,230)'};
-        color:rgb(90,20,20);
-    }
     &::selection{
         background: transparent;
+    }
+`
+
+const StyledNatural = styled(StyledKey)`
+    height: 14rem;
+    width: 8rem;
+    background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor : 'rgb(250,250,250)'};
+    color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(90,20,20)'};
+    z-index: 1;
+    border:1px rgb(200,200,200) solid;
+    &:hover{
+        background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor : 'rgb(230,230,230)'};
+    }
+`
+
+const StyledFlat = styled(StyledKey)`
+    height: 7rem;
+    width: 4rem;
+    background-color: ${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor :'rgb(20,20,20)'};
+    color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(0,0,0)'};
+    margin:0 -2em;
+    z-index: 2;
+    &:hover{
+        background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor: 'rgb(170,120,100)'};
     }
 `
 
@@ -31,33 +55,45 @@ interface KeyProps {
 function Key({ note, isMouseDown }: KeyProps) {
     const { audioContextWrapper } = useContext(KeyboardContext)
     const [isPlaying, setIsPlaying] = useState(false)
+    const isFlat = note.endsWith('b')
   
     const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
         const triggeredNote = keyboardToNoteHash[key];
         if(note === triggeredNote){
-            setIsPlaying(true)
-            playNote(audioContextWrapper, note)
+            playAndSetPlaying(note)
         }
     }
 
     const parseAndStopKeyCommand = ({key} : KeyboardEvent) => {
         const note = keyboardToNoteHash[key];
         if(note){
-            stopNote(audioContextWrapper, note)
-            setIsPlaying(false)
+            stopAndSetStopped(note)
         }
+    }
+
+    const playAndSetPlaying = (note : string) => {
+        setIsPlaying(true)
+        playNote(audioContextWrapper, note)
+    }
+
+    const stopAndSetStopped = ( note : string) => {
+        stopNote(audioContextWrapper, note)
+        setIsPlaying(false)
     }
 
     window.addEventListener('keydown', (event) => parseAndPlayKeyCommand(event));
     window.addEventListener('keyup', (event) => parseAndStopKeyCommand(event));
-
-    return (<StyledKey
-        isPlaying = {isPlaying}
-        onMouseDown={() => playNote(audioContextWrapper, note )}
-        onMouseLeave={() => stopNote(audioContextWrapper, note )}
-        onMouseUp={() => stopNote(audioContextWrapper,  note )}
-        onMouseEnter={() => isMouseDown && playNote(audioContextWrapper, note )}
-    >{note}</StyledKey>)
+    const componentToRender = isFlat ? StyledFlat : StyledNatural;
+    return (
+        React.createElement(componentToRender, {
+            isPlaying,
+            onMouseDown : () => playAndSetPlaying ( note ),
+            onMouseLeave : () => stopAndSetStopped ( note ),
+            onMouseUp : () => stopAndSetStopped ( note ),
+            onMouseEnter : () => isMouseDown ?? playAndSetPlaying ( note ),
+        },
+        note)
+        )
 }
 
 export default Key
