@@ -12,49 +12,40 @@ interface StyledKeyProps {
     isPlaying : boolean,
 }
 
-const StyledNatural = styled.li`
+const StyledKey = styled.li`
+    display:flex;
+    position:relative;
+    float:left;
+    align-items:center;
+    justify-content:center;
+    &::selection{
+        background: transparent;
+    }
+`
+
+const StyledNatural = styled(StyledKey)`
     height: 14rem;
     width: 8rem;
     background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor : 'rgb(250,250,250)'};
     color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(90,20,20)'};
-    display:flex;
-    position:relative;
-    float:left;
-    align-items:center;
-    z-index: 1 ;
+    z-index: 1;
     border:1px rgb(200,200,200) solid;
-
-    justify-content:center;
     &:hover{
         background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor : 'rgb(230,230,230)'};
     }
-    &::selection{
-        background: transparent;
-    }
 `
 
-const StyledFlat = styled.li`
+const StyledFlat = styled(StyledKey)`
     height: 7rem;
     width: 4rem;
     background-color: ${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor :'rgb(20,20,20)'};
     color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(0,0,0)'};
-    margin: .1rem;
     margin:0 -2em;
-    display:flex;
-    position:relative;
-    float:left;
-    align-items:center;
     z-index: 2;
-    &::selection{
-        background: transparent;
-    }
-
-    justify-content:center;
     &:hover{
         background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor: 'rgb(170,120,100)'};
     }
 `
-
 
 interface KeyProps {
     note: string,
@@ -92,22 +83,16 @@ function Key({ note, isMouseDown }: KeyProps) {
 
     window.addEventListener('keydown', (event) => parseAndPlayKeyCommand(event));
     window.addEventListener('keyup', (event) => parseAndStopKeyCommand(event));
-
+    const componentToRender = isFlat ? StyledFlat : StyledNatural;
     return (
-        <span>
-        {isFlat ? <StyledFlat
-                    isPlaying = {isPlaying}
-                    onMouseDown={() => playAndSetPlaying( note )}
-                    onMouseLeave={() => stopAndSetStopped( note )}
-                    onMouseUp={() => stopAndSetStopped( note )}
-                    onMouseEnter={() => isMouseDown && playAndSetPlaying( note )}
-                    > {note} </StyledFlat> : <StyledNatural isPlaying = {isPlaying}
-                    onMouseDown={() => playAndSetPlaying( note )}
-                    onMouseLeave={() => stopAndSetStopped( note )}
-                    onMouseUp={() => stopAndSetStopped( note )}
-                    onMouseEnter={() => isMouseDown && playAndSetPlaying( note )}> { note } </StyledNatural>
-                }
-        </span>
+        React.createElement(componentToRender, {
+            isPlaying,
+            onMouseDown : () => playAndSetPlaying ( note ),
+            onMouseLeave : () => stopAndSetStopped ( note ),
+            onMouseUp : () => stopAndSetStopped ( note ),
+            onMouseEnter : () => isMouseDown ?? playAndSetPlaying ( note ),
+        },
+        note)
         )
 }
 
