@@ -1,4 +1,4 @@
-import { getNoteArray } from "../data/notes";
+import { getAllFrequencies } from "../data/notes";
 import masterGainNode from "./masterGainNode";
 import filterNode from "./filterNode";
 import Voice from "./Voice"
@@ -43,7 +43,7 @@ class AudioContextWrapper {
         this.waveform = waveForm;
         this.octave = octave;
 
-        this.voices = getNoteArray().map(
+        this.voices = getAllFrequencies(0,8).map(
             note => new Voice(
                 note.noteName,
                 note.octave,
