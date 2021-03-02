@@ -1,4 +1,6 @@
+import { timeStamp } from "console";
 import { getFrequency } from "../data/notes";
+import Envelope from "./Envelope";
 
 const maxNumOscillators = 2;
 
@@ -11,6 +13,8 @@ export default class Voice {
     numOscillators: number
     detune: number
     audioContext: AudioContext
+    envelopeGain: GainNode
+    envelope: Envelope
 
     constructor(note: string,
         octave: number,
@@ -24,6 +28,8 @@ export default class Voice {
         this.frequency = getFrequency(note, octave);
         this.detune = unisonDetune;
         this.audioContext = audioContext;
+        this.envelopeGain = this.audioContext.createGain();
+        this.envelope = new Envelope(this.envelopeGain, this.audioContext);
 
         this.oscillators = [];
         for (var i = 0; i < maxNumOscillators; i++) {
@@ -32,6 +38,8 @@ export default class Voice {
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
+        this.stopPlayingOsc();
+
         if (this.numPlayingOscillators != 0) {
             return;
         }
@@ -39,12 +47,15 @@ export default class Voice {
         for (var i = 0; i < this.numOscillators; i++) {
             const osc = this.audioContext.createOscillator();
             osc.frequency.value = this.frequency;
-            osc.connect(nodeToConnect);
+            osc.connect(this.envelopeGain);
             osc.type = wave;
             osc.detune.value = this.getDetuneVal(i, this.detune);
             osc.start();
             this.oscillators[i] = osc;
         }
+
+        this.envelopeGain.connect(nodeToConnect);
+        this.envelope.onNoteOn();
 
         this.numPlayingOscillators = this.numOscillators;
     }
@@ -54,17 +65,11 @@ export default class Voice {
             return;
         }
 
-        for (var i = 0; i < this.numPlayingOscillators; i++) {
-            const osc = this.oscillators[i];
-            osc?.stop();
-            osc?.disconnect();
-        }
-        
-        this.numPlayingOscillators = 0;
+        this.envelope.onNoteOff(this.stopPlayingOsc.bind(this));
     }
 
     isPlaying() {
-        return this.numPlayingOscillators > 0;
+        return (this.numPlayingOscillators > 0 && !this.envelope.canPlayNewOverlappingNote());
     }
 
     setDetune(detune: number) {
@@ -84,5 +89,19 @@ export default class Voice {
 
     getDetuneVal(oscIndex: number, detune: number) {
         return (oscIndex % 2 == 0) ? detune : -detune;
+    }
+
+    stopPlayingOsc() {
+        if (this.numPlayingOscillators == 0) {
+            return;
+        }
+
+        for (var i = 0; i < this.numPlayingOscillators; i++) {
+            const osc = this.oscillators[i];
+            osc?.stop();
+            osc?.disconnect();
+        }
+        
+        this.numPlayingOscillators = 0;
     }
 }
