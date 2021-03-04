@@ -7,6 +7,7 @@ import GainControl from "./controls/gainControl";
 import DistortionControl from "./controls/distortionControl";
 import FilterControl from './controls/filterControl';
 import OscillatorsControl from './controls/oscillatorsControl';
+import EnvelopeControl from './controls/envelopeControl';
 
 const StyledControlPanel = styled.div`
     display:flex;
@@ -21,14 +22,12 @@ function ControlPanel() {
                 <WaveControl />
             </div>
             <OscillatorsControl />
+            <EnvelopeControl />
             <FilterControl />
             <div>
                 <DistortionControl />
                 <GainControl />
             </div>
-
-
-
         </StyledControlPanel>
     )
 }

@@ -26,7 +26,11 @@ class AudioContextWrapper {
             octave, 
             numOscillators, 
             oscillatorUnisonDetune,
-            noiseGain
+            noiseGain,
+            attackMs,
+            decayMs,
+            sustain,
+            releaseMs
         } = defaultParameters
 
         const browserCompatibleAudioContext = window.AudioContext || window.webkitAudioContext;
@@ -48,7 +52,11 @@ class AudioContextWrapper {
                 note.noteName,
                 note.octave,
                 numOscillators,
-                oscillatorUnisonDetune, 
+                oscillatorUnisonDetune,
+                attackMs,
+                decayMs,
+                sustain,
+                releaseMs,
                 this.audioContext)
         );
 
@@ -135,25 +143,25 @@ class AudioContextWrapper {
 
     setAttackMs(attackMs: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setAttackTimeInSec(attackMs * 1000);
+            this.voices[i].envelope.setAttackTimeInSec(attackMs / 1000);
         }
     }
 
     setDecayMs(decayMs: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setAttackTimeInSec(decayMs * 1000);
+            this.voices[i].envelope.setDecayTimeInSec(decayMs / 1000);
         }
     }
 
     setSustain(sustain: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setAttackTimeInSec(sustain);
+            this.voices[i].envelope.setSustainGain(sustain);
         }
     }
 
     setReleaseMs(releaseMs: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setAttackTimeInSec(releaseMs * 1000);
+            this.voices[i].envelope.setReleaseTimeInSec(releaseMs / 1000);
         }
     }
 

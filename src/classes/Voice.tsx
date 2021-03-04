@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import { getFrequency } from "../data/notes";
 import Envelope from "./Envelope";
 
@@ -21,6 +20,10 @@ export default class Voice {
         octave: number,
         numOscillators: number,
         unisonDetune: number,
+        attackMs: number,
+        decayMs: number,
+        sustain: number,
+        releaseMs: number,
         audioContext: AudioContext) {
         this.isActivelyPlaying = false;
         this.numPlayingOscillators = 0;
@@ -31,9 +34,14 @@ export default class Voice {
         this.detune = unisonDetune;
         this.audioContext = audioContext;
         this.envelopeGain = this.audioContext.createGain();
-        this.envelope = new Envelope(this.envelopeGain, this.audioContext);
         this.oscillators = [];
         this.resetOscillators();
+
+        this.envelope = new Envelope(this.envelopeGain, this.audioContext);
+        this.envelope.setAttackTimeInSec(attackMs / 1000);
+        this.envelope.setDecayTimeInSec(decayMs / 1000);
+        this.envelope.setSustainGain(sustain);
+        this.envelope.setReleaseTimeInSec(releaseMs / 1000);
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {

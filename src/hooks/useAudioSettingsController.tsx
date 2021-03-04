@@ -56,16 +56,16 @@ const useStateWrapper = (initialState: KeyboardContextSignature) => {
             audioContextWrapper.setNoiseGain(newState.noiseGain);
         }
         if(state.attackMs != newState.attackMs) {
-            
+            audioContextWrapper.setAttackMs(newState.attackMs);
         }
         if(state.decayMs != newState.decayMs) {
-
+            audioContextWrapper.setDecayMs(newState.decayMs);
         }
         if(state.sustain != newState.sustain) {
-
+            audioContextWrapper.setSustain(newState.sustain);
         }
         if(state.releaseMs != newState.releaseMs) {
-            
+            audioContextWrapper.setReleaseMs(newState.releaseMs);
         }
 
       regularSetState((prevState: KeyboardContextSignature)  => ({
