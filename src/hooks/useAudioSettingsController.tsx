@@ -13,6 +13,10 @@ interface KeyboardContextSignature {
     numOscillators: number,
     oscillatorUnisonDetune: number,
     noiseGain: number,
+    attackMs: number,
+    decayMs: number,
+    sustain: number,
+    releaseMs: number,
     audioContextWrapper: AudioContextWrapper
 }
 
@@ -50,6 +54,18 @@ const useStateWrapper = (initialState: KeyboardContextSignature) => {
         }
         if(state.noiseGain != newState.noiseGain) {
             audioContextWrapper.setNoiseGain(newState.noiseGain);
+        }
+        if(state.attackMs != newState.attackMs) {
+            audioContextWrapper.setAttackMs(newState.attackMs);
+        }
+        if(state.decayMs != newState.decayMs) {
+            audioContextWrapper.setDecayMs(newState.decayMs);
+        }
+        if(state.sustain != newState.sustain) {
+            audioContextWrapper.setSustain(newState.sustain);
+        }
+        if(state.releaseMs != newState.releaseMs) {
+            audioContextWrapper.setReleaseMs(newState.releaseMs);
         }
 
       regularSetState((prevState: KeyboardContextSignature)  => ({
