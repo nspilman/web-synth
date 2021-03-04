@@ -15,6 +15,10 @@ const initialDistortionAmount = 0;
 const initialNumOscillators = 1;
 const initialOscillatorUnisonDetune = 0;
 const initialNoiseGain = 0;
+const initialAttackMs = 0.01;
+const initialDecayMs = 0.01;
+const initialSustain = 1.0;
+const initialReleaseMs = 0.01;
 
 const defaultContextWrapperValues : IAudioContextParameters = {
     gain : initialGain,
@@ -26,7 +30,11 @@ const defaultContextWrapperValues : IAudioContextParameters = {
     distortionAmount: initialDistortionAmount,
     numOscillators: initialNumOscillators,
     oscillatorUnisonDetune: initialOscillatorUnisonDetune,
-    noiseGain: initialNoiseGain
+    noiseGain: initialNoiseGain,
+    attackMs: initialAttackMs,
+    decayMs: initialDecayMs,
+    sustain: initialSustain,
+    releaseMs: initialReleaseMs
 }
 
 const defaultState = {
@@ -41,6 +49,10 @@ const defaultState = {
     numOscillators: initialNumOscillators,
     oscillatorUnisonDetune: initialOscillatorUnisonDetune,
     noiseGain: initialNoiseGain,
+    attackMs: initialAttackMs,
+    decayMs: initialDecayMs,
+    sustain: initialSustain,
+    releaseMs: initialReleaseMs,
     audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
 }
 

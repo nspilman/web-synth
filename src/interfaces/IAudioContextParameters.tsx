@@ -8,5 +8,9 @@ export default interface IAudioContextParameters {
     distortionAmount: number,
     numOscillators: number,
     oscillatorUnisonDetune: number,
-    noiseGain: number
+    noiseGain: number,
+    attackMs: number,
+    decayMs: number,
+    sustain: number,
+    releaseMs: number
 }

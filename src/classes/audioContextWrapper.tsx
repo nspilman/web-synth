@@ -133,6 +133,30 @@ class AudioContextWrapper {
         }
     }
 
+    setAttackMs(attackMs: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].envelope.setAttackTimeInSec(attackMs * 1000);
+        }
+    }
+
+    setDecayMs(decayMs: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].envelope.setAttackTimeInSec(decayMs * 1000);
+        }
+    }
+
+    setSustain(sustain: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].envelope.setAttackTimeInSec(sustain);
+        }
+    }
+
+    setReleaseMs(releaseMs: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].envelope.setAttackTimeInSec(releaseMs * 1000);
+        }
+    }
+
     findOscWithNoteAndOctave(voiceList: Voice[], note: string) {
         return voiceList.find(osc => osc.octave == this.octave && osc.note == note);
     }
