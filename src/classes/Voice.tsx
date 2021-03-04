@@ -5,22 +5,24 @@ import Envelope from "./Envelope";
 const maxNumOscillators = 2;
 
 export default class Voice {
-    numPlayingOscillators: number
-    frequency: number
-    note: string
-    octave: number
-    oscillators: OscillatorNode[]
-    numOscillators: number
-    detune: number
-    audioContext: AudioContext
-    envelopeGain: GainNode
-    envelope: Envelope
+    isActivelyPlaying: boolean // stores if note is on/off
+    numPlayingOscillators: number // stores how many oscillators were triggered at the last note on 
+    frequency: number // frequency of oscillators
+    note: string // note that oscillator should play
+    octave: number // octave that oscillator should play
+    oscillators: OscillatorNode[] // currently playing oscillators when note is on/off
+    numOscillators: number // number of oscillators to play at next note on/off trigger
+    detune: number // detune of oscillators (if numOscillators > 1, even-indexed oscillators get +, odd-indexed get -)
+    audioContext: AudioContext // audio context
+    envelopeGain: GainNode // gain that envelope will control
+    envelope: Envelope // envelope
 
     constructor(note: string,
         octave: number,
         numOscillators: number,
         unisonDetune: number,
         audioContext: AudioContext) {
+        this.isActivelyPlaying = false;
         this.numPlayingOscillators = 0;
         this.note = note;
         this.octave = octave;
@@ -30,17 +32,12 @@ export default class Voice {
         this.audioContext = audioContext;
         this.envelopeGain = this.audioContext.createGain();
         this.envelope = new Envelope(this.envelopeGain, this.audioContext);
-
         this.oscillators = [];
-        for (var i = 0; i < maxNumOscillators; i++) {
-            this.oscillators.push(this.audioContext.createOscillator());
-        }
+        this.resetOscillators();
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
-        this.stopPlayingOsc();
-
-        if (this.numPlayingOscillators != 0) {
+        if (this.isActivelyPlaying) {
             return;
         }
 
@@ -57,19 +54,32 @@ export default class Voice {
         this.envelopeGain.connect(nodeToConnect);
         this.envelope.onNoteOn();
 
+        this.isActivelyPlaying = true;
         this.numPlayingOscillators = this.numOscillators;
     }
 
     stop() {
-        if (this.numPlayingOscillators == 0) {
+        if (!this.isActivelyPlaying) {
             return;
         }
 
-        this.envelope.onNoteOff(this.stopPlayingOsc.bind(this));
+        // save the currently playing oscillators so the envelope can continue to hold them during release
+        var curOsc = []
+        for (var i = 0; i < this.numPlayingOscillators; i++) {
+            curOsc.push(this.oscillators[i]);
+        }
+
+        // reset main oscillators since curOsc will be passed to the envelope
+        this.resetOscillators();
+
+        // schedule current set of oscillators to be destructed after release
+        this.envelope.onNoteOff(this.stopPlayingOsc, curOsc);
+
+        this.isActivelyPlaying = false;
     }
 
     isPlaying() {
-        return (this.numPlayingOscillators > 0 && !this.envelope.canPlayNewOverlappingNote());
+        return this.isActivelyPlaying;
     }
 
     setDetune(detune: number) {
@@ -91,17 +101,18 @@ export default class Voice {
         return (oscIndex % 2 == 0) ? detune : -detune;
     }
 
-    stopPlayingOsc() {
-        if (this.numPlayingOscillators == 0) {
-            return;
-        }
-
-        for (var i = 0; i < this.numPlayingOscillators; i++) {
-            const osc = this.oscillators[i];
+    stopPlayingOsc(playingOsc: OscillatorNode[]) {
+        for (var i = 0; i < playingOsc.length; i++) {
+            const osc = playingOsc[i];
             osc?.stop();
             osc?.disconnect();
         }
-        
-        this.numPlayingOscillators = 0;
+    }
+
+    resetOscillators() {
+        this.oscillators = [];
+        for (var i = 0; i < maxNumOscillators; i++) {
+            this.oscillators.push(this.audioContext.createOscillator());
+        }
     }
 }
