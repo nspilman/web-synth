@@ -37,7 +37,7 @@ export default class Voice {
         this.oscillators = [];
         this.resetOscillators();
 
-        this.envelope = new Envelope(this.envelopeGain, this.audioContext);
+        this.envelope = new Envelope(this.envelopeGain.gain, this.audioContext);
         this.envelope.setAttackTimeInSec(attackMs / 1000);
         this.envelope.setDecayTimeInSec(decayMs / 1000);
         this.envelope.setSustainGain(sustain);
