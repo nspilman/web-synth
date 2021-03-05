@@ -34,7 +34,7 @@ const baseFrequencies : BaseFrequenciesType = {
 export default baseFrequencies;
 
 export const getFrequency = (note : string, octave : number) : number => {
-    return baseFrequencies[note] * 2 ^ (octave)
+    return baseFrequencies[note] * 2**(octave);
 }
 
 export const getAllFrequencies = (minOctave : number, maxOctave : number) : NoteIdentifier[] => {
