@@ -1,74 +1,68 @@
 import { useState } from "react";
-import AudioContextWrapper from "../classes/audioContextWrapper";
+import IKeyboardContextSignature from "../interfaces/IKeyboardContextSignature"; 
 
-interface KeyboardContextSignature {
-    setIsClicked: boolean,
-    octave: number,
-    gain: number,
-    wave: OscillatorType,
-    filterType: BiquadFilterType,
-    filterFrequency: number,
-    filterQ: number,
-    distortionAmount: number,
-    numOscillators: number,
-    oscillatorUnisonDetune: number,
-    noiseGain: number,
-    attackMs: number,
-    decayMs: number,
-    sustain: number,
-    releaseMs: number,
-    audioContextWrapper: AudioContextWrapper
-}
-
-const useStateWrapper = (initialState: KeyboardContextSignature) => {
+const useStateWrapper = (initialState: IKeyboardContextSignature) => {
     const [state, regularSetState] = useState(initialState);
   
-    const setState = (newState: KeyboardContextSignature) => {
+    const setState = (newState: IKeyboardContextSignature) => {
+        const audioContextParameters = state.audioContextParameters;
         const audioContextWrapper = state.audioContextWrapper;
-        if(state.gain !== newState.gain){
-            audioContextWrapper.setGain(newState.gain)
-        }
-        if(state.filterFrequency !== newState.filterFrequency){
-            audioContextWrapper.setFilterFreq(newState.filterFrequency)
-        }
-        if(state.filterType !== newState.filterType){
-            audioContextWrapper.setFilterType(newState.filterType)
-        }
-        if (state.filterQ !== newState.filterQ) {
-            audioContextWrapper.setFilterQ(newState.filterQ);
-        }
-        if(state.wave !== newState.wave){
-            audioContextWrapper.waveform = newState.wave;
-        }
-        if(state.octave !== newState.octave){
-            audioContextWrapper.octave = newState.octave;
-        }
-        if(state.distortionAmount !== newState.distortionAmount) {
-            audioContextWrapper.setDistortionAmount(newState.distortionAmount);
-        }
-        if(state.numOscillators != newState.numOscillators) {
-            audioContextWrapper.setNumOscillators(newState.numOscillators);
-        }
-        if(state.oscillatorUnisonDetune != newState.oscillatorUnisonDetune) {
-            audioContextWrapper.setOscillatorUnisonDetune(newState.oscillatorUnisonDetune);
-        }
-        if(state.noiseGain != newState.noiseGain) {
-            audioContextWrapper.setNoiseGain(newState.noiseGain);
-        }
-        if(state.attackMs != newState.attackMs) {
-            audioContextWrapper.setAttackMs(newState.attackMs);
-        }
-        if(state.decayMs != newState.decayMs) {
-            audioContextWrapper.setDecayMs(newState.decayMs);
-        }
-        if(state.sustain != newState.sustain) {
-            audioContextWrapper.setSustain(newState.sustain);
-        }
-        if(state.releaseMs != newState.releaseMs) {
-            audioContextWrapper.setReleaseMs(newState.releaseMs);
+        const newAudioContextParameters = newState.audioContextParameters;
+        if(audioContextParameters.gain !== newAudioContextParameters.gain){
+            audioContextWrapper.setGain(newAudioContextParameters.gain)
         }
 
-      regularSetState((prevState: KeyboardContextSignature)  => ({
+        const { filterParameters, oscillatorParameters, envelopeParameters } = audioContextParameters;
+        if(audioContextParameters.waveForm !== newAudioContextParameters.waveForm){
+            audioContextWrapper.waveform = newAudioContextParameters.waveForm;
+        }
+        if(audioContextParameters.octave !== newAudioContextParameters.octave){
+            audioContextWrapper.octave = newAudioContextParameters.octave;
+        }
+        if(audioContextParameters.distortionAmount !== newAudioContextParameters.distortionAmount) {
+            audioContextWrapper.setDistortionAmount(newAudioContextParameters.distortionAmount);
+        }
+
+        // Filter State Changes
+        const newFilterParameters = newAudioContextParameters.filterParameters; 
+        if(filterParameters.freq !== newFilterParameters.freq){
+            audioContextWrapper.setFilterFreq(newFilterParameters.freq)
+        }
+        if(filterParameters.type !== newAudioContextParameters.filterParameters.type){
+            audioContextWrapper.setFilterType(newFilterParameters.type)
+        }
+        if (filterParameters.q !== newAudioContextParameters.filterParameters.q) {
+            audioContextWrapper.setFilterQ(newFilterParameters.q);
+        }
+
+        // Oscillator State Changes
+        const newOscillatorParameters = newAudioContextParameters.oscillatorParameters;
+        if(oscillatorParameters.numOscillators != newOscillatorParameters.numOscillators) {
+            audioContextWrapper.setNumOscillators(newOscillatorParameters.numOscillators);
+        }
+        if(oscillatorParameters.oscillatorUnisonDetune != newOscillatorParameters.oscillatorUnisonDetune) {
+            audioContextWrapper.setOscillatorUnisonDetune(newOscillatorParameters.oscillatorUnisonDetune);
+        }
+        if(audioContextParameters.noiseGain != newAudioContextParameters.noiseGain) {
+            audioContextWrapper.setNoiseGain(newAudioContextParameters.noiseGain);
+        }
+
+        // Envelope State Changes
+        const newEnvelopeParameters = newAudioContextParameters.envelopeParameters;
+        if(envelopeParameters.attackMs != newEnvelopeParameters.attackMs) {
+            audioContextWrapper.setAttackMs(newEnvelopeParameters.attackMs);
+        }
+        if(envelopeParameters.decayMs != newEnvelopeParameters.decayMs) {
+            audioContextWrapper.setDecayMs(newEnvelopeParameters.decayMs);
+        }
+        if(envelopeParameters.sustain != newEnvelopeParameters.sustain) {
+            audioContextWrapper.setSustain(newEnvelopeParameters.sustain);
+        }
+        if(envelopeParameters.releaseMs != newEnvelopeParameters.releaseMs) {
+            audioContextWrapper.setReleaseMs(newEnvelopeParameters.releaseMs);
+        }
+
+      regularSetState((prevState: IKeyboardContextSignature)  => ({
         ...prevState,
         ...newState
       }));

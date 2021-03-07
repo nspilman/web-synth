@@ -20,24 +20,19 @@ class AudioContextWrapper {
     constructor(defaultParameters : IAudioContextParameters){
         const {
             gain, 
-            filterType, 
-            filterFreq, 
+            filterParameters,
+            oscillatorParameters,
+            envelopeParameters,
             waveForm, 
             octave, 
-            numOscillators, 
-            oscillatorUnisonDetune,
             noiseGain,
-            attackMs,
-            decayMs,
-            sustain,
-            releaseMs
         } = defaultParameters
-
         const browserCompatibleAudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new browserCompatibleAudioContext();
 
         this.masterGainNode = masterGainNode(this.audioContext, gain);
-        this.filterNode = filterNode(this.audioContext, filterType, filterFreq);
+        const { type, freq } = filterParameters;
+        this.filterNode = filterNode(this.audioContext, type, freq);
         this.waveshaperNode = new WaveshaperNodeWrapper(this.audioContext);
 
         this.filterNode.connect(this.waveshaperNode.waveshaperNode);
@@ -51,12 +46,8 @@ class AudioContextWrapper {
             note => new Voice(
                 note.noteName,
                 note.octave,
-                numOscillators,
-                oscillatorUnisonDetune,
-                attackMs,
-                decayMs,
-                sustain,
-                releaseMs,
+                oscillatorParameters,
+                envelopeParameters,
                 this.audioContext)
         );
 

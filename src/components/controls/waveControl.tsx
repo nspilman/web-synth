@@ -3,6 +3,7 @@ import { getAllWaveTypes } from "../../data/waveforms";
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import StyledSelect from "../styled/controlSelect";
+import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 
@@ -14,12 +15,16 @@ const StyledWaveControl = styled.div`
 `
 
 function WaveControl(){
-    const state = useContext(KeyboardContext);
+    const state : IKeyboardContextSignature = useContext(KeyboardContext);
     const setState = useContext(UpdateKeyboardContext);
+
+    const { audioContextParameters } = state;
+    const newAudioContextParameters = { ...audioContextParameters }
     
     const setWave = (e : React.ChangeEvent<HTMLSelectElement>) =>{
+        newAudioContextParameters.waveForm = e.target.value as OscillatorType; 
         setState({...state,
-            wave: e.target.value})
+            audioContextParameters : newAudioContextParameters })
     }
 
     const waveTypeOptions = getAllWaveTypes();

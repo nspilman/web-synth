@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import StyledRange from "../styled/controlRange";
+import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 
@@ -13,26 +14,38 @@ const StyledEnvelopeControl = styled.div`
 `
 
 function EnvelopeControl(){
-    const state = useContext(KeyboardContext);
+    const state : IKeyboardContextSignature = useContext(KeyboardContext);
+    const { audioContextParameters } = state;
+    const newAudioContextParameters = {... audioContextParameters};
+    const newEnvelopeParameters = {... audioContextParameters.envelopeParameters};
+
     const setState = useContext(UpdateKeyboardContext);
 
     const setAttackMsAndState = (newValue: number) => {
-        setState({ ...state, attackMs: newValue });
+        newEnvelopeParameters.attackMs = newValue;
+        newAudioContextParameters.envelopeParameters = newEnvelopeParameters;
+        setState({ ...state, audioContextParameters: newAudioContextParameters });
     }
 
     const setDecayMsAndState = (newValue: number) => {
-        setState({ ...state, decayMs: newValue });
+        newEnvelopeParameters.decayMs = newValue;
+        newAudioContextParameters.envelopeParameters = newEnvelopeParameters;
+        setState({ ...state, audioContextParameters: newAudioContextParameters });
     }
 
     const setSustainAndState = (newValue: number) => {
-        setState({ ...state, sustain: newValue });
+        newEnvelopeParameters.sustain = newValue;
+        newAudioContextParameters.envelopeParameters = newEnvelopeParameters;
+        setState({ ...state, audioContextParameters: newAudioContextParameters });
     }
 
     const setReleaseMsAndState = (newValue: number) => {
-        setState({ ...state, releaseMs: newValue });
+        newEnvelopeParameters.releaseMs = newValue;
+        newAudioContextParameters.envelopeParameters = newEnvelopeParameters;
+        setState({ ...state, audioContextParameters: newAudioContextParameters });
     }
 
-    const { attackMs, decayMs, sustain, releaseMs } = state;
+    const { attackMs, decayMs, sustain, releaseMs } = state.audioContextParameters.envelopeParameters;
 
     const setAttackMsFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
         setAttackMsAndState(Number(e.currentTarget.value));

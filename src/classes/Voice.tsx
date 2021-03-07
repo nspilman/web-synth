@@ -1,5 +1,7 @@
 import { getFrequency } from "../data/notes";
 import Envelope from "./Envelope";
+import IOscillatorParameters from "../interfaces/IOscillatorParameters";
+import IEnvelopeParameters from "../interfaces/IEnvelopeParameters";
 
 const maxNumOscillators = 2;
 
@@ -16,28 +18,27 @@ export default class Voice {
     envelopeGain: GainNode // gain that envelope will control
     envelope: Envelope // envelope
 
-    constructor(note: string,
+    constructor(
+        note: string,
         octave: number,
-        numOscillators: number,
-        unisonDetune: number,
-        attackMs: number,
-        decayMs: number,
-        sustain: number,
-        releaseMs: number,
-        audioContext: AudioContext) {
-        this.isActivelyPlaying = false;
-        this.numPlayingOscillators = 0;
-        this.note = note;
-        this.octave = octave;
-        this.numOscillators = numOscillators;
-        this.frequency = getFrequency(note, octave);
-        this.detune = unisonDetune;
+        oscillatorParameters : IOscillatorParameters,
+        envelopeParameters: IEnvelopeParameters,
+        audioContext: AudioContext
+        ) {
         this.audioContext = audioContext;
         this.envelopeGain = this.audioContext.createGain();
+        this.note = note;
+        this.octave = octave;
+        this.frequency = getFrequency(note, octave);
+        this.numOscillators = oscillatorParameters.numOscillators;
+        this.detune = oscillatorParameters.oscillatorUnisonDetune;
+        this.isActivelyPlaying = false;
+        this.numPlayingOscillators = 0;
         this.oscillators = [];
         this.resetOscillators();
 
         this.envelope = new Envelope(this.envelopeGain, this.audioContext);
+        const { attackMs, decayMs, sustain, releaseMs } = envelopeParameters;
         this.envelope.setAttackTimeInSec(attackMs / 1000);
         this.envelope.setDecayTimeInSec(decayMs / 1000);
         this.envelope.setSustainGain(sustain);

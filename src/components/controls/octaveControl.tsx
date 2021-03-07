@@ -3,6 +3,7 @@ import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardCont
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import StyledButton from "../styled/controlButton";
+import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
 
 const StyledOctaveControl = styled.div`
 display:flex;
@@ -15,18 +16,23 @@ const minOctave = 0;
 const maxOctave = 8;
 
 function OctaveControl() {
-    const state = useContext(KeyboardContext);
-    const { octave } = state;
+    const state : IKeyboardContextSignature = useContext(KeyboardContext);
+    const { audioContextParameters } = state;
+    const newAudioContextParameters = {... audioContextParameters};
+
+    const { octave } = audioContextParameters;
     const updateContext = useContext(UpdateKeyboardContext);
 
     const decrementOctave = () => {
         const newValue = (octave - 1 < minOctave) ? minOctave : octave - 1;
-        updateContext({...state,octave:newValue})
+        newAudioContextParameters.octave = newValue;
+        updateContext({...state,audioContextParameters:newAudioContextParameters})
     }
 
     const incrementOctave = () => {
         const newValue = (octave + 1 > maxOctave) ? maxOctave : octave + 1;
-        updateContext({...state,octave:newValue})
+        newAudioContextParameters.octave = newValue;
+        updateContext({...state,audioContextParameters:newAudioContextParameters})
     }
 
     return (
