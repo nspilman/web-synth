@@ -56,7 +56,7 @@ class Envelope {
         this.paramToModify.linearRampToValueAtTime(this.sustain, now + this.attack + this.decay);
     }
 
-    onNoteOff(stopOscCallback: (playingOsc: OscillatorNode[]) => void, playingOsc: OscillatorNode[]) {
+    onNoteOff(stopOscCallback: (playingOsc: any[]) => void, playingOsc: any[]) {
         // cancel any current ramping but hold value
         this.paramToModify.cancelAndHoldAtTime(0);
 

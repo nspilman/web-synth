@@ -103,7 +103,7 @@ export default class Voice {
 
         // schedule current set of oscillators to be destructed after release
         this.ampEnvelope.onNoteOff(this.stopPlayingOsc, curOsc);
-        this.filterEnvelope.onNoteOff
+        this.filterEnvelope.onNoteOff(this.stopPlayingFilters, [ this.filterNode ]);
 
         this.isActivelyPlaying = false;
     }
@@ -160,7 +160,7 @@ export default class Voice {
     }
 
     stopPlayingFilters(playingFilters: any[]) {
-
+        // not implemented as new filter per note on isn't implemented
     }
 
     resetOscillators() {
