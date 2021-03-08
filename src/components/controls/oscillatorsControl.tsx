@@ -5,7 +5,6 @@ import StyledLabel from "../styled/controlLabels";
 import StyledButton from "../styled/controlButton";
 import StyledRange from "../styled/controlRange";
 
-
 const StyledOscillatorsControl = styled.div`
     display:flex;
     flex-direction:column;
@@ -19,25 +18,35 @@ const maxNumOscillators = 2;
 function OscillatorsControl() {
     const state = useContext(KeyboardContext);
     const setState = useContext(UpdateKeyboardContext);
-    const { numOscillators, oscillatorUnisonDetune, noiseGain } = state;
-    const updateContext = useContext(UpdateKeyboardContext);
+    const { audioContextParameters } = state;
+    const newAudioContextParameters = {... audioContextParameters};
+    const newOscillatorParameters = {... newAudioContextParameters.oscillatorParameters }
+    const { noiseGain } = audioContextParameters;
+    const { numOscillators, oscillatorUnisonDetune }  = audioContextParameters.oscillatorParameters;
 
     const decrementNumOscillators = () => {
         const newValue = (numOscillators - 1 < minNumOscillators) ? minNumOscillators : numOscillators - 1;
-        updateContext({...state,numOscillators:newValue})
+        newOscillatorParameters.numOscillators = newValue;
+        newAudioContextParameters.oscillatorParameters = newOscillatorParameters;
+        setState({...state, audioContextParameters : newAudioContextParameters})
     }
 
     const incrementNumOscillators = () => {
         const newValue = (numOscillators + 1 > maxNumOscillators) ? maxNumOscillators : numOscillators + 1;
-        updateContext({...state,numOscillators:newValue})
+        newOscillatorParameters.numOscillators = newValue;
+        newAudioContextParameters.oscillatorParameters = newOscillatorParameters;
+        setState({...state, audioContextParameters : newAudioContextParameters})
     }
 
     const setOscillatorUnisonDetuneAndState = (newValue: number) => {
-        setState({ ...state, oscillatorUnisonDetune: newValue });
+        newOscillatorParameters.oscillatorUnisonDetune = newValue;
+        newAudioContextParameters.oscillatorParameters = newOscillatorParameters;
+        setState({...state, audioContextParameters : newAudioContextParameters})
     }
 
     const setNoiseGainState = (newGain: number) => {
-        setState({ ...state, noiseGain: newGain });
+        newAudioContextParameters.noiseGain = newGain;
+        setState({ ...state, audioContextParameters: newAudioContextParameters });
     }
 
     const setOscillatorUnisonDetuneFromEvent = (e : React.FormEvent<HTMLInputElement>) => {

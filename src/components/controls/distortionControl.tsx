@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import StyledRange from "../styled/controlRange";
+import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
 
 import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
 
@@ -13,14 +14,18 @@ const StyledDistortionControl = styled.div`
 `
 
 function FilterControl(){
-    const state = useContext(KeyboardContext);
+    const state : IKeyboardContextSignature = useContext(KeyboardContext);
     const setState = useContext(UpdateKeyboardContext);
 
+    const { audioContextParameters } = state;
+    const newAudioContextParameters = {... audioContextParameters};
+
     const setDistortionAmountAndState = (newValue: number) => {
-        setState({ ...state, distortionAmount: newValue });
+        newAudioContextParameters.distortionAmount = newValue;
+        setState({ ...state, audioContextParameters: newAudioContextParameters });
     }
 
-    const { distortionAmount } = state;
+    const { distortionAmount } = audioContextParameters;
 
     const setDistortionAmountFromEvent = (e : React.FormEvent<HTMLInputElement>) => {
         setDistortionAmountAndState(Number(e.currentTarget.value));

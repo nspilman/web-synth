@@ -1,58 +1,15 @@
 
 import React, { createContext } from 'react';
-import useAudioSettingsController from "./useAudioSettingsController"
+import useAudioSettingsController from "./useAudioSettingsController";
 import AudioContextWrapper from '../classes/audioContextWrapper';
-import filterTypes from '../data/filterTypes';
-import waveforms from "../data/waveforms";
-import IAudioContextParameters from "../interfaces/IAudioContextParameters"
+import IAudioContextParameters from "../interfaces/IAudioContextParameters";
+import IKeyboardContextSignature from "../interfaces/IKeyboardContextSignature";
+import getDefaultContextWrapperValues from "./getDefaultContextWrapperValues";
 
-const initialGain = 1;
-const initialOctave = 4;
-const initialFilterType = filterTypes.lowpass;
-const initialFilterFrequency = 20000;
-const initialFilterQ = 0.0001;
-const initialDistortionAmount = 0;
-const initialNumOscillators = 1;
-const initialOscillatorUnisonDetune = 0;
-const initialNoiseGain = 0;
-const initialAttackMs = 0.01;
-const initialDecayMs = 0.01;
-const initialSustain = 1.0;
-const initialReleaseMs = 0.01;
-
-const defaultContextWrapperValues : IAudioContextParameters = {
-    gain : initialGain,
-    octave : initialOctave,
-    filterFreq : initialFilterFrequency,
-    filterType : initialFilterType,
-    filterQ: initialFilterQ,
-    waveForm: waveforms.sine,
-    distortionAmount: initialDistortionAmount,
-    numOscillators: initialNumOscillators,
-    oscillatorUnisonDetune: initialOscillatorUnisonDetune,
-    noiseGain: initialNoiseGain,
-    attackMs: initialAttackMs,
-    decayMs: initialDecayMs,
-    sustain: initialSustain,
-    releaseMs: initialReleaseMs
-}
-
-const defaultState = {
+const defaultContextWrapperValues  : IAudioContextParameters = getDefaultContextWrapperValues();
+const defaultState : IKeyboardContextSignature = {
     setIsClicked: false,
-    wave: waveforms.sine,
-    gain: initialGain,
-    octave: initialOctave,
-    filterType: initialFilterType,
-    filterFrequency: initialFilterFrequency,
-    filterQ: initialFilterQ,
-    distortionAmount: initialDistortionAmount,
-    numOscillators: initialNumOscillators,
-    oscillatorUnisonDetune: initialOscillatorUnisonDetune,
-    noiseGain: initialNoiseGain,
-    attackMs: initialAttackMs,
-    decayMs: initialDecayMs,
-    sustain: initialSustain,
-    releaseMs: initialReleaseMs,
+    audioContextParameters : defaultContextWrapperValues,
     audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
 }
 
@@ -60,7 +17,7 @@ interface KeyboardProviderType {
     children: React.ReactNode
 }
 
-const KeyboardContext = createContext<any>({ ...defaultState });
+const KeyboardContext = createContext<any>(defaultState);
 const UpdateKeyboardContext = createContext<any>({});
 
 export function KeyboardProvider({ children }: KeyboardProviderType) {

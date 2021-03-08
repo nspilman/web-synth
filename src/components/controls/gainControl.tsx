@@ -3,6 +3,7 @@ import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardCont
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import StyledButton from "../styled/controlButton";
+import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
 
 const StyledGainControl = styled.div`
     display:flex;
@@ -16,14 +17,17 @@ const maxGain = 1;
 const gainStep = 0.1;
 
 function GainControl() {
-    const state = useContext(KeyboardContext);
+    const state : IKeyboardContextSignature = useContext(KeyboardContext);
+    const { audioContextParameters } = state;
+    const newAudioContextParameters = {...audioContextParameters }
     const setState = useContext(UpdateKeyboardContext);
 
     const setGainAndState = (newValue: number) => {
-        setState({ ...state, gain: newValue })
+        newAudioContextParameters.gain = newValue;
+        setState({ ...state, audioContextParameters :newAudioContextParameters })
     }
 
-    const { gain } = state;
+    const { gain } = audioContextParameters;
 
     const decrementGain = () => {
         const newValue = (gain - gainStep < minGain) ? minGain : gain - gainStep;
