@@ -7,6 +7,15 @@ import IFilterParameters from "../interfaces/IFilterParameters";
 
 const maxNumOscillators = 2;
 
+/*
+Voice signal chain:
+
+oscillator
+    |
+envelope
+    |
+filter
+*/
 export default class Voice {
     isActivelyPlaying: boolean // stores if note is on/off
     numPlayingOscillators: number // stores how many oscillators were triggered at the last note on 
@@ -111,6 +120,18 @@ export default class Voice {
         }
 
         this.numOscillators = newNum;
+    }
+
+    setFilterFreq(newFreq: number) {
+        this.filterNode.frequency.value = newFreq;
+    }
+
+    setFilterQ(newQ: number) {
+        this.filterNode.Q.value = newQ;
+    }
+
+    setFilterType(newType: BiquadFilterType) {
+        this.filterNode.type = newType;
     }
 
     getDetuneVal(oscIndex: number, detune: number) {

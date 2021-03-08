@@ -100,19 +100,19 @@ class AudioContextWrapper {
 
     setFilterType(newType : BiquadFilterType) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].filterNode.type = newType;
+            this.voices[i].setFilterType(newType);
         }
     }
 
     setFilterFreq(newFreq : number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].filterNode.frequency.value = newFreq;
+            this.voices[i].setFilterFreq(newFreq);
         }
     }
 
     setFilterQ(newQ : number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].filterNode.Q.value = newQ;
+            this.voices[i].setFilterQ(newQ);
         }
     }
 
