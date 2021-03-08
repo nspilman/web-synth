@@ -1,6 +1,5 @@
 import { getAllFrequencies } from "../data/notes";
 import masterGainNode from "./masterGainNode";
-import filterNode from "./filterNode";
 import Voice from "./Voice"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 import WaveshaperNodeWrapper from "./WaveshaperNodeWrapper";
@@ -9,13 +8,12 @@ import WhiteNoiseOscillator from "./WhiteNoiseOscillator";
 class AudioContextWrapper {
     audioContext : AudioContext
     masterGainNode : GainNode
-    filterNode : BiquadFilterNode
     waveshaperNode : WaveshaperNodeWrapper
     voices: Voice[]
     numPlayingVoices: number
     waveform : OscillatorType
     octave : number
-    noiseOsc: WhiteNoiseOscillator
+    //noiseOsc: WhiteNoiseOscillator
 
     constructor(defaultParameters : IAudioContextParameters){
         const {
@@ -32,10 +30,8 @@ class AudioContextWrapper {
 
         this.masterGainNode = masterGainNode(this.audioContext, gain);
         const { type, freq } = filterParameters;
-        this.filterNode = filterNode(this.audioContext, type, freq);
         this.waveshaperNode = new WaveshaperNodeWrapper(this.audioContext);
 
-        this.filterNode.connect(this.waveshaperNode.waveshaperNode);
         this.waveshaperNode.waveshaperNode.connect(this.masterGainNode);
 
         this.masterGainNode.connect(this.audioContext.destination);
@@ -48,10 +44,12 @@ class AudioContextWrapper {
                 note.octave,
                 oscillatorParameters,
                 envelopeParameters,
+                filterParameters,
                 this.audioContext)
         );
 
-        this.noiseOsc = new WhiteNoiseOscillator(this.audioContext, noiseGain, this.filterNode);
+        // TODO: make noise oscillator a special case of voice
+        //this.noiseOsc = new WhiteNoiseOscillator(this.audioContext, noiseGain, this.filterNode);
 
         this.numPlayingVoices = 0;
     }
@@ -67,10 +65,10 @@ class AudioContextWrapper {
             return;
         }
 
-        voice.play(this.filterNode, this.waveform);
+        voice.play(this.waveshaperNode.waveshaperNode, this.waveform);
 
         // noise always plays behind voice
-        this.noiseOsc.play();
+        //this.noiseOsc.play();
         this.numPlayingVoices++;
     }
 
@@ -92,7 +90,7 @@ class AudioContextWrapper {
 
         // only stop noise when all voices have stopped
         if (this.numPlayingVoices == 0) {
-            this.noiseOsc.stop();
+            //this.noiseOsc.stop();
         }
     }
 
@@ -101,15 +99,21 @@ class AudioContextWrapper {
     }
 
     setFilterType(newType : BiquadFilterType) {
-        this.filterNode.type = newType;
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].filterNode.type = newType;
+        }
     }
 
     setFilterFreq(newFreq : number) {
-        this.filterNode.frequency.value = newFreq;
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].filterNode.frequency.value = newFreq;
+        }
     }
 
     setFilterQ(newQ : number) {
-        this.filterNode.Q.value = newQ;
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].filterNode.Q.value = newQ;
+        }
     }
 
     setDistortionAmount(newAmount: number) {
@@ -123,7 +127,7 @@ class AudioContextWrapper {
     }
 
     setNoiseGain(newGain: number) {
-        this.noiseOsc.setGain(newGain);
+        //this.noiseOsc.setGain(newGain);
     }
 
     setOscillatorUnisonDetune(newDetune: number) {

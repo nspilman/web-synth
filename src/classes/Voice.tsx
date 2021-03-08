@@ -2,6 +2,8 @@ import { getFrequency } from "../data/notes";
 import Envelope from "./Envelope";
 import IOscillatorParameters from "../interfaces/IOscillatorParameters";
 import IEnvelopeParameters from "../interfaces/IEnvelopeParameters";
+import filterNode from "./filterNode";
+import IFilterParameters from "../interfaces/IFilterParameters";
 
 const maxNumOscillators = 2;
 
@@ -17,12 +19,14 @@ export default class Voice {
     audioContext: AudioContext // audio context
     envelopeGain: GainNode // gain that envelope will control
     envelope: Envelope // envelope
+    filterNode : BiquadFilterNode // filter for voice
 
     constructor(
         note: string,
         octave: number,
         oscillatorParameters : IOscillatorParameters,
         envelopeParameters: IEnvelopeParameters,
+        filterParameters: IFilterParameters,
         audioContext: AudioContext
         ) {
         this.audioContext = audioContext;
@@ -43,6 +47,9 @@ export default class Voice {
         this.envelope.setDecayTimeInSec(decayMs / 1000);
         this.envelope.setSustainGain(sustain);
         this.envelope.setReleaseTimeInSec(releaseMs / 1000);
+
+        this.filterNode = filterNode(this.audioContext, filterParameters.type, filterParameters.freq);
+        this.envelopeGain.connect(this.filterNode);
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
@@ -60,7 +67,7 @@ export default class Voice {
             this.oscillators[i] = osc;
         }
 
-        this.envelopeGain.connect(nodeToConnect);
+        this.filterNode.connect(nodeToConnect);
         this.envelope.onNoteOn();
 
         this.isActivelyPlaying = true;
