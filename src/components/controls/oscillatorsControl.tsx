@@ -4,11 +4,10 @@ import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import StyledButton from "../styled/controlButton";
 import StyledRange from "../styled/controlRange";
+import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
 
 const StyledOscillatorsControl = styled.div`
     display:flex;
-    flex-direction:column;
-    width:200px;
     align-items:center;
 `
 
@@ -16,7 +15,7 @@ const minNumOscillators = 1;
 const maxNumOscillators = 2;
 
 function OscillatorsControl() {
-    const state = useContext(KeyboardContext);
+    const state : IKeyboardContextSignature = useContext(KeyboardContext);
     const setState = useContext(UpdateKeyboardContext);
     const { audioContextParameters } = state;
     const newAudioContextParameters = {... audioContextParameters};
