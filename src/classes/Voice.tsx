@@ -62,9 +62,6 @@ export default class Voice {
         this.filterEnvelope = new Envelope(this.filterNode.frequency, 20000, 0, this.audioContext);
 
         this.ampEnvelopeGain.connect(this.filterNode);
-
-        this.filterEnvelope.setMaxValue(4000);
-        this.filterEnvelope.setAttackTimeInSec(2.0);
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
@@ -163,7 +160,7 @@ export default class Voice {
     }
 
     stopPlayingFilters(playingFilters: any[]) {
-        
+
     }
 
     resetOscillators() {
