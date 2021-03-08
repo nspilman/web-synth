@@ -26,8 +26,9 @@ export default class Voice {
     numOscillators: number // number of oscillators to play at next note on/off trigger
     detune: number // detune of oscillators (if numOscillators > 1, even-indexed oscillators get +, odd-indexed get -)
     audioContext: AudioContext // audio context
-    envelopeGain: GainNode // gain that envelope will control
-    envelope: Envelope // envelope
+    ampEnvelopeGain: GainNode // gain that amp envelope will control
+    ampEnvelope: Envelope // amp envelope
+    filterEnvelope: Envelope // filter envelope
     filterNode : BiquadFilterNode // filter for voice
 
     constructor(
@@ -39,7 +40,7 @@ export default class Voice {
         audioContext: AudioContext
         ) {
         this.audioContext = audioContext;
-        this.envelopeGain = this.audioContext.createGain();
+        this.ampEnvelopeGain = this.audioContext.createGain();
         this.note = note;
         this.octave = octave;
         this.frequency = getFrequency(note, octave);
@@ -50,15 +51,20 @@ export default class Voice {
         this.oscillators = [];
         this.resetOscillators();
 
-        this.envelope = new Envelope(this.envelopeGain.gain, this.audioContext);
+        this.ampEnvelope = new Envelope(this.ampEnvelopeGain.gain, 1.0, 0, this.audioContext);
         const { attackMs, decayMs, sustain, releaseMs } = envelopeParameters;
-        this.envelope.setAttackTimeInSec(attackMs / 1000);
-        this.envelope.setDecayTimeInSec(decayMs / 1000);
-        this.envelope.setSustainGain(sustain);
-        this.envelope.setReleaseTimeInSec(releaseMs / 1000);
+        this.ampEnvelope.setAttackTimeInSec(attackMs / 1000);
+        this.ampEnvelope.setDecayTimeInSec(decayMs / 1000);
+        this.ampEnvelope.setSustainGain(sustain);
+        this.ampEnvelope.setReleaseTimeInSec(releaseMs / 1000);
 
         this.filterNode = filterNode(this.audioContext, filterParameters.type, filterParameters.freq);
-        this.envelopeGain.connect(this.filterNode);
+        this.filterEnvelope = new Envelope(this.filterNode.frequency, 20000, 0, this.audioContext);
+
+        this.ampEnvelopeGain.connect(this.filterNode);
+
+        this.filterEnvelope.setMaxValue(4000);
+        this.filterEnvelope.setAttackTimeInSec(2.0);
     }
 
     play(nodeToConnect: AudioNode, wave: OscillatorType) {
@@ -69,7 +75,7 @@ export default class Voice {
         for (var i = 0; i < this.numOscillators; i++) {
             const osc = this.audioContext.createOscillator();
             osc.frequency.value = this.frequency;
-            osc.connect(this.envelopeGain);
+            osc.connect(this.ampEnvelopeGain);
             osc.type = wave;
             osc.detune.value = this.getDetuneVal(i, this.detune);
             osc.start();
@@ -77,7 +83,8 @@ export default class Voice {
         }
 
         this.filterNode.connect(nodeToConnect);
-        this.envelope.onNoteOn();
+        this.ampEnvelope.onNoteOn();
+        this.filterEnvelope.onNoteOn();
 
         this.isActivelyPlaying = true;
         this.numPlayingOscillators = this.numOscillators;
@@ -98,7 +105,8 @@ export default class Voice {
         this.resetOscillators();
 
         // schedule current set of oscillators to be destructed after release
-        this.envelope.onNoteOff(this.stopPlayingOsc, curOsc);
+        this.ampEnvelope.onNoteOff(this.stopPlayingOsc, curOsc);
+        this.filterEnvelope.onNoteOff
 
         this.isActivelyPlaying = false;
     }
@@ -138,12 +146,24 @@ export default class Voice {
         return (oscIndex % 2 == 0) ? detune : -detune;
     }
 
-    stopPlayingOsc(playingOsc: OscillatorNode[]) {
+    getAmpEnvelope() {
+        return this.ampEnvelope;
+    }
+
+    getFilterEnvelope() {
+        return this.filterEnvelope;
+    }
+
+    stopPlayingOsc(playingOsc: any[]) {
         for (var i = 0; i < playingOsc.length; i++) {
             const osc = playingOsc[i];
             osc?.stop();
             osc?.disconnect();
         }
+    }
+
+    stopPlayingFilters(playingFilters: any[]) {
+        
     }
 
     resetOscillators() {

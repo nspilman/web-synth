@@ -50,16 +50,16 @@ const useStateWrapper = (initialState: IKeyboardContextSignature) => {
         // Envelope State Changes
         const newEnvelopeParameters = newAudioContextParameters.envelopeParameters;
         if(envelopeParameters.attackMs != newEnvelopeParameters.attackMs) {
-            audioContextWrapper.setAttackMs(newEnvelopeParameters.attackMs);
+            audioContextWrapper.setAmpEnvAttackMs(newEnvelopeParameters.attackMs);
         }
         if(envelopeParameters.decayMs != newEnvelopeParameters.decayMs) {
-            audioContextWrapper.setDecayMs(newEnvelopeParameters.decayMs);
+            audioContextWrapper.setAmpEnvDecayMs(newEnvelopeParameters.decayMs);
         }
         if(envelopeParameters.sustain != newEnvelopeParameters.sustain) {
-            audioContextWrapper.setSustain(newEnvelopeParameters.sustain);
+            audioContextWrapper.setAmpEnvSustain(newEnvelopeParameters.sustain);
         }
         if(envelopeParameters.releaseMs != newEnvelopeParameters.releaseMs) {
-            audioContextWrapper.setReleaseMs(newEnvelopeParameters.releaseMs);
+            audioContextWrapper.setAmpEnvReleaseMs(newEnvelopeParameters.releaseMs);
         }
 
       regularSetState((prevState: IKeyboardContextSignature)  => ({

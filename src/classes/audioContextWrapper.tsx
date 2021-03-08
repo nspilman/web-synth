@@ -136,27 +136,51 @@ class AudioContextWrapper {
         }
     }
 
-    setAttackMs(attackMs: number) {
+    setAmpEnvAttackMs(attackMs: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setAttackTimeInSec(attackMs / 1000);
+            this.voices[i].getAmpEnvelope().setAttackTimeInSec(attackMs / 1000);
         }
     }
 
-    setDecayMs(decayMs: number) {
+    setAmpEnvDecayMs(decayMs: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setDecayTimeInSec(decayMs / 1000);
+            this.voices[i].getAmpEnvelope().setDecayTimeInSec(decayMs / 1000);
         }
     }
 
-    setSustain(sustain: number) {
+    setAmpEnvSustain(sustain: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setSustainGain(sustain);
+            this.voices[i].getAmpEnvelope().setSustainGain(sustain);
         }
     }
 
-    setReleaseMs(releaseMs: number) {
+    setFilterEnvReleaseMs(releaseMs: number) {
         for (var i = 0; i < this.voices.length; i++) {
-            this.voices[i].envelope.setReleaseTimeInSec(releaseMs / 1000);
+            this.voices[i].getFilterEnvelope().setReleaseTimeInSec(releaseMs / 1000);
+        }
+    }
+
+    setFilterEnvAttackMs(attackMs: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].getFilterEnvelope().setAttackTimeInSec(attackMs / 1000);
+        }
+    }
+
+    setFilterEnvDecayMs(decayMs: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].getFilterEnvelope().setDecayTimeInSec(decayMs / 1000);
+        }
+    }
+
+    setFilterEnvSustain(sustain: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].getFilterEnvelope().setSustainGain(sustain);
+        }
+    }
+
+    setAmpEnvReleaseMs(releaseMs: number) {
+        for (var i = 0; i < this.voices.length; i++) {
+            this.voices[i].getAmpEnvelope().setReleaseTimeInSec(releaseMs / 1000);
         }
     }
 
