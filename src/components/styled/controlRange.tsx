@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import colors from "../../data/colors";
 
 // Code mostly copied from https://codesandbox.io/s/input-range-custom-styled-components-x149y?from-embed=&file=/src/index.js:753-960
 
@@ -8,10 +9,10 @@ const thumbHeight = 20;
 const trackHeight = ".5rem";
 
 // colours
-const upperColor = "rgb(0,0,0)";
-const lowerColor = "rgb(0,20,20)";
-const thumbColor = "rgb(230,230,230)";
-const thumbHoverColor = "rgb(60,20,20)";
+const upperColor = colors.black;
+const lowerColor = colors.black;
+const thumbColor = colors.white;
+const thumbHoverColor = colors.brown;
 const upperBackground = `linear-gradient(to bottom, ${upperColor}, ${upperColor}) 100% 50% / 100% ${trackHeight} no-repeat transparent`;
 const lowerBackground = `linear-gradient(to bottom, ${lowerColor}, ${lowerColor}) 100% 50% / 100% ${trackHeight} no-repeat transparent`;
 

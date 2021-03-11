@@ -1,7 +1,8 @@
 import styled from 'styled-components'
+import colors from "../../data/colors"
 
 const ControlButton = styled.div`
-background-color:rgb(230,230,230);
+background-color: ${colors.offWhite};
 margin:.1rem;
 display:flex;
 padding:.2rem .5rem;
@@ -9,7 +10,7 @@ align-items:center;
 border-radius:.3rem;
 justify-content:center;
 &:hover{
-    background-color:rgb(90,20,20);
+    background-color:${colors.brown};
     color:white;
     cursor:pointer;
 }

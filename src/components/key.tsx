@@ -2,11 +2,10 @@ import styled from "styled-components";
 import React, { useContext, useState } from 'react';
 import stopNote from '../hooks/stopNote';
 import playNote from '../hooks/playNote';
-import keyboardToNoteHash from "../data/keyboardToNoteHash"
+import keyboardToNoteHash from "../data/keyboardToNoteHash";
+import colors from "../data/colors";
 
 import { KeyboardContext } from "../hooks/keyboardContext";
-
-const playingNoteBackgroundColor = 'rgb(90,20,20)';
 
 interface StyledKeyProps {
     isPlaying : boolean,
@@ -26,24 +25,24 @@ const StyledKey = styled.li`
 const StyledNatural = styled(StyledKey)`
     height: 14rem;
     width: 8rem;
-    background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor : 'rgb(250,250,250)'};
-    color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(90,20,20)'};
+    background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.brown : colors.white};
+    color:${(props: StyledKeyProps) => props.isPlaying ? colors.offWhite : colors.brown};
     z-index: 1;
-    border:1px rgb(200,200,200) solid;
+    border:1px ${colors.gray} solid;
     &:hover{
-        background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor : 'rgb(230,230,230)'};
+        background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.brown : colors.offWhite};
     }
 `
 
 const StyledFlat = styled(StyledKey)`
     height: 7rem;
     width: 4rem;
-    background-color: ${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor :'rgb(20,20,20)'};
-    color:${(props: StyledKeyProps) => props.isPlaying ? 'rgb(230,230,230)' : 'rgb(0,0,0)'};
+    background-color: ${(props: StyledKeyProps) => props.isPlaying ? colors.brown :colors.black};
+    color:${(props: StyledKeyProps) => props.isPlaying ? colors.offWhite : colors.black};
     margin:0 -2em;
     z-index: 2;
     &:hover{
-        background-color:${(props: StyledKeyProps) => props.isPlaying ? playingNoteBackgroundColor: 'rgb(170,120,100)'};
+        background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.brown: colors.hoverColor};
     }
 `
 
@@ -55,7 +54,7 @@ interface KeyProps {
 function Key({ note, isMouseDown }: KeyProps) {
     const { audioContextWrapper } = useContext(KeyboardContext)
     const [isPlaying, setIsPlaying] = useState(false)
-    const isFlat = note.endsWith('b')
+    const isFlat : boolean = note.endsWith('b')
   
     const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
         const triggeredNote = keyboardToNoteHash[key];

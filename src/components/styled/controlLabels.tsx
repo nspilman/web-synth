@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import colors from "../../data/colors"
 
 const ControlLabel = styled.span`
     font-weight:bold;
-    color:rgb(230,230,240);
+    color:${colors.offWhite};
     padding:.3rem;
-
 `
 
 export default ControlLabel;
