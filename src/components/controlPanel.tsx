@@ -8,6 +8,7 @@ import DistortionControl from "./controls/distortionControl";
 import FilterControl from './controls/filterControl';
 import OscillatorsControl from './controls/oscillatorsControl';
 import EnvelopeControl from './controls/envelopeControl';
+import colors from "../data/colors";
 
 const StyledControlPanel = styled.div`
     display:flex;
@@ -24,11 +25,11 @@ interface StyledTabButtonProps {
 
 const StyledTabButton = styled.button`
     padding:.5rem .75rem;
-    background-color: ${(props: StyledTabButtonProps) => props.isSelected ? 'rgb(230,230,230)' : 'rgb(90,20,20)'};
-    color: ${(props: StyledTabButtonProps) => props.isSelected ? 'rgb(90,20,20)' : 'rgb(230,230,230)'};
+    background-color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.offWhite : colors.brown};
+    color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.brown : colors.offWhite};
     border-radius:10px;
     :hover{
-        background-color:${(props: StyledTabButtonProps) => !props.isSelected && 'rgb(170,120,100)'};
+        background-color:${(props: StyledTabButtonProps) => !props.isSelected && colors.hoverColor};
     }
     `
 
@@ -37,7 +38,7 @@ const StyledTab = styled.div`
     padding-top:1rem;
 `
 const StyledControlsLabel = styled.span`
-    color:rgb(230,230,230);
+    color:${colors.offWhite};
     padding:.5rem .75rem;
     font-weight:bold;
 `
