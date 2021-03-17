@@ -13,10 +13,10 @@ const getDefaultContextWrapper = () : IAudioContextParameters => {
     const initialNumOscillators = 1;
     const initialOscillatorUnisonDetune = 0;
     const initialNoiseGain = 0;
-    const initialAttackMs = 0.01;
-    const initialDecayMs = 0.01;
-    const initialSustain = 1.0;
-    const initialReleaseMs = 0.01;
+    const initialAttackMs = 1;
+    const initialDecayMs = 1;
+    const initialSustain = 1000;
+    const initialReleaseMs = 1;
     
     const defaultContextWrapperValues : IAudioContextParameters = {
         gain : initialGain,
