@@ -65,11 +65,12 @@ export const filterQParameters = createParametersObject(
     20000,
     "Q",
     "filterQ",
-    defaultValues.filterParameters.q
+    defaultValues.filterParameters.q,
+    1000
 )
 
 export const oscDetuneParameters = createParametersObject(
-    1,
+    0,
     100,
     "UNISON DETUNE",
     "oscUnisonDetune",
