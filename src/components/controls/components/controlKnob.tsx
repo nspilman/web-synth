@@ -16,10 +16,12 @@ export default function ControlKnob({
     setValue, 
     max = 10, 
     min = 0,
-    step = 1,
     diameter = 40
 } : ControlKnobProps) {
     const [localValue, setLocalValue] = useState(value);
+    const step = 1;
+    const jumpLimit = .1;
+
     useEffect(() => {
         setValue(localValue)
     },[localValue])
@@ -33,7 +35,7 @@ export default function ControlKnob({
             defaultColor: colors.brown,
             activeColor: colors.hoverColor
         }}
-        jumpLimit={.1}
+        jumpLimit={jumpLimit}
         onValueChange={(newValue) => setLocalValue(newValue)}
         ariaLabelledBy={'controlKnob'}
     >

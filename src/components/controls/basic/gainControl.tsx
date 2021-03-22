@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
-import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
+import React, { useContext, useState, useEffect } from 'react';
+import { KeyboardContext } from "../../../hooks/keyboardContext";
 import styled from "styled-components";
-import StyledLabel from "../styled/controlLabels";
-import StyledButton from "../styled/controlButton";
-import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
+import StyledLabel from "../../styled/controlLabels";
+import StyledButton from "../../styled/controlButton";
+import IKeyboardContextSignature from "../../../interfaces/IKeyboardContextSignature";
+import localStorageService from "../../../services/localStorageService";
 
 const StyledGainControl = styled.div`
     display:flex;
@@ -17,26 +18,26 @@ const maxGain = 1;
 const gainStep = 0.1;
 
 function GainControl() {
+    const localStorageKey = 'gain';
     const state : IKeyboardContextSignature = useContext(KeyboardContext);
-    const { audioContextParameters } = state;
-    const newAudioContextParameters = {...audioContextParameters }
-    const setState = useContext(UpdateKeyboardContext);
+    const { audioContextWrapper } = state;
 
-    const setGainAndState = (newValue: number) => {
-        newAudioContextParameters.gain = newValue;
-        setState({ ...state, audioContextParameters :newAudioContextParameters })
-    }
+    let initialGain = localStorageService.getNumberByKey(localStorageKey) ?? .2;
+    const [gain, setGain] = useState(initialGain);
 
-    const { gain } = audioContextParameters;
+    useEffect(() : void=> {
+        audioContextWrapper.setGain(gain);
+        localStorageService.setValueByKey(localStorageKey, gain.toString())
+    })
 
     const decrementGain = () => {
         const newValue = (gain - gainStep < minGain) ? minGain : gain - gainStep;
-        setGainAndState(newValue)
+        setGain(newValue)
     }
 
     const incrementGain = () => {
         const newValue = (gain + gainStep > maxGain) ? maxGain : gain + gainStep;
-        setGainAndState(newValue)
+        setGain(newValue)
     }
 
     return (
