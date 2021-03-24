@@ -37,11 +37,12 @@ export const envelopeDecayParameters = createParametersObject(
 ) 
 
 export const envelopeSustainParameters  = createParametersObject(
-    0,
+    1,
     1000,
     "SUSTAIN",
     "envelopeSustainMs",
-    defaultValues.envelopeParameters.sustain
+    defaultValues.envelopeParameters.sustain,
+    1000
 )
 
 export const envelopeReleaseParameters  = createParametersObject(
@@ -62,11 +63,11 @@ export const filterFrequencyParameters = createParametersObject(
 
 export const filterQParameters = createParametersObject(
     1,
-    20000,
+    2000,
     "Q",
     "filterQ",
     defaultValues.filterParameters.q,
-    1000
+    100
 )
 
 export const oscDetuneParameters = createParametersObject(

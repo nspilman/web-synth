@@ -20,8 +20,8 @@ function DialControl(props : Props){
     
     const { setValue } = props;
                 
-    let initialOscCount = localStorageService.getNumberByKey(localStorageKey) ?? defaultValue;
-    const [state, setState] = useState(initialOscCount);
+    let intialState = localStorageService.getNumberByKey(localStorageKey) ?? defaultValue;
+    const [state, setState] = useState(intialState);
 
     useEffect(function(): void{
         setValue(state / (factor ?? 1));

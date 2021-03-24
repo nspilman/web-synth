@@ -19,7 +19,6 @@ const StyledEnvelopeControl = styled.div`
 
 function EnvelopeControl(){
    const { audioContextWrapper } :IKeyboardContextSignature = useContext(KeyboardContext);
-    console.log({audioContextWrapper})
    return (
         <StyledEnvelopeControl>
             <StyledLabel>
@@ -34,12 +33,12 @@ function EnvelopeControl(){
                 setValue = {(value) => audioContextWrapper.setDecayMs(value) }
             />
             <DialControl 
-                parameters = {envelopeReleaseParameters}
-                setValue = {(value) => audioContextWrapper.setReleaseMs(value)}
-            />
-            <DialControl 
                 parameters = {envelopeSustainParameters}
                 setValue = {(value) => audioContextWrapper.setSustain(value)}
+            />
+            <DialControl 
+                parameters = {envelopeReleaseParameters}
+                setValue = {(value) => audioContextWrapper.setReleaseMs(value)}
             />
         </StyledEnvelopeControl>
     )
