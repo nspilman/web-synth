@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 
-import OctaveControl from './controls/octaveControl';
-import WaveControl from './controls/waveControl';
-import GainControl from "./controls/gainControl";
-import DistortionControl from "./controls/distortionControl";
-import FilterControl from './controls/filterControl';
-import OscillatorsControl from './controls/oscillatorsControl';
-import EnvelopeControl from './controls/envelopeControl';
+import FilterControlsWrapper from './controls/filterControlsWrapper';
+import OscControlsWrapper from './controls/OscControlsWrapper';
+import EnvelopeControlsWrapper from './controls/envelopeControlsWrapper';
+import BasicControlsWrapper from "./controls/basicControlsWrapper"
 import colors from "../data/colors";
 
 const StyledControlPanel = styled.div`
@@ -55,22 +52,16 @@ function ControlPanel() {
     const renderCurrentTab = () : JSX.Element => {
         switch(currentTab) {
             case panelTabs.basic:
-                return (
-                    <div id = "main" style={{display:'flex'}}>
-                    <OctaveControl />
-                    <WaveControl />
-                    <GainControl />
-                    <DistortionControl />
-                </div>)
+                return <BasicControlsWrapper/>;
               break;
             case panelTabs.envelope:
-                return <EnvelopeControl />
+                return <EnvelopeControlsWrapper />
                 break;
             case panelTabs.oscillator:
-                return <OscillatorsControl />
+                return <OscControlsWrapper />
                 break;
             case panelTabs.filter:
-                return <FilterControl />
+                return <FilterControlsWrapper />
             default:
               return <div>Error Loading Controls</div>
           }
@@ -84,6 +75,7 @@ function ControlPanel() {
                 {
                 Object.keys(panelTabs).map(
                     tab => <StyledTabButton
+                        key={ tab }
                         isSelected = {tab === currentTab}
                         onClick = {() => setTab(tab as panelTabs)}
                     >{tab}</StyledTabButton>

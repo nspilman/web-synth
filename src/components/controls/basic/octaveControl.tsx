@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
-import { KeyboardContext, UpdateKeyboardContext } from "../../hooks/keyboardContext";
+import React, { useContext, useState, useEffect } from 'react';
+import { KeyboardContext } from "../../../hooks/keyboardContext";
 import styled from "styled-components";
-import StyledLabel from "../styled/controlLabels";
-import StyledButton from "../styled/controlButton";
-import IKeyboardContextSignature from "../../interfaces/IKeyboardContextSignature";
+import StyledLabel from "../../styled/controlLabels";
+import StyledButton from "../../styled/controlButton";
+import IKeyboardContextSignature from "../../../interfaces/IKeyboardContextSignature";
+import localStorageService from "../../../services/localStorageService";
 
 const StyledOctaveControl = styled.div`
 display:flex;
@@ -17,23 +18,29 @@ const maxOctave = 8;
 
 function OctaveControl() {
     const state : IKeyboardContextSignature = useContext(KeyboardContext);
-    const { audioContextParameters } = state;
-    const newAudioContextParameters = {... audioContextParameters};
+    const { audioContextWrapper } = state;
 
-    const { octave } = audioContextParameters;
-    const updateContext = useContext(UpdateKeyboardContext);
+    const localStorageKey = 'octave';
+    let initialOctave = localStorageService.getNumberByKey(localStorageKey) ?? 4;
+
+    const [octave, setOctave] = useState(initialOctave);
+
+    useEffect(() : void=> {
+        audioContextWrapper.octave = octave;
+        localStorageService.setValueByKey(localStorageKey, octave.toString())
+    })
 
     const decrementOctave = () => {
-        const newValue = (octave - 1 < minOctave) ? minOctave : octave - 1;
-        newAudioContextParameters.octave = newValue;
-        updateContext({...state,audioContextParameters:newAudioContextParameters})
+        if(octave !== minOctave){
+            setOctave(octave - 1)
+        }
     }
 
     const incrementOctave = () => {
-        const newValue = (octave + 1 > maxOctave) ? maxOctave : octave + 1;
-        newAudioContextParameters.octave = newValue;
-        updateContext({...state,audioContextParameters:newAudioContextParameters})
-    }
+        if(octave !== maxOctave){
+            setOctave(octave + 1)
+        }
+    }  
 
     return (
         <StyledOctaveControl id="OctaveControl">
