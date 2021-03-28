@@ -1,27 +1,32 @@
 
-import React, { useState, useEffect, useContext } from 'react'
-import { KeyboardContext } from "../../../hooks/keyboardContext";
-import IKeyboardContextSignature from "../../../interfaces/IKeyboardContextSignature";
+import React, { Dispatch } from 'react'
 import StyledSelect from "../../styled/controlSelect";
 import { getAllFilterTypes } from '../../../data/filterTypes';
+import { useSelector, useDispatch } from 'react-redux';
+import { AudioControllerAction, filterActionTypes } from '../../../store/actions/audioControllerAction';
+import { AppState } from '../../../store/reducers';
 
 function FilterTypeControl(){
-    const localStorageKey = 'filterType';
     const filterTypeOptions = getAllFilterTypes();
-    
-    const { audioContextWrapper }: IKeyboardContextSignature = useContext(KeyboardContext);
-    let initialFilterType = localStorage.getItem(localStorageKey) ?? filterTypeOptions[0];
-    const [filterType, setFilterType] = useState(initialFilterType);
 
-    useEffect((): void => {
-        localStorage.setItem(localStorageKey, filterType);
-        audioContextWrapper.setFilterType(filterType as BiquadFilterType);
-    })
+    const { audioContext, filter } = useSelector((state: AppState) => state);
+    const { type } = filter;
+    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+
+    const setFilterType = (filterType : BiquadFilterType) => {
+            const payload: AudioControllerAction = {
+                type: filterActionTypes.SET_TYPE,
+                payload: filterType,
+                setAudioController: () => audioContext.setFilterType(filterType),
+            }
+            dispatch(payload)
+        }
 
     return( 
         <div>
             <StyledSelect id="filter-select-id" className="filter-select"
-                onChange={(e) => setFilterType(e.target.value)}
+                onChange={(e) => setFilterType(e.target.value as BiquadFilterType)}
+                value={type}
             >
                 {filterTypeOptions.map(filter => <option value={filter} key={filter}>{filter}</option>)}
             </StyledSelect>

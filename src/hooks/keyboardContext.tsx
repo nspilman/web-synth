@@ -1,14 +1,9 @@
 
 import React, { createContext, useState } from 'react';
-import AudioContextWrapper from '../classes/audioContextWrapper';
-import IAudioContextParameters from "../interfaces/IAudioContextParameters";
 import IKeyboardContextSignature from "../interfaces/IKeyboardContextSignature";
-import getDefaultContextWrapperValues from "./getDefaultContextWrapperValues";
 
-const defaultContextWrapperValues  : IAudioContextParameters = getDefaultContextWrapperValues();
 const defaultState : IKeyboardContextSignature = {
     setIsClicked: false,
-    audioContextWrapper: new AudioContextWrapper(defaultContextWrapperValues)
 }
 
 interface KeyboardProviderType {

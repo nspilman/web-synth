@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import stopNote from '../hooks/stopNote';
 import playNote from '../hooks/playNote';
 import keyboardToNoteHash from "../data/keyboardToNoteHash";
 import colors from "../data/colors";
-
-import { KeyboardContext } from "../hooks/keyboardContext";
+import { useSelector } from 'react-redux';
+import { AppState } from "../store/reducers";
 
 interface StyledKeyProps {
     isPlaying : boolean,
@@ -52,12 +52,13 @@ interface KeyProps {
 }
 
 function Key({ note, isMouseDown }: KeyProps) {
-    const { audioContextWrapper } = useContext(KeyboardContext)
+    const audioContext = useSelector((state: AppState) => state.audioContext);
+
     const [isPlaying, setIsPlaying] = useState(false)
     const isFlat : boolean = note.endsWith('b')
   
     const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
-        const triggeredNote = keyboardToNoteHash[key];
+        const triggeredNote = keyboardToNoteHash[key.toLowerCase()];
         if(note === triggeredNote){
             playAndSetPlaying(note)
         }
@@ -72,11 +73,11 @@ function Key({ note, isMouseDown }: KeyProps) {
 
     const playAndSetPlaying = (note : string) => {
         setIsPlaying(true)
-        playNote(audioContextWrapper, note)
+        playNote(audioContext, note)
     }
 
     const stopAndSetStopped = ( note : string) => {
-        stopNote(audioContextWrapper, note)
+        stopNote(audioContext, note)
         setIsPlaying(false)
     }
 

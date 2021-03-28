@@ -23,7 +23,7 @@ class AudioContextWrapper {
             filterParameters,
             oscillatorParameters,
             envelopeParameters,
-            waveForm, 
+            waveform, 
             octave, 
             noiseGain,
         } = defaultParameters
@@ -39,7 +39,7 @@ class AudioContextWrapper {
         this.waveshaperNode.waveshaperNode.connect(this.masterGainNode);
 
         this.masterGainNode.connect(this.audioContext.destination);
-        this.waveform = waveForm;
+        this.waveform = waveform;
         this.octave = octave;
 
         this.voices = getAllFrequencies(0,8).map(
@@ -98,6 +98,14 @@ class AudioContextWrapper {
 
     setGain(newGain : number){
         this.masterGainNode.gain.value = newGain;
+    }
+
+    setWaveform(newWaveform: OscillatorType){
+        this.waveform = newWaveform;
+    }
+    
+    setOctave(octave: number){
+        this.octave = octave;
     }
 
     setFilterType(newType : BiquadFilterType) {
