@@ -1,11 +1,8 @@
-import React, { useState, useEffect, Dispatch, useContext } from 'react';
+import React, { Dispatch } from 'react';
 import { getAllWaveTypes } from "../../../data/waveforms";
 import styled from "styled-components";
 import StyledLabel from "../../styled/controlLabels";
 import StyledSelect from "../../styled/controlSelect";
-import IKeyboardContextSignature from "../../../interfaces/IKeyboardContextSignature";
-
-import { KeyboardContext, UpdateKeyboardContext } from "../../../hooks/keyboardContext";
 import { useDispatch, useSelector } from 'react-redux';
 import { AudioControllerAction, basicActionTypes } from '../../../store/actions/audioControllerAction';
 import { AppState } from '../../../store/reducers';

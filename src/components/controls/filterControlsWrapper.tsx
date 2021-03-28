@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
-import DialControl from "./components/dialControlRedux";
+import DialControl from "./components/dialControl";
 import FilterTypeControl from "./filter/filterTypeControl";
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
@@ -47,21 +47,13 @@ function FilterControl() {
             </StyledLabel>
             <FilterTypeControl/>
             <DialControl
-                parameters={{
-                    min: filterFrequencyParameters.min,
-                    max: filterFrequencyParameters.max,
-                    title: "FREQ",
-                    value: freq,
-                }}
+                parameters={filterFrequencyParameters}
+                value={freq}
                 setValue={(value) => setFreq(value)}
             />
             <DialControl
-                parameters={{
-                    min: filterQParameters.min,
-                    max: filterQParameters.max,
-                    title: "Q",
-                    value: q
-                }}
+                parameters={filterQParameters}
+                value={q}
                 setValue={(value) => setQ(value)}
             />
         </StyledFilterControl>

@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import OscillatorCountControl from "./oscillator/oscillatorCountControl"
-import DialControl from "./components/dialControlRedux"
+import DialControl from "./components/dialControl"
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
 import { AudioControllerAction, oscillatorActionTypes } from "../../store/actions/audioControllerAction";
@@ -43,21 +43,13 @@ function OscillatorsControl() {
         <StyledOscillatorsControl id="OscillatorsControl">
             <OscillatorCountControl/>
             <DialControl
-               parameters={{
-                min: oscDetuneParameters.min,
-                max: oscDetuneParameters.max,
-                title: "DETUNE",
-                value: detune
-            }}
-            setValue={(value) => setDetune(value)} />
+               parameters={oscDetuneParameters}
+               value={detune}
+               setValue={(value) => setDetune(value)} />
          <DialControl
-               parameters={{
-                min: noiseLevelParameters.min,
-                max: noiseLevelParameters.max,
-                title: "NOISE",
-                value: noiseGain
-            }}
-            setValue={(value) => setNoise(value)} />
+               parameters={noiseLevelParameters}
+               value={noiseGain}
+               setValue={(value) => setNoise(value)} />
         </StyledOscillatorsControl>
     )
 }

@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react';
 import styled from "styled-components";
-import DialControl from "./components/dialControlRedux"
+import DialControl from "./components/dialControl"
 import OctaveControl from './basic/octaveControl';
 import WaveControl from './basic/waveControl';
 import GainControl from "./basic/gainControl";
@@ -39,12 +39,8 @@ function BasicControlsWrapper(){
             <OctaveControl/>
             <GainControl/>
             <DialControl 
-                parameters = {{
-                    min: distortionParameters.min,
-                    max: distortionParameters.max,
-                    title: "DISTORTION",
-                    value: distortion
-                }}
+                parameters = {distortionParameters}
+                value = {distortion}
                 setValue = {(newDistortionValue) => setDistortionAmount(newDistortionValue) }
             />
         </StyledEnvelopeControl>

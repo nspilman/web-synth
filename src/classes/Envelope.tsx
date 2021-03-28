@@ -9,7 +9,7 @@ class Envelope {
 
     constructor(gainNode: GainNode, audioContext: AudioContext) {
         this.attack = 0.01; // 10ms
-        this.decay = 0.1; // 100ms
+        this.decay = 0.001; // 100ms
         this.sustain = 1.0;
         this.release = 0.01; // 10ms
         this.gainNode = gainNode;

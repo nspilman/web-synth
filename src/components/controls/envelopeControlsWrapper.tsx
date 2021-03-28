@@ -4,7 +4,7 @@ import { AppState } from "../../store/reducers";
 import { AudioControllerAction, envelopeActionTypes } from "../../store/actions/audioControllerAction";
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
-import DialControl from "./components/dialControlRedux"
+import DialControl from "./components/dialControl"
 import {
     envelopeAttackParameters,
     envelopeDecayParameters,
@@ -65,39 +65,23 @@ function EnvelopeControl() {
                 ENVELOPE
             </StyledLabel>
             <DialControl
-                parameters={{
-                    min: envelopeAttackParameters.min,
-                    max: envelopeAttackParameters.max,
-                    title: "ATTACK",
-                    value: attackMs
-                }}
+                parameters={envelopeAttackParameters}
+                value = {attackMs}
                 setValue={(value) => setAttackMs(value)}
             />
             <DialControl
-                parameters={{
-                    min: envelopeDecayParameters.min,
-                    max: envelopeDecayParameters.max,
-                    title: "DECAY",
-                    value: decayMs
-                }}
+                parameters={envelopeDecayParameters}
+                value = {decayMs}
                 setValue={(value) => setDecayMs(value)}
             />
             <DialControl
-                parameters={{
-                    min: envelopeSustainParameters.min,
-                    max: envelopeSustainParameters.max,
-                    title: "SUSTAIN",
-                    value: sustain
-                }}
+                parameters={envelopeSustainParameters}
+                value = {sustain}
                 setValue={(value) => setSustain(value)}
             />
             <DialControl
-                parameters={{
-                    min: envelopeReleaseParameters.min,
-                    max: envelopeReleaseParameters.max,
-                    title: "RELEASE",
-                    value: releaseMs
-                }}
+                parameters={envelopeReleaseParameters}
+                value = {releaseMs}
                 setValue={(value) => setReleaseMs(value)}
             />
         </StyledEnvelopeControl>

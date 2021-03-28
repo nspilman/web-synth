@@ -7,9 +7,9 @@ type Props = {
     parameters : {
         min : number,
         max: number,
-        value: number,
         title: string,
     },
+    value: number,
     setValue : (value: number) => void;
 }
 
@@ -17,10 +17,9 @@ function DialControl(props : Props){
     const { min, 
             max, 
             title, 
-            value, 
         } = props.parameters;
     
-    const { setValue } = props;
+    const { value, setValue } = props;
 
     const localSetvalue = (value: number) =>{
          setValue(value)

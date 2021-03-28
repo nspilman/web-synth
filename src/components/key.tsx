@@ -48,10 +48,9 @@ const StyledFlat = styled(StyledKey)`
 
 interface KeyProps {
     note: string,
-    isMouseDown: boolean,
 }
 
-function Key({ note, isMouseDown }: KeyProps) {
+function Key({ note }: KeyProps) {
     const audioContext = useSelector((state: AppState) => state.audioContext);
 
     const [isPlaying, setIsPlaying] = useState(false)
@@ -65,7 +64,7 @@ function Key({ note, isMouseDown }: KeyProps) {
     }
 
     const parseAndStopKeyCommand = ({key} : KeyboardEvent) => {
-        const note = keyboardToNoteHash[key];
+        const note = keyboardToNoteHash[key.toLowerCase()];
         if(note){
             stopAndSetStopped(note)
         }
@@ -76,7 +75,7 @@ function Key({ note, isMouseDown }: KeyProps) {
         playNote(audioContext, note)
     }
 
-    const stopAndSetStopped = ( note : string) => {
+    const stopAndSetStopped = (note : string) => {
         stopNote(audioContext, note)
         setIsPlaying(false)
     }
@@ -90,7 +89,6 @@ function Key({ note, isMouseDown }: KeyProps) {
             onMouseDown : () => playAndSetPlaying ( note ),
             onMouseLeave : () => stopAndSetStopped ( note ),
             onMouseUp : () => stopAndSetStopped ( note ),
-            onMouseEnter : () => isMouseDown ?? playAndSetPlaying ( note ),
         },
         note)
         )

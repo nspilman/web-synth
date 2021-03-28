@@ -27,6 +27,7 @@ const BasicReducer = (state: BasicState = initialState, action: AudioControllerA
             }
         case basicActionTypes.SET_WAVEFORM:
             action.setAudioController(action.payload);
+            console.log({action})
             return {
                 ...state,
                 waveform: action.payload,
