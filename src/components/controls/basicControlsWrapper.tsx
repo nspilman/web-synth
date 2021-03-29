@@ -6,7 +6,7 @@ import WaveControl from './basic/waveControl';
 import GainControl from "./basic/gainControl";
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, basicActionTypes } from "../../store/actions/audioControllerAction";
+import { AudioControllerAction, createSetDistortion } from "../../store/actions/audioControllerAction";
 
 import { 
     distortionParameters, 
@@ -19,17 +19,12 @@ const StyledEnvelopeControl = styled.div`
 `
 
 function BasicControlsWrapper(){
-   const { audioContext } = useSelector((state: AppState) => state);
    const { distortion } = useSelector((state: AppState) => state.basic);
    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
-   const setDistortionAmount = (amount : number) => {
+   const setDistortionAmount = (newDistortion : number) => {
     {
-        const payload: AudioControllerAction = {
-            type: basicActionTypes.SET_DISTORTION,
-            payload: amount,
-            setAudioController: () => audioContext.setDistortionAmount(amount),
-        }
+        const payload: AudioControllerAction = createSetDistortion(newDistortion)
         dispatch(payload)
    }}
 

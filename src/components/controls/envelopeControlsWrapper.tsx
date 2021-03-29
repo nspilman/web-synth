@@ -1,7 +1,6 @@
 import React, { Dispatch } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from "../../store/reducers";
-import { AudioControllerAction, envelopeActionTypes } from "../../store/actions/audioControllerAction";
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
 import DialControl from "./components/dialControl"
@@ -10,7 +9,14 @@ import {
     envelopeDecayParameters,
     envelopeReleaseParameters,
     envelopeSustainParameters
-} from "../../data/dialControlParmeters"
+} from "../../data/dialControlParmeters";
+import { 
+    AudioControllerAction, 
+    createSetAttackMs, 
+    createSetDecayMs, 
+    createSetRelease, 
+    createSetSustain 
+} from "../../store/actions/audioControllerAction";
 
 const StyledEnvelopeControl = styled.div`
     display:flex;
@@ -20,42 +26,24 @@ const StyledEnvelopeControl = styled.div`
 
 function EnvelopeControl() {
     const { attackMs, decayMs, sustain, releaseMs } = useSelector((state: AppState) => state.envelope);
-    const  audioContext  = useSelector((state: AppState) => state.audioContext);
     const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
-
     const setAttackMs = (attackMs: number) => {
-        const payload: AudioControllerAction = {
-            type: envelopeActionTypes.SET_ATTACK,
-            payload: attackMs,
-            setAudioController: () => audioContext.setAttackMs(attackMs),
-        }
+        const payload : AudioControllerAction = createSetAttackMs(attackMs)
         dispatch(payload);
     }
 
     const setDecayMs = (decayMs: number) => {
-        const payload: AudioControllerAction = {
-            type: envelopeActionTypes.SET_DECAY,
-            payload: decayMs,
-            setAudioController: () => audioContext.setDecayMs(decayMs),
-        }
+        const payload: AudioControllerAction = createSetDecayMs(decayMs)
         dispatch(payload);
     }
 
     const setSustain = (sustain: number) => {
-        const payload: AudioControllerAction = {
-            type: envelopeActionTypes.SET_SUSTAIN,
-            payload: sustain,
-            setAudioController: () => audioContext.setSustain(sustain),
-        }
+        const payload: AudioControllerAction = createSetSustain(sustain);
         dispatch(payload);
     }
 
     const setReleaseMs = (releaseMs: number) => {
-        const payload: AudioControllerAction = {
-            type: envelopeActionTypes.SET_RELEASE,
-            payload: releaseMs,
-            setAudioController: () => audioContext.setReleaseMs(releaseMs),
-        }
+        const payload: AudioControllerAction = createSetRelease(releaseMs);
         dispatch(payload);
     }
 

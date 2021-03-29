@@ -5,12 +5,12 @@ import DialControl from "./components/dialControl";
 import FilterTypeControl from "./filter/filterTypeControl";
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, filterActionTypes } from "../../store/actions/audioControllerAction";
+import { AudioControllerAction, createSetFilterFreq, createSetFilterQ } from "../../store/actions/audioControllerAction";
 
 import {
     filterFrequencyParameters,
     filterQParameters,
-} from "../../data/dialControlParmeters"
+} from "../../data/dialControlParmeters";
 
 const StyledFilterControl = styled.div`
     display:flex;
@@ -20,24 +20,15 @@ const StyledFilterControl = styled.div`
 
 function FilterControl() {
     const { freq, q } = useSelector((state: AppState) => state.filter);
-    const { audioContext } = useSelector((state: AppState) => state);
     const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
     const setFreq = (freq: number) => {
-        const payload: AudioControllerAction = {
-            type: filterActionTypes.SET_FREQ,
-            payload: freq,
-            setAudioController: () => audioContext.setFilterFreq(freq),
-        }
+        const payload: AudioControllerAction = createSetFilterFreq(freq);
         dispatch(payload)
     }
 
     const setQ = (q: number) => {
-        const payload: AudioControllerAction = {
-            type: filterActionTypes.SET_Q,
-            payload: q,
-            setAudioController: () => audioContext.setFilterQ(q),
-        }
+        const payload: AudioControllerAction = createSetFilterQ(q);
         dispatch(payload)
     }
     return (

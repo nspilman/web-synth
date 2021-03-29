@@ -4,12 +4,12 @@ import OscillatorCountControl from "./oscillator/oscillatorCountControl"
 import DialControl from "./components/dialControl"
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, oscillatorActionTypes } from "../../store/actions/audioControllerAction";
+import { AudioControllerAction, createSetNoise, createSetOscDetune } from "../../store/actions/audioControllerAction";
 
 import { 
     noiseLevelParameters, 
     oscDetuneParameters, 
-} from "../../data/dialControlParmeters"
+} from "../../data/dialControlParmeters";
 
 const StyledOscillatorsControl = styled.div`
     display:flex;
@@ -18,24 +18,15 @@ const StyledOscillatorsControl = styled.div`
 
 function OscillatorsControl() {
     const { detune, noiseGain } = useSelector((state: AppState) => state.oscillator);
-    const { audioContext } = useSelector((state: AppState) => state);
     const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
-    const setDetune = (freq: number) => {
-        const payload: AudioControllerAction = {
-            type: oscillatorActionTypes.SET_DETUNE,
-            payload: freq,
-            setAudioController: () => audioContext.setOscillatorUnisonDetune(freq),
-        }
+    const setDetune = (detune: number) => {
+        const payload: AudioControllerAction = createSetOscDetune(detune)
         dispatch(payload)
     }
 
     const setNoise = (noise: number) => {
-        const payload: AudioControllerAction = {
-            type: oscillatorActionTypes.SET_NOISE,
-            payload: noise,
-            setAudioController: () => audioContext.setNoiseGain(noise),
-        }
+        const payload: AudioControllerAction = createSetNoise(noise);
         dispatch(payload)
     }
 
