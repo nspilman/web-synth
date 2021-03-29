@@ -25,11 +25,11 @@ export enum basicActionTypes {
     SET_WAVEFORM = "SET_WAVEFORM"
 }
 
-export interface IAudioControllerAction {
+interface IAudioControllerAction<T> {
     readonly type: envelopeActionTypes | filterActionTypes | oscillatorActionTypes | basicActionTypes;
-    payload: number | OscillatorType | BiquadFilterType;
-    setAudioController : (payload : number | OscillatorType | BiquadFilterType) => void;
+    payload: T,
+    setAudioController : (payload : T ) => void;
 }
 
 export type AudioControllerAction =
-| IAudioControllerAction
+| IAudioControllerAction<number | OscillatorType | BiquadFilterType>
