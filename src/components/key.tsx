@@ -1,11 +1,8 @@
 import styled from "styled-components";
 import React, { useState } from 'react';
-import stopNote from '../hooks/stopNote';
-import playNote from '../hooks/playNote';
+import { playNote, stopNote } from '../hooks/noteHook';
 import keyboardToNoteHash from "../data/keyboardToNoteHash";
 import colors from "../data/colors";
-import { useSelector } from 'react-redux';
-import { AppState } from "../store/reducers";
 
 interface StyledKeyProps {
     isPlaying : boolean,
@@ -51,8 +48,6 @@ interface KeyProps {
 }
 
 function Key({ note }: KeyProps) {
-    const audioContext = useSelector((state: AppState) => state.audioContext);
-
     const [isPlaying, setIsPlaying] = useState(false)
     const isFlat : boolean = note.endsWith('b')
   
@@ -72,11 +67,11 @@ function Key({ note }: KeyProps) {
 
     const playAndSetPlaying = (note : string) => {
         setIsPlaying(true)
-        playNote(audioContext, note)
+        playNote(note)
     }
 
     const stopAndSetStopped = (note : string) => {
-        stopNote(audioContext, note)
+        stopNote(note)
         setIsPlaying(false)
     }
 
