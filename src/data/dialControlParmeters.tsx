@@ -62,7 +62,7 @@ export const noiseLevelParameters = createParametersObject(
     0,
     1,
     "NOISE GAIN",
-    10
+    100
 )
 
 export const distortionParameters = createParametersObject(
