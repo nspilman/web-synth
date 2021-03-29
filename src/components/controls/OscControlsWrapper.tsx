@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
-import IKeyboardContextSignature from '../../interfaces/IKeyboardContextSignature';
-import { KeyboardContext } from "../../hooks/keyboardContext";
+import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import OscillatorCountControl from "./oscillator/oscillatorCountControl"
 import DialControl from "./components/dialControl"
+import { AppState } from "../../store/reducers";
+import { useSelector, useDispatch } from 'react-redux';
+import { AudioControllerAction, oscillatorActionTypes } from "../../store/actions/audioControllerAction";
+
 import { 
     noiseLevelParameters, 
     oscDetuneParameters, 
@@ -15,18 +17,39 @@ const StyledOscillatorsControl = styled.div`
 `
 
 function OscillatorsControl() {
-    const { audioContextWrapper } : IKeyboardContextSignature = useContext(KeyboardContext)
+    const { detune, noiseGain } = useSelector((state: AppState) => state.oscillator);
+    const { audioContext } = useSelector((state: AppState) => state);
+    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+
+    const setDetune = (freq: number) => {
+        const payload: AudioControllerAction = {
+            type: oscillatorActionTypes.SET_DETUNE,
+            payload: freq,
+            setAudioController: () => audioContext.setOscillatorUnisonDetune(freq),
+        }
+        dispatch(payload)
+    }
+
+    const setNoise = (noise: number) => {
+        const payload: AudioControllerAction = {
+            type: oscillatorActionTypes.SET_NOISE,
+            payload: noise,
+            setAudioController: () => audioContext.setNoiseGain(noise),
+        }
+        dispatch(payload)
+    }
+
     return (
         <StyledOscillatorsControl id="OscillatorsControl">
             <OscillatorCountControl/>
             <DialControl
-                parameters={oscDetuneParameters}
-                setValue = {(newDetune) => audioContextWrapper.setOscillatorUnisonDetune(newDetune)}
-            />
-            <DialControl
-                parameters={noiseLevelParameters}
-                setValue = {(newNoiseGain) => audioContextWrapper.setNoiseGain(newNoiseGain)}
-            />
+               parameters={oscDetuneParameters}
+               value={detune}
+               setValue={(value) => setDetune(value)} />
+         <DialControl
+               parameters={noiseLevelParameters}
+               value={noiseGain}
+               setValue={(value) => setNoise(value)} />
         </StyledOscillatorsControl>
     )
 }

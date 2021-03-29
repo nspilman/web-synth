@@ -1,15 +1,16 @@
-import React, { useContext } from 'react';
+import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import DialControl from "./components/dialControl"
 import OctaveControl from './basic/octaveControl';
 import WaveControl from './basic/waveControl';
 import GainControl from "./basic/gainControl";
+import { AppState } from "../../store/reducers";
+import { useSelector, useDispatch } from 'react-redux';
+import { AudioControllerAction, basicActionTypes } from "../../store/actions/audioControllerAction";
 
 import { 
     distortionParameters, 
 } from "../../data/dialControlParmeters"
-import { KeyboardContext } from "../../hooks/keyboardContext";
-import IKeyboardContextSignature from '../../interfaces/IKeyboardContextSignature';
 
 const StyledEnvelopeControl = styled.div`
     display:flex;
@@ -18,7 +19,20 @@ const StyledEnvelopeControl = styled.div`
 `
 
 function BasicControlsWrapper(){
-   const { audioContextWrapper } :IKeyboardContextSignature = useContext(KeyboardContext);
+   const { audioContext } = useSelector((state: AppState) => state);
+   const { distortion } = useSelector((state: AppState) => state.basic);
+   const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+
+   const setDistortionAmount = (amount : number) => {
+    {
+        const payload: AudioControllerAction = {
+            type: basicActionTypes.SET_DISTORTION,
+            payload: amount,
+            setAudioController: () => audioContext.setDistortionAmount(amount),
+        }
+        dispatch(payload)
+   }}
+
    return (
         <StyledEnvelopeControl>
             <WaveControl/>
@@ -26,7 +40,8 @@ function BasicControlsWrapper(){
             <GainControl/>
             <DialControl 
                 parameters = {distortionParameters}
-                setValue = {(newDistortionValue) => audioContextWrapper.setDistortionAmount(newDistortionValue) }
+                value = {distortion}
+                setValue = {(newDistortionValue) => setDistortionAmount(newDistortionValue) }
             />
         </StyledEnvelopeControl>
     )

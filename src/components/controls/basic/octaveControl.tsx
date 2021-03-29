@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { KeyboardContext } from "../../../hooks/keyboardContext";
+import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../../styled/controlLabels";
 import StyledButton from "../../styled/controlButton";
-import IKeyboardContextSignature from "../../../interfaces/IKeyboardContextSignature";
-import localStorageService from "../../../services/localStorageService";
+import { useDispatch, useSelector } from 'react-redux';
+import { AudioControllerAction, basicActionTypes } from '../../../store/actions/audioControllerAction';
+import { AppState } from '../../../store/reducers';
 
 const StyledOctaveControl = styled.div`
 display:flex;
@@ -17,28 +17,31 @@ const minOctave = 0;
 const maxOctave = 8;
 
 function OctaveControl() {
-    const state : IKeyboardContextSignature = useContext(KeyboardContext);
-    const { audioContextWrapper } = state;
+    const { audioContext, basic } = useSelector((state: AppState) => state);
+    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+    const { octave } = basic;
 
-    const localStorageKey = 'octave';
-    let initialOctave = localStorageService.getNumberByKey(localStorageKey) ?? 4;
 
-    const [octave, setOctave] = useState(initialOctave);
-
-    useEffect(() : void=> {
-        audioContextWrapper.octave = octave;
-        localStorageService.setValueByKey(localStorageKey, octave.toString())
-    })
+    const setOctave = (newOctave : number) => {  
+        const payload: AudioControllerAction = {
+            type: basicActionTypes.SET_OCTAVE,
+            payload: newOctave,
+            setAudioController: () => audioContext.setOctave(newOctave),
+        }
+        dispatch(payload)
+    }
 
     const decrementOctave = () => {
         if(octave !== minOctave){
-            setOctave(octave - 1)
+            const newOctave = octave - 1;
+            setOctave(newOctave)
         }
     }
 
     const incrementOctave = () => {
         if(octave !== maxOctave){
-            setOctave(octave + 1)
+            const newOctave = octave + 1;
+            setOctave(newOctave)
         }
     }  
 

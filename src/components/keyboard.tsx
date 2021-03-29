@@ -3,7 +3,6 @@ import notes from "../data/notes"
 import styled from "styled-components";
 import Key from "./key";
 import ControlPanel from "./controlPanel"
-import { KeyboardProvider } from "../hooks/keyboardContext";
 import colors from "../data/colors";
 
 const StyledKeys = styled.ul`
@@ -24,24 +23,16 @@ const StyledKeyboard = styled.div`
     background: linear-gradient(180deg, rgba(121,75,75,1) 0%, rgba(255,155,36,1) 98%, rgba(44,36,23,1) 100%);
 `
 function Keyboard() {
-    const [isClicked, setIsClicked] = useState(false);
     return (
-        <KeyboardProvider>
-            <StyledKeyboard id="Keyboard">
-                <ControlPanel/>
-                <StyledKeys className="keyboard"
-                    onMouseDown={() => setIsClicked(true)}
-                    onMouseUp={() => setIsClicked(false)}
-                    onMouseLeave={() => setIsClicked(false)}
-                >
-                    {Object.keys(notes).map(note => <Key
-                        isMouseDown={isClicked}
-                        note={ note }
-                        key={ note }
-                    />)}
-                </StyledKeys>
-            </StyledKeyboard>
-        </KeyboardProvider>
+        <StyledKeyboard id="Keyboard">
+            <ControlPanel />
+            <StyledKeys className="keyboard">
+                {Object.keys(notes).map(note => <Key
+                    note={note}
+                    key={note}
+                />)}
+            </StyledKeys>
+        </StyledKeyboard>
     )
 }
 

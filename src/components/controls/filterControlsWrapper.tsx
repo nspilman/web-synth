@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../styled/controlLabels";
-import DialControl from "./components/dialControl"
-import { KeyboardContext } from "../../hooks/keyboardContext";
-import IKeyboardContextSignature from '../../interfaces/IKeyboardContextSignature';
+import DialControl from "./components/dialControl";
+import FilterTypeControl from "./filter/filterTypeControl";
+import { AppState } from "../../store/reducers";
+import { useSelector, useDispatch } from 'react-redux';
+import { AudioControllerAction, filterActionTypes } from "../../store/actions/audioControllerAction";
 
-import { 
-    filterFrequencyParameters, 
-    filterQParameters, 
+import {
+    filterFrequencyParameters,
+    filterQParameters,
 } from "../../data/dialControlParmeters"
 
 const StyledFilterControl = styled.div`
@@ -17,20 +19,42 @@ const StyledFilterControl = styled.div`
 `
 
 function FilterControl() {
-   const { audioContextWrapper } :IKeyboardContextSignature = useContext(KeyboardContext);
+    const { freq, q } = useSelector((state: AppState) => state.filter);
+    const { audioContext } = useSelector((state: AppState) => state);
+    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
+    const setFreq = (freq: number) => {
+        const payload: AudioControllerAction = {
+            type: filterActionTypes.SET_FREQ,
+            payload: freq,
+            setAudioController: () => audioContext.setFilterFreq(freq),
+        }
+        dispatch(payload)
+    }
+
+    const setQ = (q: number) => {
+        const payload: AudioControllerAction = {
+            type: filterActionTypes.SET_Q,
+            payload: q,
+            setAudioController: () => audioContext.setFilterQ(q),
+        }
+        dispatch(payload)
+    }
     return (
         <StyledFilterControl>
             <StyledLabel>
                 FILTER
             </StyledLabel>
+            <FilterTypeControl/>
             <DialControl
-                parameters ={filterFrequencyParameters}
-                setValue = {(newFreq) => audioContextWrapper.setFilterFreq(newFreq)}
+                parameters={filterFrequencyParameters}
+                value={freq}
+                setValue={(value) => setFreq(value)}
             />
             <DialControl
-                parameters ={filterQParameters}
-                setValue = {(newQ) => audioContextWrapper.setFilterQ(newQ)}
+                parameters={filterQParameters}
+                value={q}
+                setValue={(value) => setQ(value)}
             />
         </StyledFilterControl>
     )

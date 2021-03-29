@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import stopNote from '../hooks/stopNote';
 import playNote from '../hooks/playNote';
 import keyboardToNoteHash from "../data/keyboardToNoteHash";
 import colors from "../data/colors";
-
-import { KeyboardContext } from "../hooks/keyboardContext";
+import { useSelector } from 'react-redux';
+import { AppState } from "../store/reducers";
 
 interface StyledKeyProps {
     isPlaying : boolean,
@@ -48,23 +48,23 @@ const StyledFlat = styled(StyledKey)`
 
 interface KeyProps {
     note: string,
-    isMouseDown: boolean,
 }
 
-function Key({ note, isMouseDown }: KeyProps) {
-    const { audioContextWrapper } = useContext(KeyboardContext)
+function Key({ note }: KeyProps) {
+    const audioContext = useSelector((state: AppState) => state.audioContext);
+
     const [isPlaying, setIsPlaying] = useState(false)
     const isFlat : boolean = note.endsWith('b')
   
     const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
-        const triggeredNote = keyboardToNoteHash[key];
+        const triggeredNote = keyboardToNoteHash[key.toLowerCase()];
         if(note === triggeredNote){
             playAndSetPlaying(note)
         }
     }
 
     const parseAndStopKeyCommand = ({key} : KeyboardEvent) => {
-        const note = keyboardToNoteHash[key];
+        const note = keyboardToNoteHash[key.toLowerCase()];
         if(note){
             stopAndSetStopped(note)
         }
@@ -72,11 +72,11 @@ function Key({ note, isMouseDown }: KeyProps) {
 
     const playAndSetPlaying = (note : string) => {
         setIsPlaying(true)
-        playNote(audioContextWrapper, note)
+        playNote(audioContext, note)
     }
 
-    const stopAndSetStopped = ( note : string) => {
-        stopNote(audioContextWrapper, note)
+    const stopAndSetStopped = (note : string) => {
+        stopNote(audioContext, note)
         setIsPlaying(false)
     }
 
@@ -89,7 +89,6 @@ function Key({ note, isMouseDown }: KeyProps) {
             onMouseDown : () => playAndSetPlaying ( note ),
             onMouseLeave : () => stopAndSetStopped ( note ),
             onMouseUp : () => stopAndSetStopped ( note ),
-            onMouseEnter : () => isMouseDown ?? playAndSetPlaying ( note ),
         },
         note)
         )

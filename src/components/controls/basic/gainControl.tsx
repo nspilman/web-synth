@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { KeyboardContext } from "../../../hooks/keyboardContext";
+import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../../styled/controlLabels";
 import StyledButton from "../../styled/controlButton";
-import IKeyboardContextSignature from "../../../interfaces/IKeyboardContextSignature";
-import localStorageService from "../../../services/localStorageService";
+import { AudioControllerAction, basicActionTypes } from "../../../store/actions/audioControllerAction";
+import { useSelector, useDispatch } from 'react-redux';
+import { AppState } from "../../../store/reducers";
 
 const StyledGainControl = styled.div`
     display:flex;
@@ -18,26 +18,28 @@ const maxGain = 1;
 const gainStep = 0.1;
 
 function GainControl() {
-    const localStorageKey = 'gain';
-    const state : IKeyboardContextSignature = useContext(KeyboardContext);
-    const { audioContextWrapper } = state;
-
-    let initialGain = localStorageService.getNumberByKey(localStorageKey) ?? .2;
-    const [gain, setGain] = useState(initialGain);
-
-    useEffect(() : void=> {
-        audioContextWrapper.setGain(gain);
-        localStorageService.setValueByKey(localStorageKey, gain.toString())
-    })
+    const { audioContext, basic } = useSelector((state: AppState) => state);
+    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+    const { gain } = basic;
 
     const decrementGain = () => {
-        const newValue = (gain - gainStep < minGain) ? minGain : gain - gainStep;
-        setGain(newValue)
+        const newGain = (gain - gainStep < minGain) ? minGain : gain - gainStep;
+        const payload: AudioControllerAction = {
+            type: basicActionTypes.SET_GAIN,
+            payload: newGain,
+            setAudioController: () => audioContext.setGain(newGain),
+        }
+        dispatch(payload)
     }
 
     const incrementGain = () => {
-        const newValue = (gain + gainStep > maxGain) ? maxGain : gain + gainStep;
-        setGain(newValue)
+        const newGain = (gain + gainStep > maxGain) ? maxGain : gain + gainStep;
+        const payload: AudioControllerAction = {
+            type: basicActionTypes.SET_GAIN,
+            payload: newGain,
+            setAudioController: () => audioContext.setGain(newGain),
+        }
+        dispatch(payload)
     }
 
     return (

@@ -1,32 +1,27 @@
 
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import StyledLabel from "../../styled/controlLabels";
-import localStorageService from "../../../services/localStorageService";
 import ControlKnob from "./controlKnob";
 import IDialControlParameters from "../../../interfaces/IDailControlParameters"
 
 type Props = {
     parameters : IDialControlParameters,
+    value: number,
     setValue : (value: number) => void;
 }
 
 function DialControl(props : Props){
     const { min, 
             max, 
-            localStorageKey, 
-            title, 
-            defaultValue, 
-            factor } = props.parameters;
+            title,
+            factor = 1
+        } = props.parameters;
     
-    const { setValue } = props;
-                
-    let intialState = localStorageService.getNumberByKey(localStorageKey) ?? defaultValue;
-    const [state, setState] = useState(intialState);
+    const { value, setValue } = props;
 
-    useEffect(function(): void{
-        setValue(state / (factor ?? 1));
-        localStorage.setItem(localStorageKey, state.toString())
-    })
+    const localSetvalue = (value: number) =>{
+         setValue(value / factor)
+    }
 
     return( 
         <div>
@@ -34,10 +29,10 @@ function DialControl(props : Props){
                 {title}
             </StyledLabel>
             <ControlKnob
-                min={ min }
-                max={ max }
-                value={state}
-                setValue={setState}
+                min={ min * factor }
+                max={ max * factor }
+                value={ value * factor }
+                setValue={ localSetvalue }
             />
         </div>
     )
