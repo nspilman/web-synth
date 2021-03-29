@@ -27,9 +27,10 @@ export const envelopeDecayParameters = createParametersObject(
 ) 
 
 export const envelopeSustainParameters  = createParametersObject(
+    0,
     1,
-    1000,
     "SUSTAIN",
+    1000
 )
 
 export const envelopeReleaseParameters  = createParametersObject(
@@ -45,9 +46,10 @@ export const filterFrequencyParameters = createParametersObject(
 )
 
 export const filterQParameters = createParametersObject(
-    1,
-    2000,
+    0.01,
+    20,
     "Q",
+    100
 )
 
 export const oscDetuneParameters = createParametersObject(
@@ -58,9 +60,9 @@ export const oscDetuneParameters = createParametersObject(
 
 export const noiseLevelParameters = createParametersObject(
     0,
-    100,
+    1,
     "NOISE GAIN",
-    .1
+    10
 )
 
 export const distortionParameters = createParametersObject(

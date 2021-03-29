@@ -8,14 +8,14 @@ const getDefaultContextWrapper = () : IAudioContextParameters => {
     const initialOctave = 4;
     const initialFilterType = filterTypes.lowpass;
     const initialFilterFrequency = 20000;
-    const initialFilterQ = 1;
+    const initialFilterQ = 0.01;
     const initialDistortion = 0;
     const initialNumOscillators = 1;
     const initialOscillatorUnisonDetune = 0;
     const initialNoiseGain = 0;
     const initialAttackMs = 1;
     const initialDecayMs = 100;
-    const initialSustain = 1000;
+    const initialSustain = 1;
     const initialReleaseMs = 1;
     
     const defaultContextWrapperValues : IAudioContextParameters = {

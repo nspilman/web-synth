@@ -8,6 +8,7 @@ type Props = {
         min : number,
         max: number,
         title: string,
+        factor?: number
     },
     value: number,
     setValue : (value: number) => void;
@@ -16,13 +17,15 @@ type Props = {
 function DialControl(props : Props){
     const { min, 
             max, 
-            title, 
+            title,
+            factor
         } = props.parameters;
     
     const { value, setValue } = props;
+    const usableFactor = factor ?? 1;
 
     const localSetvalue = (value: number) =>{
-         setValue(value)
+         setValue(value / usableFactor)
     }
 
     return( 
@@ -31,9 +34,9 @@ function DialControl(props : Props){
                 {title}
             </StyledLabel>
             <ControlKnob
-                min={ min }
-                max={ max }
-                value={ value }
+                min={ min * usableFactor }
+                max={ max * usableFactor }
+                value={ value * usableFactor }
                 setValue={ localSetvalue }
             />
         </div>

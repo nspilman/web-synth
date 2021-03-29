@@ -27,7 +27,7 @@ function EnvelopeControl() {
         const payload: AudioControllerAction = {
             type: envelopeActionTypes.SET_ATTACK,
             payload: attackMs,
-            setAudioController: () => audioContext.setAttackMs(attackMs / (envelopeAttackParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setAttackMs(attackMs),
         }
         dispatch(payload);
     }
@@ -36,7 +36,7 @@ function EnvelopeControl() {
         const payload: AudioControllerAction = {
             type: envelopeActionTypes.SET_DECAY,
             payload: decayMs,
-            setAudioController: () => audioContext.setDecayMs(decayMs / (envelopeDecayParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setDecayMs(decayMs),
         }
         dispatch(payload);
     }
@@ -45,7 +45,7 @@ function EnvelopeControl() {
         const payload: AudioControllerAction = {
             type: envelopeActionTypes.SET_SUSTAIN,
             payload: sustain,
-            setAudioController: () => audioContext.setSustain(sustain / (envelopeSustainParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setSustain(sustain),
         }
         dispatch(payload);
     }
@@ -54,7 +54,7 @@ function EnvelopeControl() {
         const payload: AudioControllerAction = {
             type: envelopeActionTypes.SET_RELEASE,
             payload: releaseMs,
-            setAudioController: () => audioContext.setReleaseMs(releaseMs / (envelopeReleaseParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setReleaseMs(releaseMs),
         }
         dispatch(payload);
     }

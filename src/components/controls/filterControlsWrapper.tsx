@@ -27,7 +27,7 @@ function FilterControl() {
         const payload: AudioControllerAction = {
             type: filterActionTypes.SET_FREQ,
             payload: freq,
-            setAudioController: () => audioContext.setFilterFreq(freq / (filterFrequencyParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setFilterFreq(freq),
         }
         dispatch(payload)
     }
@@ -36,7 +36,7 @@ function FilterControl() {
         const payload: AudioControllerAction = {
             type: filterActionTypes.SET_Q,
             payload: q,
-            setAudioController: () => audioContext.setFilterQ(q / (filterFrequencyParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setFilterQ(q),
         }
         dispatch(payload)
     }

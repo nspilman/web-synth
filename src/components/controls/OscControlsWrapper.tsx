@@ -25,7 +25,7 @@ function OscillatorsControl() {
         const payload: AudioControllerAction = {
             type: oscillatorActionTypes.SET_DETUNE,
             payload: freq,
-            setAudioController: () => audioContext.setOscillatorUnisonDetune(freq / (oscDetuneParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setOscillatorUnisonDetune(freq),
         }
         dispatch(payload)
     }
@@ -34,7 +34,7 @@ function OscillatorsControl() {
         const payload: AudioControllerAction = {
             type: oscillatorActionTypes.SET_NOISE,
             payload: noise,
-            setAudioController: () => audioContext.setNoiseGain(noise / (noiseLevelParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setNoiseGain(noise),
         }
         dispatch(payload)
     }

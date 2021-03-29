@@ -28,7 +28,7 @@ function BasicControlsWrapper(){
         const payload: AudioControllerAction = {
             type: basicActionTypes.SET_DISTORTION,
             payload: amount,
-            setAudioController: () => audioContext.setDistortionAmount(amount / (distortionParameters.factor ?? 1)),
+            setAudioController: () => audioContext.setDistortionAmount(amount),
         }
         dispatch(payload)
    }}
