@@ -2,14 +2,10 @@
 import React from 'react'
 import StyledLabel from "../../styled/controlLabels";
 import ControlKnob from "./controlKnob";
+import IDialControlParameters from "../../../interfaces/IDailControlParameters"
 
 type Props = {
-    parameters : {
-        min : number,
-        max: number,
-        title: string,
-        factor?: number
-    },
+    parameters : IDialControlParameters,
     value: number,
     setValue : (value: number) => void;
 }
@@ -18,14 +14,13 @@ function DialControl(props : Props){
     const { min, 
             max, 
             title,
-            factor
+            factor = 1
         } = props.parameters;
     
     const { value, setValue } = props;
-    const usableFactor = factor ?? 1;
 
     const localSetvalue = (value: number) =>{
-         setValue(value / usableFactor)
+         setValue(value / factor)
     }
 
     return( 
@@ -34,9 +29,9 @@ function DialControl(props : Props){
                 {title}
             </StyledLabel>
             <ControlKnob
-                min={ min * usableFactor }
-                max={ max * usableFactor }
-                value={ value * usableFactor }
+                min={ min * factor }
+                max={ max * factor }
+                value={ value * factor }
                 setValue={ localSetvalue }
             />
         </div>
