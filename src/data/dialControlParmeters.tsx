@@ -1,6 +1,6 @@
 import IDialControlParameters from "../interfaces/IDailControlParameters"
 import { maxFilterTypeDialValue } from "./filterTypes";
-import waveforms, { maxWaveformsDialValue } from "./waveforms";
+import { maxWaveformsDialValue } from "./waveforms";
 
 function createParametersObject(
     min: number,
@@ -24,7 +24,7 @@ export const gainParameters = createParametersObject(
 )
 
 export const octaveParameters = createParametersObject(
-    0,
+    1,
     8,
     "OCTAVE",
 )

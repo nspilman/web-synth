@@ -1,9 +1,7 @@
-import React, { Dispatch } from 'react';
-import styled from "styled-components";
+import React from 'react';
 import DialControl from "./components/dialControl"
 import { AppState } from "../../store/reducers";
-import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction } from "../../store/actions";
+import { useSelector } from 'react-redux';
 import { createSetNoise, createSetOscCount, createSetOscDetune } from "../../store/actions/oscillatorActions";
 
 import { 
@@ -11,46 +9,27 @@ import {
     oscCountParameters, 
     oscDetuneParameters, 
 } from "../../data/dialControlParmeters";
+import { controlState } from '../controlPanel';
+import { StyledControl } from '../styled/control';
 
-const StyledOscillatorsControl = styled.div`
-    display:flex;
-    align-items:center;
-`
-
-function OscillatorsControl() {
+function OscillatorsControl({ triggerStateChange }: controlState) {
     const { detune, noiseGain, count } = useSelector((state: AppState) => state.oscillator);
-    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
-
-    const setDetune = (detune: number) => {
-        const payload: AudioControllerAction = createSetOscDetune(detune)
-        dispatch(payload)
-    }
-
-    const setNoise = (noise: number) => {
-        const payload: AudioControllerAction = createSetNoise(noise);
-        dispatch(payload)
-    }
-
-    const setCount = (newCount: number) => {
-        const payload: AudioControllerAction = createSetOscCount(newCount);
-        dispatch(payload)
-    }
 
     return (
-        <StyledOscillatorsControl id="OscillatorsControl">
+        <StyledControl id="OscillatorsControl">
             <DialControl
                parameters={oscCountParameters}
                value={count}
-               setValue={(value) => setCount(value)} />
+               setValue={(value) => triggerStateChange(value, createSetOscCount)} />
             <DialControl
                parameters={oscDetuneParameters}
                value={detune}
-               setValue={(value) => setDetune(value)} />
+               setValue={(value) => triggerStateChange(value, createSetOscDetune)} />
          <DialControl
                parameters={noiseLevelParameters}
                value={noiseGain}
-               setValue={(value) => setNoise(value)} />
-        </StyledOscillatorsControl>
+               setValue={(value) => triggerStateChange(value, createSetNoise)} />
+        </StyledControl>
     )
 }
 

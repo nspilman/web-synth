@@ -27,7 +27,7 @@ export const createSetGain = (newGain : number ) : AudioControllerAction => {
     }
 }
 
-export const createSetDistortion = (newDistortion : number) => {
+export const createSetDistortion = (newDistortion : number) : AudioControllerAction => {
     return {
     type: basicActionTypes.SET_DISTORTION,
     payload: newDistortion,
@@ -35,7 +35,7 @@ export const createSetDistortion = (newDistortion : number) => {
 }
 }
 
-export const createSetWave = (newWaveId : waveforms) => {
+export const createSetWave = (newWaveId : waveforms) : AudioControllerAction => {
     const newWave : OscillatorType = getWave(newWaveId);
     return {
         type: basicActionTypes.SET_WAVEFORM,

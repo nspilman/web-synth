@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from "../../store/reducers";
 import styled from "styled-components";
-import StyledLabel from "../styled/controlLabels";
+import { StyledControl, StyledLabel } from "../styled/control/index";
 import DialControl from "./components/dialControl"
 import {
     envelopeAttackParameters,
@@ -16,64 +16,37 @@ import {
     createSetRelease, 
     createSetSustain 
 } from "../../store/actions/envelopeActions"; 
-import { AudioControllerAction } from "../../store/actions"
+import { controlState } from '../controlPanel';
 
-const StyledEnvelopeControl = styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-`
-
-function EnvelopeControl() {
+function EnvelopeControl({ triggerStateChange }: controlState) {
     const { attackMs, decayMs, sustain, releaseMs } = useSelector((state: AppState) => state.envelope);
-    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
-
-    const setAttackMs = (attackMs: number) => {
-        const payload : AudioControllerAction = createSetAttackMs(attackMs)
-        dispatch(payload);
-    }
-
-    const setDecayMs = (decayMs: number) => {
-        const payload: AudioControllerAction = createSetDecayMs(decayMs)
-        dispatch(payload);
-    }
-
-    const setSustain = (sustain: number) => {
-        const payload: AudioControllerAction = createSetSustain(sustain);
-        dispatch(payload);
-    }
-
-    const setReleaseMs = (releaseMs: number) => {
-        const payload: AudioControllerAction = createSetRelease(releaseMs);
-        dispatch(payload);
-    }
-
+    
     return (
-        <StyledEnvelopeControl>
+        <StyledControl>
             <StyledLabel>
                 ENVELOPE
             </StyledLabel>
             <DialControl
                 parameters={envelopeAttackParameters}
                 value = {attackMs}
-                setValue={(value) => setAttackMs(value)}
+                setValue={(value) => triggerStateChange(value, createSetAttackMs)}
             />
             <DialControl
                 parameters={envelopeDecayParameters}
                 value = {decayMs}
-                setValue={(value) => setDecayMs(value)}
+                setValue={(value) => triggerStateChange(value, createSetDecayMs)}
             />
             <DialControl
                 parameters={envelopeSustainParameters}
                 value = {sustain}
-                setValue={(value) => setSustain(value)}
+                setValue={(value) => triggerStateChange(value, createSetSustain)}
             />
             <DialControl
                 parameters={envelopeReleaseParameters}
                 value = {releaseMs}
-                setValue={(value) => setReleaseMs(value)}
+                setValue={(value) => triggerStateChange(value, createSetRelease)}
             />
-        </StyledEnvelopeControl>
+        </StyledControl>
     )
 }
 

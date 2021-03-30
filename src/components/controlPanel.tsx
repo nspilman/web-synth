@@ -1,44 +1,18 @@
-import React, { useState } from 'react';
-import styled from "styled-components";
+import React, { Dispatch, useState } from 'react';
 
-import FilterControlsWrapper from './controls/filterControls';
-import OscControlsWrapper from './controls/OscControls';
-import EnvelopeControlsWrapper from './controls/envelopeControls';
-import BasicControlsWrapper from "./controls/basicControls"
-import colors from "../data/colors";
-
-const StyledControlPanel = styled.div`
-    display:flex;
-    align-items: center;
-    justify-content:center;
-    flex-direction:column;
-`
-const StyledTabs = styled.div`
-    display:flex;
-`
-interface StyledTabButtonProps {
-    isSelected : boolean,
-}
-
-const StyledTabButton = styled.button`
-    padding:.5rem .75rem;
-    background-color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.offWhite : colors.brown};
-    color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.brown : colors.offWhite};
-    border-radius:10px;
-    :hover{
-        background-color:${(props: StyledTabButtonProps) => !props.isSelected && colors.hoverColor};
-    }
-    `
-
-const StyledTab = styled.div`
-    height:50px;
-    padding-top:1rem;
-`
-const StyledControlsLabel = styled.span`
-    color:${colors.offWhite};
-    padding:.5rem .75rem;
-    font-weight:bold;
-`
+import FilterControls from './controls/filterControls';
+import EnvelopeControls from './controls/envelopeControls';
+import OscControls from "./controls/oscControls";
+import BasicControls from "./controls/basicControls"
+import { useDispatch } from 'react-redux';
+import { AudioControllerAction } from '../store/actions';
+import {
+    StyledControlPanel,
+    StyledControlsLabel,
+    StyledTab,
+    StyledTabButton,
+    StyledTabs
+} from "./styled/controlPanel/";
 
 enum panelTabs {
     basic = 'basic',
@@ -47,38 +21,56 @@ enum panelTabs {
     filter = 'filter'
 }
 
+export type controlState = {
+    triggerStateChange: (newValue: number,
+        stateChangeActionGenerator: (changingValue: number) => AudioControllerAction) => void;
+}
+
 function ControlPanel() {
+    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+    const triggerStateChange = (changingValue: number, actionCreator: (changingValue: number) => AudioControllerAction) => {
+        dispatch(actionCreator(changingValue))
+    }
+
     const [currentTab, setTab] = useState(panelTabs.basic)
-    const renderCurrentTab = () : JSX.Element => {
-        switch(currentTab) {
+    const renderCurrentTab = (): JSX.Element => {
+        switch (currentTab) {
             case panelTabs.basic:
-                return <BasicControlsWrapper/>;
-              break;
+                return <BasicControls
+                    triggerStateChange={triggerStateChange}
+                />;
+                break;
             case panelTabs.envelope:
-                return <EnvelopeControlsWrapper />
+                return <EnvelopeControls
+                    triggerStateChange={triggerStateChange}
+                />
                 break;
             case panelTabs.oscillator:
-                return <OscControlsWrapper />
+                return <OscControls
+                    triggerStateChange={triggerStateChange}
+                />
                 break;
             case panelTabs.filter:
-                return <FilterControlsWrapper />
+                return <FilterControls
+                    triggerStateChange={triggerStateChange}
+                />
             default:
-              return <div>Error Loading Controls</div>
-          }
+                return <div>Error Loading Controls</div>
+        }
     }
     return (
         <StyledControlPanel>
             <StyledTabs id="tabs">
-            <StyledControlsLabel>
-                CONTROLS
+                <StyledControlsLabel>
+                    CONTROLS
             </StyledControlsLabel>
                 {
-                Object.keys(panelTabs).map(
-                    tab => <StyledTabButton
-                        key={ tab }
-                        isSelected = {tab === currentTab}
-                        onClick = {() => setTab(tab as panelTabs)}
-                    >{tab}</StyledTabButton>
+                    Object.keys(panelTabs).map(
+                        tab => <StyledTabButton
+                            key={tab}
+                            isSelected={tab === currentTab}
+                            onClick={() => setTab(tab as panelTabs)}
+                        >{tab}</StyledTabButton>
                     )
                 }
             </StyledTabs>

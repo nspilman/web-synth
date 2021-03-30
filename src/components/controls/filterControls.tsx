@@ -1,10 +1,8 @@
-import React, { Dispatch } from 'react';
-import styled from "styled-components";
-import StyledLabel from "../styled/controlLabels";
+import React from 'react';
+import { StyledControl, StyledLabel } from "../styled/control/";
 import DialControl from "./components/dialControl";
 import { AppState } from "../../store/reducers";
-import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction } from "../../store/actions";
+import { useSelector } from 'react-redux';
 import { createSetFilterFreq, createSetFilterQ, createSetFilterType } from "../../store/actions/filterActions";
 
 import {
@@ -12,52 +10,32 @@ import {
     filterQParameters,
     filterTypeParameters,
 } from "../../data/dialControlParmeters";
+import { controlState } from '../controlPanel';
 
-const StyledFilterControl = styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-`
-
-function FilterControl() {
+function FilterControl({ triggerStateChange }: controlState) {
     const { freq, q, typeId } = useSelector((state: AppState) => state.filter);
-    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
-    const setFreq = (freq: number) => {
-        const payload: AudioControllerAction = createSetFilterFreq(freq);
-        dispatch(payload)
-    }
-
-    const setQ = (q: number) => {
-        const payload: AudioControllerAction = createSetFilterQ(q);
-        dispatch(payload)
-    }
-
-    const setType = (typeId: number) => {
-        const payload : AudioControllerAction = createSetFilterType(typeId);
-        dispatch(payload);
-    }
     return (
-        <StyledFilterControl>
+        <StyledControl>
             <StyledLabel>
                 FILTER
             </StyledLabel>
             <DialControl
                 parameters={filterTypeParameters}
                 value={typeId}
-                setValue={(newTypeId) => setType(newTypeId)}
+                setValue={(newTypeId) => triggerStateChange(newTypeId, createSetFilterType)}
             />
             <DialControl
                 parameters={filterFrequencyParameters}
                 value={freq}
-                setValue={(value) => setFreq(value)}
+                setValue={(newFreq) => triggerStateChange(newFreq, createSetFilterFreq)}
             />
             <DialControl
                 parameters={filterQParameters}
                 value={q}
-                setValue={(value) => setQ(value)}
+                setValue={(newQ) => triggerStateChange(newQ, createSetFilterQ)}
             />
-        </StyledFilterControl>
+        </StyledControl>
     )
 }
 

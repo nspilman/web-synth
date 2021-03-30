@@ -1,74 +1,42 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import styled from "styled-components";
 import DialControl from "./components/dialControl"
 import { AppState } from "../../store/reducers";
-import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction } from "../../store/actions";
+import { useSelector } from 'react-redux';
 import { createSetDistortion, createSetGain, createSetOctave, createSetWave } from "../../store/actions/basicActions";
 
-import { 
-    distortionParameters, gainParameters, octaveParameters, waveParameters, 
+import {
+    distortionParameters, gainParameters, octaveParameters, waveParameters,
 } from "../../data/dialControlParmeters"
+import { controlState } from '../controlPanel';
+import { StyledControl } from '../styled/control';
 
-const StyledEnvelopeControl = styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-`
+function BasicControlsWrapper({ triggerStateChange }: controlState)  {
+    const { distortion, gain, octave, waveformId } = useSelector((state: AppState) => state.basic);
 
-function BasicControlsWrapper(){
-   const { distortion, gain, octave, waveformId } = useSelector((state: AppState) => state.basic);
-   const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
-
-   const setDistortionAmount = (newDistortion : number) => {
-    {
-        const payload: AudioControllerAction = createSetDistortion(newDistortion)
-        dispatch(payload)
-   }}
-
-   const setGain = (newGain : number) => {
-    {
-        const payload: AudioControllerAction = createSetGain(newGain)
-        dispatch(payload)
-   }}
-
-   const setOctave = (newOctave : number) => {
-    {
-        const payload: AudioControllerAction = createSetOctave(newOctave)
-        dispatch(payload)
-   }
-}
-
-   const setWave = (newWaveSelector : number) => {
-    {
-        const payload: AudioControllerAction = createSetWave(newWaveSelector)
-        dispatch(payload)
-   }
-}
-
-   return (
-        <StyledEnvelopeControl>
-            <DialControl 
-                parameters = {waveParameters}
-                value = {waveformId}
-                setValue = {(newWave) => setWave(newWave) }
+    return (
+        <StyledControl>
+            <DialControl
+                parameters={waveParameters}
+                value={waveformId}
+                setValue={(newWaveSelector) => triggerStateChange(newWaveSelector, createSetWave)}
             />
-            <DialControl 
-                parameters = {octaveParameters}
-                value = {octave}
-                setValue = {(newOctave) => setOctave(newOctave) }
+            <DialControl
+                parameters={octaveParameters}
+                value={octave}
+                setValue={(newOctave) => triggerStateChange(newOctave, createSetOctave)}
             />
-            <DialControl 
-                parameters = {gainParameters}
-                value = {gain}
-                setValue = {(newGain) => setGain(newGain) }
+            <DialControl
+                parameters={gainParameters}
+                value={gain}
+                setValue={(newGain) => triggerStateChange(newGain, createSetGain)}
             />
-            <DialControl 
-                parameters = {distortionParameters}
-                value = {distortion}
-                setValue = {(newDistortionValue) => setDistortionAmount(newDistortionValue) }
+            <DialControl
+                parameters={distortionParameters}
+                value={distortion}
+                setValue={(newDistortion) => triggerStateChange(newDistortion, createSetDistortion)}
             />
-        </StyledEnvelopeControl>
+        </StyledControl>
     )
 }
 

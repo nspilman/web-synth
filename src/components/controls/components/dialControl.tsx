@@ -1,6 +1,6 @@
 
 import React from 'react'
-import StyledLabel from "../../styled/controlLabels";
+import { StyledLabel } from "../../styled/control";
 import ControlKnob from "./controlKnob";
 import IDialControlParameters from "../../../interfaces/IDailControlParameters"
 
