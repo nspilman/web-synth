@@ -17,7 +17,7 @@ const StyledEnvelopeControl = styled.div`
 `
 
 function BasicControlsWrapper(){
-   const { distortion, gain, octave, waveform } = useSelector((state: AppState) => state.basic);
+   const { distortion, gain, octave, waveformId } = useSelector((state: AppState) => state.basic);
    const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
    const setDistortionAmount = (newDistortion : number) => {
@@ -50,7 +50,7 @@ function BasicControlsWrapper(){
         <StyledEnvelopeControl>
             <DialControl 
                 parameters = {waveParameters}
-                value = {waveform}
+                value = {waveformId}
                 setValue = {(newWave) => setWave(newWave) }
             />
             <DialControl 
