@@ -6,7 +6,7 @@ import waveforms from "../data/waveforms";
 const getDefaultContextWrapper = () : IAudioContextParameters => {
     const initialGain = 1;
     const initialOctave = 4;
-    const initialFilterType = filterTypes.lowpass;
+    const initialFilterType = filterTypes.LOWPASS;
     const initialFilterFrequency = 20000;
     const initialFilterQ = 0.01;
     const initialDistortion = 0;
@@ -21,7 +21,7 @@ const getDefaultContextWrapper = () : IAudioContextParameters => {
     const defaultContextWrapperValues : IAudioContextParameters = {
         gain : initialGain,
         octave : initialOctave,
-        waveform: waveforms.sine,
+        waveform: waveforms.SINE,
         distortion: initialDistortion,
         noiseGain: initialNoiseGain,
         filterParameters : {

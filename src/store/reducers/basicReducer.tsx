@@ -7,7 +7,7 @@ type BasicState = {
     distortion: number,
     gain: number,
     octave: number,
-    waveform: OscillatorType
+    waveform: number
 }
 
 const { gain, distortion, octave, waveform }: IAudioContextParameters = getDefaultContextWrapperValues();

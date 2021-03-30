@@ -5,7 +5,7 @@ import { oscillatorActionTypes } from "./oscillatorActions";
 
 interface IAudioControllerAction<T> {
     readonly type: envelopeActionTypes | filterActionTypes | oscillatorActionTypes | basicActionTypes;
-    payload: T,
+    payload: number,
     setAudioController : (payload : T ) => void;
 }
 

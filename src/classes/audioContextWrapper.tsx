@@ -5,6 +5,8 @@ import Voice from "./Voice"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 import WaveshaperNodeWrapper from "./WaveshaperNodeWrapper";
 import WhiteNoiseOscillator from "./WhiteNoiseOscillator";
+import waveforms, { getWave } from "../data/waveforms";
+import { getFilterType } from "../data/filterTypes";
 
 class AudioContextWrapper {
     audioContext : AudioContext
@@ -32,14 +34,15 @@ class AudioContextWrapper {
 
         this.masterGainNode = masterGainNode(this.audioContext, gain);
         const { type, freq } = filterParameters;
-        this.filterNode = filterNode(this.audioContext, type, freq);
+        const initialFilterType = getFilterType(type) ?? 'lowpass' as BiquadFilterType;
+        this.filterNode = filterNode(this.audioContext, initialFilterType, freq);
         this.waveshaperNode = new WaveshaperNodeWrapper(this.audioContext);
 
         this.filterNode.connect(this.waveshaperNode.waveshaperNode);
         this.waveshaperNode.waveshaperNode.connect(this.masterGainNode);
 
         this.masterGainNode.connect(this.audioContext.destination);
-        this.waveform = waveform;
+        this.waveform = getWave(waveform) ?? 'sine' as OscillatorType;
         this.octave = octave;
 
         this.voices = getAllFrequencies(0,8).map(

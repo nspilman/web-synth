@@ -1,4 +1,6 @@
 import IDialControlParameters from "../interfaces/IDailControlParameters"
+import { maxFilterTypeDialValue } from "./filterTypes";
+import waveforms, { maxWaveformsDialValue } from "./waveforms";
 
 function createParametersObject(
     min: number,
@@ -13,6 +15,25 @@ function createParametersObject(
              factor
          }
 }
+
+export const gainParameters = createParametersObject(
+    0,
+    1,
+    "GAIN",
+    10
+)
+
+export const octaveParameters = createParametersObject(
+    0,
+    8,
+    "OCTAVE",
+)
+
+export const waveParameters = createParametersObject(
+    0,
+    maxWaveformsDialValue,
+    "WAVE",
+)
 
 export const envelopeAttackParameters = createParametersObject(
     1,
@@ -56,6 +77,18 @@ export const oscDetuneParameters = createParametersObject(
     0,
     100,
     "UNISON DETUNE",
+)
+
+export const filterTypeParameters = createParametersObject(
+    0,
+    maxFilterTypeDialValue,
+    "FILTER",
+)
+
+export const oscCountParameters = createParametersObject(
+    1,
+    2,
+    "OSCILLATORS",
 )
 
 export const noiseLevelParameters = createParametersObject(

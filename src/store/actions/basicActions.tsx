@@ -1,5 +1,6 @@
 import audioContextService from "../../services/audioContextService";
 import { AudioControllerAction } from "."
+import waveforms, { getWave } from "../../data/waveforms";
 
 const audioContext = audioContextService.getInstance();
 
@@ -34,10 +35,11 @@ export const createSetDistortion = (newDistortion : number) => {
 }
 }
 
-export const createSetWave = (newWave : OscillatorType) => {
+export const createSetWave = (newWaveId : waveforms) => {
+    const newWave : OscillatorType = getWave(newWaveId) ?? 'custom';
     return {
         type: basicActionTypes.SET_WAVEFORM,
-        payload: newWave,
+        payload: newWaveId,
         setAudioController: () => audioContext.setWaveform(newWave)
     }
 }

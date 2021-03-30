@@ -1,5 +1,7 @@
+import filterTypes from "../data/filterTypes";
+
 export default interface IFilterParameters {
-    type : BiquadFilterType,
+    type : filterTypes,
     freq : number,
     q : number,
 }

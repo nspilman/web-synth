@@ -1,5 +1,6 @@
 import audioContextService from "../../services/audioContextService";
 import { AudioControllerAction } from ".";
+import { getFilterType } from "../../data/filterTypes";
 
 const audioContext = audioContextService.getInstance();
 
@@ -9,10 +10,11 @@ export enum filterActionTypes {
     SET_TYPE = "FILTER_SET_TYPE"
 }
 
-export const createSetFilterType = (newType : BiquadFilterType) : AudioControllerAction =>{
+export const createSetFilterType = (newTypeId : number) : AudioControllerAction =>{
+    const newType = getFilterType(newTypeId) ?? 'lowpass';
     return {
         type: filterActionTypes.SET_TYPE,
-        payload: newType,
+        payload: newTypeId,
         setAudioController: () => audioContext.setFilterType(newType),
     }
 }
@@ -27,7 +29,7 @@ export const createSetFilterFreq = (newFreq : number) : AudioControllerAction =>
 
 export const createSetFilterQ = (newQ : number) : AudioControllerAction =>{
     return {
-        type: filterActionTypes.SET_TYPE,
+        type: filterActionTypes.SET_Q,
         payload: newQ,
         setAudioController: () => audioContext.setFilterQ(newQ),
     }

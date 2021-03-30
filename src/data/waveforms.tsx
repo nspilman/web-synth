@@ -1,17 +1,33 @@
-const sine = 'sine' as OscillatorType;
-const square = 'square' as OscillatorType;
-const sawtooth = 'sawtooth' as OscillatorType;
-const triangle = 'triangle' as OscillatorType;
- 
-const waveforms =  {
-    sine,
-    square,
-    sawtooth,
-    triangle
+enum waveforms {
+    SINE,
+    SQUARE,
+    SAWTOOTH,
+    TRIANGLE,
 }
 
 export default waveforms
 
-export const getAllWaveTypes = () : OscillatorType[] =>{
-    return Object.keys(waveforms).map(waveform => waveform as OscillatorType);
+export const getAllWaveTypes = () : string[] =>{
+    return Object.keys(waveforms)
+    .map(waveform => waveform)
+}
+
+export const maxWaveformsDialValue : number = Object
+                                    .values(waveforms)
+                                    .filter(value => typeof value === 'string').length - 1;
+
+
+export const getWave = (waveId: waveforms) : OscillatorType | undefined => {
+    switch(waveId){
+        case waveforms.SINE:
+            return 'sine';
+        case waveforms.SQUARE:
+            return 'square'
+        case waveforms.SAWTOOTH:
+            return 'sawtooth'
+        case waveforms.TRIANGLE:
+            return 'triangle'
+        default:
+            break;
+    }
 }

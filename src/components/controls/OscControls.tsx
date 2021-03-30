@@ -1,14 +1,14 @@
 import React, { Dispatch } from 'react';
 import styled from "styled-components";
-import OscillatorCountControl from "./oscillator/oscillatorCountControl"
 import DialControl from "./components/dialControl"
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
 import { AudioControllerAction } from "../../store/actions";
-import { createSetNoise, createSetOscDetune } from "../../store/actions/oscillatorActions";
+import { createSetNoise, createSetOscCount, createSetOscDetune } from "../../store/actions/oscillatorActions";
 
 import { 
     noiseLevelParameters, 
+    oscCountParameters, 
     oscDetuneParameters, 
 } from "../../data/dialControlParmeters";
 
@@ -18,7 +18,7 @@ const StyledOscillatorsControl = styled.div`
 `
 
 function OscillatorsControl() {
-    const { detune, noiseGain } = useSelector((state: AppState) => state.oscillator);
+    const { detune, noiseGain, count } = useSelector((state: AppState) => state.oscillator);
     const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
     const setDetune = (detune: number) => {
@@ -31,9 +31,17 @@ function OscillatorsControl() {
         dispatch(payload)
     }
 
+    const setCount = (newCount: number) => {
+        const payload: AudioControllerAction = createSetOscCount(newCount);
+        dispatch(payload)
+    }
+
     return (
         <StyledOscillatorsControl id="OscillatorsControl">
-            <OscillatorCountControl/>
+            <DialControl
+               parameters={oscCountParameters}
+               value={count}
+               setValue={(value) => setCount(value)} />
             <DialControl
                parameters={oscDetuneParameters}
                value={detune}

@@ -16,7 +16,7 @@ import {
     createSetRelease, 
     createSetSustain 
 } from "../../store/actions/envelopeActions"; 
-import { AudioControllerAction } from "../../store/actions/"
+import { AudioControllerAction } from "../../store/actions"
 
 const StyledEnvelopeControl = styled.div`
     display:flex;

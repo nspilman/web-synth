@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 
-import FilterControlsWrapper from './controls/filterControlsWrapper';
-import OscControlsWrapper from './controls/OscControlsWrapper';
-import EnvelopeControlsWrapper from './controls/envelopeControlsWrapper';
-import BasicControlsWrapper from "./controls/basicControlsWrapper"
+import FilterControlsWrapper from './controls/filterControls';
+import OscControlsWrapper from './controls/OscControls';
+import EnvelopeControlsWrapper from './controls/envelopeControls';
+import BasicControlsWrapper from "./controls/basicControls"
 import colors from "../data/colors";
 
 const StyledControlPanel = styled.div`
