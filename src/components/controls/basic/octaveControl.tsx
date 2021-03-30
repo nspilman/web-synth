@@ -3,9 +3,9 @@ import styled from "styled-components";
 import StyledLabel from "../../styled/controlLabels";
 import StyledButton from "../../styled/controlButton";
 import { useDispatch, useSelector } from 'react-redux';
-import { AudioControllerAction } from '../../../store/actions/audioControllerAction';
-import { AppState } from '../../../store/reducers';
-import { createSetOctave } from '../../../store/actions/audioControllerAction';
+import { AudioControllerAction } from '../../../store/actions';
+import { AppState } from '../../../store/reducers/';
+import { createSetOctave } from '../../../store/actions/basicActions';
 
 const StyledOctaveControl = styled.div`
 display:flex;

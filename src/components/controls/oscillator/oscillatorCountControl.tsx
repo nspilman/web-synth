@@ -3,7 +3,8 @@ import React, { Dispatch } from 'react'
 import StyledButton from "../../styled/controlButton";
 import StyledLabel from "../../styled/controlLabels";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, createSetOscCount } from '../../../store/actions/audioControllerAction';
+import { AudioControllerAction } from '../../../store/actions';
+import { createSetOscCount } from '../../../store/actions/oscillatorActions';
 import { AppState } from '../../../store/reducers';
 
 function OscillatorCountControl(){

@@ -1,4 +1,5 @@
-import { AudioControllerAction, filterActionTypes } from "../actions/audioControllerAction"
+import { AudioControllerAction } from "../actions"
+import { filterActionTypes } from "../actions/filterActions"
 import IAudioContextParameters from "../../interfaces/IAudioContextParameters";
 import IFilterParameters from "../../interfaces/IFilterParameters";
 import getDefaultContextWrapper from "../../hooks/getDefaultContextWrapperValues";

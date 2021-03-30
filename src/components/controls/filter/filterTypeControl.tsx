@@ -3,8 +3,8 @@ import React, { Dispatch } from 'react'
 import StyledSelect from "../../styled/controlSelect";
 import { getAllFilterTypes } from '../../../data/filterTypes';
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, 
-    createSetFilterType } from '../../../store/actions/audioControllerAction';
+import { AudioControllerAction } from '../../../store/actions';
+import { createSetFilterType } from '../../../store/actions/filterActions';
 import { AppState } from '../../../store/reducers';
 
 function FilterTypeControl(){

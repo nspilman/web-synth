@@ -2,7 +2,8 @@ import React, { Dispatch } from 'react';
 import styled from "styled-components";
 import StyledLabel from "../../styled/controlLabels";
 import StyledButton from "../../styled/controlButton";
-import { AudioControllerAction, createSetGain } from "../../../store/actions/audioControllerAction";
+import { AudioControllerAction } from "../../../store/actions";
+import { createSetGain } from "../../../store/actions/basicActions";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from "../../../store/reducers";
 

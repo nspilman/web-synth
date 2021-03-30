@@ -4,7 +4,8 @@ import styled from "styled-components";
 import StyledLabel from "../../styled/controlLabels";
 import StyledSelect from "../../styled/controlSelect";
 import { useDispatch, useSelector } from 'react-redux';
-import { AudioControllerAction, basicActionTypes, createSetWave } from '../../../store/actions/audioControllerAction';
+import { AudioControllerAction } from '../../../store/actions/';
+import { createSetWave } from '../../../store/actions/basicActions';
 import { AppState } from '../../../store/reducers';
 
 const StyledWaveControl = styled.div`

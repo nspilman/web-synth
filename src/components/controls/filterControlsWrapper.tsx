@@ -5,7 +5,8 @@ import DialControl from "./components/dialControl";
 import FilterTypeControl from "./filter/filterTypeControl";
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, createSetFilterFreq, createSetFilterQ } from "../../store/actions/audioControllerAction";
+import { AudioControllerAction } from "../../store/actions/";
+import { createSetFilterFreq, createSetFilterQ } from "../../store/actions/filterActions";
 
 import {
     filterFrequencyParameters,

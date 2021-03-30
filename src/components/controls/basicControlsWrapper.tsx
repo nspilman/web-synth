@@ -6,7 +6,8 @@ import WaveControl from './basic/waveControl';
 import GainControl from "./basic/gainControl";
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, createSetDistortion } from "../../store/actions/audioControllerAction";
+import { AudioControllerAction } from "../../store/actions";
+import { createSetDistortion } from "../../store/actions/basicActions";
 
 import { 
     distortionParameters, 

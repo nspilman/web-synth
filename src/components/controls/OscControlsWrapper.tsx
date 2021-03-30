@@ -4,7 +4,8 @@ import OscillatorCountControl from "./oscillator/oscillatorCountControl"
 import DialControl from "./components/dialControl"
 import { AppState } from "../../store/reducers";
 import { useSelector, useDispatch } from 'react-redux';
-import { AudioControllerAction, createSetNoise, createSetOscDetune } from "../../store/actions/audioControllerAction";
+import { AudioControllerAction } from "../../store/actions";
+import { createSetNoise, createSetOscDetune } from "../../store/actions/oscillatorActions";
 
 import { 
     noiseLevelParameters, 

@@ -11,12 +11,12 @@ import {
     envelopeSustainParameters
 } from "../../data/dialControlParmeters";
 import { 
-    AudioControllerAction, 
     createSetAttackMs, 
     createSetDecayMs, 
     createSetRelease, 
     createSetSustain 
-} from "../../store/actions/audioControllerAction";
+} from "../../store/actions/envelopeActions"; 
+import { AudioControllerAction } from "../../store/actions/"
 
 const StyledEnvelopeControl = styled.div`
     display:flex;
@@ -27,6 +27,7 @@ const StyledEnvelopeControl = styled.div`
 function EnvelopeControl() {
     const { attackMs, decayMs, sustain, releaseMs } = useSelector((state: AppState) => state.envelope);
     const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
+
     const setAttackMs = (attackMs: number) => {
         const payload : AudioControllerAction = createSetAttackMs(attackMs)
         dispatch(payload);

@@ -1,4 +1,5 @@
-import { AudioControllerAction, envelopeActionTypes } from "../actions/audioControllerAction"
+import { AudioControllerAction } from "../actions"
+import { envelopeActionTypes } from "../actions/envelopeActions"
 import getDefaultContextWrapperValues from "../../hooks/getDefaultContextWrapperValues";
 import IAudioContextParameters from "../../interfaces/IAudioContextParameters";
 import IEnvelopeParameters from "../../interfaces/IEnvelopeParameters";
