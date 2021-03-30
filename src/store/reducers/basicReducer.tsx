@@ -7,16 +7,16 @@ type BasicState = {
     distortion: number,
     gain: number,
     octave: number,
-    waveform: number
+    waveformId: number
 }
 
-const { gain, distortion, octave, waveform }: IAudioContextParameters = getDefaultContextWrapperValues();
+const { gain, distortion, octave, waveformId }: IAudioContextParameters = getDefaultContextWrapperValues();
 
 const initialState: BasicState = {
     gain,
     distortion,
     octave,
-    waveform
+    waveformId
 }
 const BasicReducer = (state: BasicState = initialState, action: AudioControllerAction) => {
     switch (action.type) {

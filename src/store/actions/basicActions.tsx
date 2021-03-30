@@ -36,7 +36,7 @@ export const createSetDistortion = (newDistortion : number) => {
 }
 
 export const createSetWave = (newWaveId : waveforms) => {
-    const newWave : OscillatorType = getWave(newWaveId) ?? 'custom';
+    const newWave : OscillatorType = getWave(newWaveId);
     return {
         type: basicActionTypes.SET_WAVEFORM,
         payload: newWaveId,

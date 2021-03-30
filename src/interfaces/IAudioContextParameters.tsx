@@ -5,7 +5,7 @@ import IOscillatorParameters from "./IOscillatorParameters";
 
 export default interface IAudioContextParameters {
     gain : number,
-    waveform : waveforms
+    waveformId : waveforms
     octave : number,
     distortion: number,
     noiseGain: number,

@@ -17,17 +17,16 @@ export const maxWaveformsDialValue : number = Object
                                     .filter(value => typeof value === 'string').length - 1;
 
 
-export const getWave = (waveId: waveforms) : OscillatorType | undefined => {
+export const getWave = (waveId: waveforms) : OscillatorType => {
     switch(waveId){
-        case waveforms.SINE:
-            return 'sine';
         case waveforms.SQUARE:
             return 'square'
         case waveforms.SAWTOOTH:
             return 'sawtooth'
         case waveforms.TRIANGLE:
             return 'triangle'
-        default:
-            break;
+            case waveforms.SINE:
+            default:
+                return 'sine';
     }
 }

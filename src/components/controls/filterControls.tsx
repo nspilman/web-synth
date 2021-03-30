@@ -20,7 +20,7 @@ const StyledFilterControl = styled.div`
 `
 
 function FilterControl() {
-    const { freq, q, type } = useSelector((state: AppState) => state.filter);
+    const { freq, q, typeId } = useSelector((state: AppState) => state.filter);
     const dispatch = useDispatch<Dispatch<AudioControllerAction>>();
 
     const setFreq = (freq: number) => {
@@ -44,8 +44,8 @@ function FilterControl() {
             </StyledLabel>
             <DialControl
                 parameters={filterTypeParameters}
-                value={type}
-                setValue={(value) => setType(value)}
+                value={typeId}
+                setValue={(newTypeId) => setType(newTypeId)}
             />
             <DialControl
                 parameters={filterFrequencyParameters}

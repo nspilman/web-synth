@@ -11,7 +11,7 @@ export enum filterActionTypes {
 }
 
 export const createSetFilterType = (newTypeId : number) : AudioControllerAction =>{
-    const newType = getFilterType(newTypeId) ?? 'lowpass';
+    const newType = getFilterType(newTypeId);
     return {
         type: filterActionTypes.SET_TYPE,
         payload: newTypeId,

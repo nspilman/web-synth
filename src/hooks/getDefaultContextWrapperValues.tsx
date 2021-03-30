@@ -21,12 +21,12 @@ const getDefaultContextWrapper = () : IAudioContextParameters => {
     const defaultContextWrapperValues : IAudioContextParameters = {
         gain : initialGain,
         octave : initialOctave,
-        waveform: waveforms.SINE,
+        waveformId: waveforms.SINE,
         distortion: initialDistortion,
         noiseGain: initialNoiseGain,
         filterParameters : {
             freq : initialFilterFrequency,
-            type : initialFilterType,
+            typeId : initialFilterType,
             q : initialFilterQ,
         },
         oscillatorParameters :{

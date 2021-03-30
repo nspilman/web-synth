@@ -1,7 +1,7 @@
 import filterTypes from "../data/filterTypes";
 
 export default interface IFilterParameters {
-    type : filterTypes,
+    typeId : filterTypes,
     freq : number,
     q : number,
 }
