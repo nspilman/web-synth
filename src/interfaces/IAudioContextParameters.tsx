@@ -1,10 +1,11 @@
+import waveforms from "../data/waveforms";
 import IEnvelopeParameters from "./IEnvelopeParameters";
 import IFilterParameters from "./IFilterParameters";
 import IOscillatorParameters from "./IOscillatorParameters";
 
 export default interface IAudioContextParameters {
     gain : number,
-    waveform : OscillatorType
+    waveformId : waveforms
     octave : number,
     distortion: number,
     noiseGain: number,

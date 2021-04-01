@@ -1,4 +1,5 @@
-import { AudioControllerAction, basicActionTypes } from "../actions/audioControllerAction"
+import { AudioControllerAction } from "../actions"
+import { basicActionTypes } from "../actions/basicActions"
 import getDefaultContextWrapperValues from "../../hooks/getDefaultContextWrapperValues";
 import IAudioContextParameters from "../../interfaces/IAudioContextParameters";
 
@@ -6,16 +7,16 @@ type BasicState = {
     distortion: number,
     gain: number,
     octave: number,
-    waveform: OscillatorType
+    waveformId: number
 }
 
-const { gain, distortion, octave, waveform }: IAudioContextParameters = getDefaultContextWrapperValues();
+const { gain, distortion, octave, waveformId }: IAudioContextParameters = getDefaultContextWrapperValues();
 
 const initialState: BasicState = {
     gain,
     distortion,
     octave,
-    waveform
+    waveformId
 }
 const BasicReducer = (state: BasicState = initialState, action: AudioControllerAction) => {
     switch (action.type) {
