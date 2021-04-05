@@ -1,4 +1,4 @@
-import { getFrequency } from "../data/notes";
+import { getFrequency, keyNames } from "../data/notes";
 import Envelope from "./Envelope";
 import IOscillatorParameters from "../interfaces/IOscillatorParameters";
 import IEnvelopeParameters from "../interfaces/IEnvelopeParameters";
@@ -19,7 +19,7 @@ export default class Voice {
     envelope: Envelope // envelope
 
     constructor(
-        note: string,
+        note: keyNames,
         octave: number,
         oscillatorParameters : IOscillatorParameters,
         envelopeParameters: IEnvelopeParameters,

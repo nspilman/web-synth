@@ -1,53 +1,56 @@
-import styled from "styled-components";
-import React, { useState } from 'react';
-import { playNote, stopNote } from '../hooks/noteHook';
+import React, { useEffect } from 'react';
 import keyboardToNoteHash from "../data/keyboardToNoteHash";
-import {StyledFlat, StyledNatural } from "./styled/key";
+import { StyledFlat, StyledNatural } from "./styled/key";
+import { keyNames } from "../data/notes";
+import { useSelector } from 'react-redux';
+import { AppState } from '../store/reducers';
 
 interface KeyProps {
-    note: string,
+    keyName: keyNames,
+    stopNote: (value: keyNames) => void;
+    playNote: (value: keyNames) => void;
 }
 
-function Key({ note }: KeyProps) {
-    const [isPlaying, setIsPlaying] = useState(false)
-    const isFlat : boolean = note.endsWith('b')
-  
-    const parseAndPlayKeyCommand = ({key} : KeyboardEvent) => {
+function Key({ keyName, stopNote, playNote }: KeyProps) {
+    const isFlat: boolean = keyName.endsWith('b')
+    const isPlaying = useSelector((state: AppState) => state.isPlaying.get(keyName)) ?? false;
+
+    const parseAndPlayKeyCommand = ({ key }: KeyboardEvent) => {
         const triggeredNote = keyboardToNoteHash[key.toLowerCase()];
-        if(note === triggeredNote){
-            playAndSetPlaying(note)
+        if (keyName === triggeredNote) {
+            playNote(keyName)
         }
     }
 
-    const parseAndStopKeyCommand = ({key} : KeyboardEvent) => {
-        const note = keyboardToNoteHash[key.toLowerCase()];
-        if(note){
-            stopAndSetStopped(note)
+    const parseAndStopKeyCommand = ({ key }: KeyboardEvent) => {
+        const triggeredNote = keyboardToNoteHash[key.toLowerCase()];
+        if (keyName === triggeredNote) {
+            stopNote(keyName)
         }
     }
 
-    const playAndSetPlaying = (note : string) => {
-        setIsPlaying(true)
-        playNote(note)
-    }
-
-    const stopAndSetStopped = (note : string) => {
-        stopNote(note)
-        setIsPlaying(false)
-    }
-
-    window.addEventListener('keydown', (event) => parseAndPlayKeyCommand(event));
-    window.addEventListener('keyup', (event) => parseAndStopKeyCommand(event));
+    useEffect(() => {
+        if (isPlaying) {
+            window.addEventListener('keyup', (event) => {
+                parseAndStopKeyCommand(event)
+            })
+        }
+        else {
+            window.addEventListener('keydown', (event) => {
+                parseAndPlayKeyCommand(event)
+            })
+        }
+    }, [isPlaying])
     const componentToRender = isFlat ? StyledFlat : StyledNatural;
     return (
         React.createElement(componentToRender, {
             isPlaying,
-            onMouseDown : () => playAndSetPlaying ( note ),
-            onMouseLeave : () => stopAndSetStopped ( note ),
-            onMouseUp : () => stopAndSetStopped ( note ),
+            onMouseDown: () => playNote(keyName),
+            onMouseLeave: () => stopNote(keyName),
+            onMouseUp: () => stopNote(keyName),
         },
-        note)
-        )
+            keyName)
+    )
 }
 
 export default Key

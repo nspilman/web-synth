@@ -1,11 +1,11 @@
-import { getAllFrequencies } from "../data/notes";
+import { getAllFrequencies, keyNames } from "../data/notes";
 import masterGainNode from "./masterGainNode";
 import filterNode from "./filterNode";
 import Voice from "./Voice"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 import WaveshaperNodeWrapper from "./WaveshaperNodeWrapper";
 import WhiteNoiseOscillator from "./WhiteNoiseOscillator";
-import waveforms, { getWave } from "../data/waveforms";
+import { getWave } from "../data/waveforms";
 import { getFilterType } from "../data/filterTypes";
 
 class AudioContextWrapper {
@@ -46,7 +46,7 @@ class AudioContextWrapper {
 
         this.voices = getAllFrequencies(0,8).map(
             note => new Voice(
-                note.noteName,
+                note.keyName,
                 note.octave,
                 oscillatorParameters,
                 envelopeParameters,
@@ -58,7 +58,7 @@ class AudioContextWrapper {
         this.numPlayingVoices = 0;
     }
 
-    playNote(note : string){
+    playNote(note : keyNames){
         const voice = this.findOscWithNoteAndOctave(this.voices, note);
         if (!voice) {
             console.log("Unable to find voice with note " + note + " and octave " + this.octave);
