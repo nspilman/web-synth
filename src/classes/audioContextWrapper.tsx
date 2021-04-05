@@ -5,7 +5,7 @@ import Voice from "./Voice"
 import IAudioContextParameters from "../interfaces/IAudioContextParameters"
 import WaveshaperNodeWrapper from "./WaveshaperNodeWrapper";
 import WhiteNoiseOscillator from "./WhiteNoiseOscillator";
-import waveforms, { getWave } from "../data/waveforms";
+import { getWave } from "../data/waveforms";
 import { getFilterType } from "../data/filterTypes";
 
 class AudioContextWrapper {
@@ -43,7 +43,7 @@ class AudioContextWrapper {
         this.masterGainNode.connect(this.audioContext.destination);
         this.waveform = getWave(waveformId);
         this.octave = octave;
-        
+
         this.voices = getAllFrequencies(0,8).map(
             note => new Voice(
                 note.keyName,

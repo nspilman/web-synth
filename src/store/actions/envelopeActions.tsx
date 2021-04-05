@@ -32,7 +32,7 @@ export const createSetSustain = (newSustain : number) =>
     return {
         type: envelopeActionTypes.SET_SUSTAIN,
         payload: newSustain,
-        setAudioController: () => audioContext.setDecayMs(newSustain),
+        setAudioController: () => audioContext.setSustain(newSustain),
     }
 }
 
@@ -41,6 +41,6 @@ export const createSetRelease = (newRelease : number) =>
     return {
         type: envelopeActionTypes.SET_RELEASE,
         payload: newRelease,
-        setAudioController: () => audioContext.setDecayMs(newRelease),
+        setAudioController: () => audioContext.setReleaseMs(newRelease),
     }
 }

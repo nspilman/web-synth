@@ -6,7 +6,6 @@ import ControlPanel from "./controlPanel"
 import colors from "../data/colors";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../store/reducers';
-import { AudioControllerAction } from '../store/actions';
 import { createPlayNoteAction, createStopNoteAction, playNoteAction } from '../store/actions/playNoteActions';
 
 const StyledKeys = styled.ul`

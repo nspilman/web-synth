@@ -1,7 +1,6 @@
-import React, { Dispatch } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { AppState } from "../../store/reducers";
-import styled from "styled-components";
 import { StyledControl, StyledLabel } from "../styled/control/index";
 import DialControl from "./components/dialControl"
 import {
@@ -20,7 +19,7 @@ import { controlState } from '../controlPanel';
 
 function EnvelopeControl({ triggerStateChange }: controlState) {
     const { attackMs, decayMs, sustain, releaseMs } = useSelector((state: AppState) => state.envelope);
-    
+
     return (
         <StyledControl>
             <StyledLabel>
