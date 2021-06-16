@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { HighContrast } from 'react-dial-knob'
+import { Donut } from 'react-dial-knob'
 import colors from "../../../data/colors";
+import "../../../App.css"
 
 interface ControlKnobProps {
     value : number,
@@ -16,7 +17,7 @@ export default function ControlKnob({
     setValue, 
     max = 10, 
     min = 0,
-    diameter = 40
+    diameter = 45
 } : ControlKnobProps) {
     const [localValue, setLocalValue] = useState(value);
     const step = 1;
@@ -25,19 +26,23 @@ export default function ControlKnob({
     useEffect(() => {
         setValue(localValue)
     },[localValue])
-    return <HighContrast
+    return (<Donut
         diameter={diameter}
         min={min}
         max={max}
         step={step}
         value={localValue}
         theme={{
-            defaultColor: colors.brown,
-            activeColor: colors.hoverColor
+            donutColor: colors.blue,
+            centerColor: colors.black,
+            bgrColor: colors.purple,
+            centerFocusedColor: colors.black,
+            maxedBgrColor: colors.blue,
+            donutThickness: 4
         }}
         jumpLimit={jumpLimit}
         onValueChange={(newValue) => setLocalValue(newValue)}
         ariaLabelledBy={'controlKnob'}
     >
-    </HighContrast>
+    </Donut>)
 }

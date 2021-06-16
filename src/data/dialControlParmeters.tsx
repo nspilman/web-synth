@@ -32,7 +32,7 @@ export const octaveParameters = createParametersObject(
 export const waveParameters = createParametersObject(
     0,
     maxWaveformsDialValue,
-    "WAVE",
+    "TYPE",
 )
 
 export const envelopeAttackParameters = createParametersObject(

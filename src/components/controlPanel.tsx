@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { AudioControllerAction } from '../store/actions';
 import {
     StyledControlPanel,
-    StyledControlsLabel,
+    StyledBrandLabel,
     StyledTab,
     StyledTabButton,
     StyledTabs
@@ -60,10 +60,10 @@ function ControlPanel() {
     }
     return (
         <StyledControlPanel>
+            <StyledBrandLabel>
+                    N8-JS Web Synth
+            </StyledBrandLabel>
             <StyledTabs id="tabs">
-                <StyledControlsLabel>
-                    CONTROLS
-            </StyledControlsLabel>
                 {
                     Object.keys(panelTabs).map(
                         tab => <StyledTabButton

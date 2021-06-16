@@ -15,21 +15,38 @@ interface StyledTabButtonProps {
 }
 
 export const StyledTabButton = styled.button`
-    padding:.5rem .75rem;
-    background-color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.offWhite : colors.brown};
-    color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.brown : colors.offWhite};
+    padding:.75rem 0rem;
+    width:130px;
+    margin: 0 .25rem;
+    background-color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.gray : colors.gray};
+    color: ${(props: StyledTabButtonProps) => props.isSelected ? colors.blue : colors.grayLight};
     border-radius:10px;
-    :hover{
-        background-color:${(props: StyledTabButtonProps) => !props.isSelected && colors.hoverColor};
+    border: 1px solid ${colors.lightShadow};
+    text-transform: uppercase;
+    :focus{
+        outline: -webkit-focus-ring-color auto 0px;
+        // border: 1px solid ${colors.blue};
     }
-    `
+    :active{
+        box-shadow:  inset 5px 5px 8px ${colors.black},
+             inset -5px -5px 8px ${colors.lightShadow};
+        // border: 1px solid ${colors.blue};
+    }
+`
     
 export const StyledTab = styled.div`
-    height:50px;
-    padding-top:1rem;
+    margin: 1.5rem 0 1rem 0;
+    width:560px;
+    padding:1.5rem 0;
+    background:black;
+    border-radius:10px;
+    box-shadow:  inset 5px 5px 8px ${colors.black},
+             inset -5px -5px 8px ${colors.lightShadow};
 `
-export const StyledControlsLabel = styled.span`
-    color:${colors.offWhite};
-    padding:.5rem .75rem;
-    font-weight:bold;
+export const StyledBrandLabel = styled.span`
+    font-size:1.8rem;
+    color:${colors.blue};
+    padding:1.5rem 0;
+    text-transform: uppercase;
+    font-family: 'Righteous', cursive;
 `
