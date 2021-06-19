@@ -83,7 +83,7 @@ export const StyledFlat = styled(StyledKey)`
         background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.purple: colors.purple};
     }
     &:nth-child(n)::before {
-        margin-bottom: 14rem;
+        margin-bottom: 13.8rem;
         margin-left: 1.5rem;
         color: ${colors.grayLight};
     }
