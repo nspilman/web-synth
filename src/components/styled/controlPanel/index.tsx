@@ -35,7 +35,7 @@ export const StyledTabButton = styled.button`
 `
     
 export const StyledTab = styled.div`
-    margin: 1.5rem 0 1rem 0;
+    margin: 1.5rem 0 2rem 0;
     width:560px;
     padding:1.5rem 0;
     background:black;
