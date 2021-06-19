@@ -26,9 +26,6 @@ export const StyledNatural = styled(StyledKey)`
     font-family: 'Righteous', cursive;
     z-index: 1;
     border:1px ${colors.gray} solid;
-    &:focus{
-        background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.purple};
-    }
     &:first-child {
         border-radius:10px 0 0 10px;
     }
@@ -66,7 +63,8 @@ export const StyledNatural = styled(StyledKey)`
     &:nth-child(12)::before {
         content:"B";
         margin-left: 2.5rem;
-    };
+    }
+}
 `
 
 export const StyledFlat = styled(StyledKey)`
@@ -79,9 +77,6 @@ export const StyledFlat = styled(StyledKey)`
     margin:0 -2em;
     z-index: 2;
     border-radius: 0 0 1rem 1rem;
-    &:focus{
-        background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.purple: colors.purple};
-    }
     &:nth-child(n)::before {
         margin-bottom: 13.8rem;
         margin-left: 1.5rem;
