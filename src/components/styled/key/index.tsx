@@ -26,7 +26,7 @@ export const StyledNatural = styled(StyledKey)`
     font-family: 'Righteous', cursive;
     z-index: 1;
     border:1px ${colors.gray} solid;
-    &:hover{
+    &:focus{
         background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.purple};
     }
     &:first-child {
@@ -37,7 +37,7 @@ export const StyledNatural = styled(StyledKey)`
     }
     &:nth-child(n)::before {
         margin-bottom: 22rem;
-        color: ${colors.grayLight};
+        color: ${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.grayLight};
     }
     &:nth-child(1)::before {
         content:"C";
@@ -79,13 +79,13 @@ export const StyledFlat = styled(StyledKey)`
     margin:0 -2em;
     z-index: 2;
     border-radius: 0 0 1rem 1rem;
-    &:hover{
+    &:focus{
         background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.purple: colors.purple};
     }
     &:nth-child(n)::before {
         margin-bottom: 13.8rem;
         margin-left: 1.5rem;
-        color: ${colors.grayLight};
+        color: ${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.grayLight};
     }
     &:nth-child(2)::before {
         content:"C♭";
