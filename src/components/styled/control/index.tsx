@@ -2,13 +2,16 @@ import styled from 'styled-components'
 import colors from "../../../data/colors"
 
 export const StyledLabel = styled.span`
-    font-weight:bold;
-    color:${colors.offWhite};
-    padding:.3rem;
+    color:${colors.blue};
 `
 
 export const StyledControl = styled.div`
     display:flex;
+    flex-direction:row;
     align-items:center;
-    justify-content:center;
+    justify-content:space-evenly;
+`
+
+export const StyledKnob = styled.div`
+    margin:auto;
 `

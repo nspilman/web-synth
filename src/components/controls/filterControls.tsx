@@ -17,9 +17,6 @@ function FilterControl({ triggerStateChange }: controlState) {
 
     return (
         <StyledControl>
-            <StyledLabel>
-                FILTER
-            </StyledLabel>
             <DialControl
                 parameters={filterTypeParameters}
                 value={typeId}

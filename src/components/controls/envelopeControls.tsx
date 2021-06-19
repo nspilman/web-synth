@@ -22,9 +22,6 @@ function EnvelopeControl({ triggerStateChange }: controlState) {
 
     return (
         <StyledControl>
-            <StyledLabel>
-                ENVELOPE
-            </StyledLabel>
             <DialControl
                 parameters={envelopeAttackParameters}
                 value = {attackMs}
