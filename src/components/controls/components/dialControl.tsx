@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledLabel } from "../../styled/control";
+import { StyledDialControl, StyledLabel } from "../../styled/control";
 import ControlKnob from "./controlKnob";
 import IDialControlParameters from "../../../interfaces/IDailControlParameters";
 
@@ -19,7 +19,7 @@ function DialControl(props: Props) {
   };
 
   return (
-    <div>
+    <StyledDialControl>
       <StyledLabel>{title}</StyledLabel>
       <ControlKnob
         min={min * factor}
@@ -27,7 +27,7 @@ function DialControl(props: Props) {
         value={value * factor}
         setValue={localSetvalue}
       />
-    </div>
+    </StyledDialControl>
   );
 }
 
