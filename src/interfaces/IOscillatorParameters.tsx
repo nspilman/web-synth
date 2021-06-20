@@ -1,4 +1,4 @@
 export default interface IOscillatorParameters {
-    numOscillators: number,
-    oscillatorUnisonDetune: number,
+  numOscillators: number;
+  oscillatorUnisonDetune: number;
 }

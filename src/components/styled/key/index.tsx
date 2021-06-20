@@ -1,26 +1,27 @@
-import styled from "styled-components"
-import colors from "../../../data/colors"
+import styled from "styled-components";
+import colors from "../../../data/colors";
 
 interface StyledKeyProps {
-    isPlaying : boolean,
+  isPlaying: boolean;
 }
 
 const StyledKey = styled.li`
-    cursor:pointer;
-    display:flex;
-    position:relative;
-    float:left;
-    align-items:center;
-    justify-content:center;
-    &::selection{
-        background: transparent;
-    }
-`
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  &::selection {
+    background: transparent;
+  }
+`;
 
 export const StyledNatural = styled(StyledKey)`
     height: 20rem;
     width: 6rem;
-    background-color:${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.blue};
+    background-color:${(props: StyledKeyProps) =>
+      props.isPlaying ? colors.purple : colors.blue};
     color:transparent;
     text-transform: uppercase;
     font-family: 'Righteous', cursive;
@@ -34,7 +35,8 @@ export const StyledNatural = styled(StyledKey)`
     }
     &:nth-child(n)::before {
         margin-bottom: 22rem;
-        color: ${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.grayLight};
+        color: ${(props: StyledKeyProps) =>
+          props.isPlaying ? colors.purple : colors.grayLight};
     }
     &:nth-child(1)::before {
         content:"C";
@@ -65,36 +67,38 @@ export const StyledNatural = styled(StyledKey)`
         margin-left: 2.5rem;
     }
 }
-`
+`;
 
 export const StyledFlat = styled(StyledKey)`
-    height: 12rem;
-    width: 4rem;
-    background-color: ${(props: StyledKeyProps) => props.isPlaying ? colors.purple :colors.gray};
-    color:transparent;
-    text-transform: uppercase;
-    font-family: 'Righteous', cursive;
-    margin:0 -2em;
-    z-index: 2;
-    border-radius: 0 0 1rem 1rem;
-    &:nth-child(n)::before {
-        margin-bottom: 13.8rem;
-        margin-left: 1.5rem;
-        color: ${(props: StyledKeyProps) => props.isPlaying ? colors.purple : colors.grayLight};
-    }
-    &:nth-child(2)::before {
-        content:"C♭";
-    };
-    &:nth-child(4)::before {
-        content:"E♭";
-    };
-    &:nth-child(7)::before {
-        content:"G♭";
-    };
-    &:nth-child(9)::before {
-        content:"A♭";
-    };
-    &:nth-child(11)::before {
-        content:"B♭";
-    };
-`
+  height: 12rem;
+  width: 4rem;
+  background-color: ${(props: StyledKeyProps) =>
+    props.isPlaying ? colors.purple : colors.gray};
+  color: transparent;
+  text-transform: uppercase;
+  font-family: "Righteous", cursive;
+  margin: 0 -2em;
+  z-index: 2;
+  border-radius: 0 0 1rem 1rem;
+  &:nth-child(n)::before {
+    margin-bottom: 13.8rem;
+    margin-left: 1.5rem;
+    color: ${(props: StyledKeyProps) =>
+      props.isPlaying ? colors.purple : colors.grayLight};
+  }
+  &:nth-child(2)::before {
+    content: "C♭";
+  }
+  &:nth-child(4)::before {
+    content: "E♭";
+  }
+  &:nth-child(7)::before {
+    content: "G♭";
+  }
+  &:nth-child(9)::before {
+    content: "A♭";
+  }
+  &:nth-child(11)::before {
+    content: "B♭";
+  }
+`;
