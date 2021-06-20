@@ -4,10 +4,15 @@ import { basicActionTypes } from "./basicActions";
 import { oscillatorActionTypes } from "./oscillatorActions";
 
 interface IAudioControllerAction<T> {
-    readonly type: envelopeActionTypes | filterActionTypes | oscillatorActionTypes | basicActionTypes;
-    payload: number,
-    setAudioController : (payload : T ) => void;
+  readonly type:
+    | envelopeActionTypes
+    | filterActionTypes
+    | oscillatorActionTypes
+    | basicActionTypes;
+  payload: number;
+  setAudioController: (payload: T) => void;
 }
 
-export type AudioControllerAction =
-| IAudioControllerAction<number | OscillatorType | BiquadFilterType>
+export type AudioControllerAction = IAudioControllerAction<
+  number | OscillatorType | BiquadFilterType
+>;
