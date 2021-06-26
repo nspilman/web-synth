@@ -3,6 +3,7 @@ enum waveforms {
   SQUARE,
   SAWTOOTH,
   TRIANGLE,
+  CUSTOM
 }
 
 export default waveforms;
@@ -23,6 +24,8 @@ export const getWave = (waveId: waveforms): OscillatorType => {
       return "sawtooth";
     case waveforms.TRIANGLE:
       return "triangle";
+    case waveforms.CUSTOM:
+      return "custom";
     case waveforms.SINE:
     default:
       return "sine";
