@@ -56,7 +56,6 @@ export default class Voice {
       const osc = this.audioContext.createOscillator();
       this.setWave(osc, wave, wavetable);
       osc.frequency.value = this.frequency;
-      osc.type = wave;
       osc.detune.value = this.getDetuneVal(i, this.detune);
       osc.connect(this.envelopeGain);
       osc.start();
