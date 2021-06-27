@@ -127,8 +127,18 @@ class AudioContextWrapper {
     this.waveform = newWaveform;
   }
 
-  set Wavetable(newWavetable: Wavetable) {
+  setWavetable(newWavetable: Wavetable) {
     this.wavetable = newWavetable;
+  }
+
+  setWavetableName(newWavetableName: string) {
+    var wavetableFromCache = WavetableCache.getSingleton().get(newWavetableName);
+    if (wavetableFromCache == null) {
+      console.log("Unable to find wavetable " + newWavetableName + " in the cache");
+      wavetableFromCache = Wavetable.createEmpty();
+    }
+
+    this.setWavetable(wavetableFromCache);
   }
 
   setOctave(octave: number) {
