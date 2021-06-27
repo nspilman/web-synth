@@ -1,0 +1,30 @@
+package n8jswebsynth;
+syntax = "proto3";
+
+// type of data in wavetable
+enum DataType {
+    TIME = 0;
+    FREQUENCY = 1;
+}
+
+// wavetable represented by samples over time, contains sampleRate and array of data
+message TimeData {
+    double sampleRate = 1;
+    repeated double data = 2;
+}
+
+// wavetable represented by frequency bins, contains real and imaginary data arrays
+message FrequencyData {
+    repeated double real = 1;
+    repeated double imag = 2;
+}
+
+// wavetable with name and data 
+message Wavetable {
+    required string name = 1; // name of wavetable
+    required DataType dataType = 2; // data type
+    oneof data {
+        TimeData timeData = 3; // must be set if dataType == TIME
+        FrequencyData frequencyData = 4; // must be set if dataType == FREQUENCY
+    }
+}
