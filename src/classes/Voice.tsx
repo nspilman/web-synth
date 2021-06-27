@@ -2,6 +2,8 @@ import { getFrequency, keyNames } from "../data/notes";
 import Envelope from "./Envelope";
 import IOscillatorParameters from "../interfaces/IOscillatorParameters";
 import IEnvelopeParameters from "../interfaces/IEnvelopeParameters";
+import Wavetable from "./Wavetable";
+import waveforms, { getWave } from "../data/waveforms";
 
 const maxNumOscillators = 2;
 
@@ -45,17 +47,18 @@ export default class Voice {
     this.envelope.setReleaseTimeInSec(releaseMs / 1000);
   }
 
-  play(nodeToConnect: AudioNode, wave: OscillatorType) {
+  play(nodeToConnect: AudioNode, wave: OscillatorType, wavetable: Wavetable) {
     if (this.isActivelyPlaying) {
       return;
     }
 
     for (var i = 0; i < this.numOscillators; i++) {
       const osc = this.audioContext.createOscillator();
+      this.setWave(osc, wave, wavetable);
       osc.frequency.value = this.frequency;
-      osc.connect(this.envelopeGain);
       osc.type = wave;
       osc.detune.value = this.getDetuneVal(i, this.detune);
+      osc.connect(this.envelopeGain);
       osc.start();
       this.oscillators[i] = osc;
     }
@@ -108,6 +111,22 @@ export default class Voice {
 
   getDetuneVal(oscIndex: number, detune: number) {
     return oscIndex % 2 == 0 ? detune : -detune;
+  }
+
+  setWave(osc: OscillatorNode, wave: OscillatorType, wavetable: Wavetable) {
+    if (wave == getWave(waveforms.CUSTOM)) {
+      if (wavetable == null) {
+        console.log("Tried to set custom wavetable, but wavetable was null, will fall back to sine...");
+        osc.type = getWave(waveforms.SINE);
+      }
+      else {
+        var periodicWave = wavetable.getPeriodicWave(this.audioContext);
+        osc.setPeriodicWave(periodicWave);
+      }
+    }
+    else {
+      osc.type = wave;
+    }
   }
 
   stopPlayingOsc(playingOsc: OscillatorNode[]) {
