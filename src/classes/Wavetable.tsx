@@ -1,29 +1,22 @@
 export default class Wavetable {
-    real: Float32Array;
-    imag: Float32Array;
+    real: number[];
+    imag: number[];
 
     constructor(
-        real: Float32Array,
-        imag: Float32Array
+        real: number[],
+        imag: number[]
     ) {
         this.real = real;
         this.imag = imag;
     }
 
-    static fromTimeseries(timeseries: Float32Array) {
+    static fromTimeData(sampleRate: number, timeData: number[]) {
         // TODO: FFT on timeseries to get real / imag components
+        return new Wavetable([0, 1], [0, 0]);
     }
 
-    static createSine() {
-        var real = new Float32Array(2);
-        var imag = new Float32Array(2);
-
-        real[0] = 0;
-        imag[0] = 0
-        real[1] = 1;
-        imag[1] = 0;
-
-        return new Wavetable(real, imag);
+    static createEmpty() {
+        return new Wavetable([0], [0]);
     }
 
     getPeriodicWave(audioContext: AudioContext) {

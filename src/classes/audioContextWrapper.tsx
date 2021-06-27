@@ -8,6 +8,7 @@ import WhiteNoiseOscillator from "./WhiteNoiseOscillator";
 import { getWave } from "../data/waveforms";
 import { getFilterType } from "../data/filterTypes";
 import Wavetable from "./Wavetable";
+import WavetableCache from "./WavetableCache";
 
 class AudioContextWrapper {
   audioContext: AudioContext;
@@ -35,6 +36,8 @@ class AudioContextWrapper {
       window.AudioContext || window.webkitAudioContext;
     this.audioContext = new browserCompatibleAudioContext();
 
+    WavetableCache.getSingleton().init();
+
     this.masterGainNode = masterGainNode(this.audioContext, gain);
     const { typeId, freq } = filterParameters;
     this.filterNode = filterNode(
@@ -49,7 +52,7 @@ class AudioContextWrapper {
 
     this.masterGainNode.connect(this.audioContext.destination);
     this.waveform = getWave(waveformId);
-    this.wavetable = Wavetable.createSine();
+    this.wavetable = WavetableCache.getSingleton().tryGet("sine") ?? Wavetable.createEmpty();
     this.octave = octave;
 
     this.voices = getAllFrequencies(0, 8).map(

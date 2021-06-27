@@ -1,1 +1,0 @@
-Put wavetable files in this folder. Wavetable files (.wtpb) are Protobuf-serialized objects.

@@ -1,3 +1,13 @@
+// Because we are using TypeScript, it's better to statically compile this file and generate the typings file.
+// Otherwise, we would have to use bracket notation or explicit casts on untyped JS objects.
+// See here: https://www.npmjs.com/package/protobufjs#usage-with-typescript
+// When this file is changed, run node_modules/protobufjs/pbjs to generate the compiled js, then
+// node_modules/protobufjs/pbts to generate the typings.
+//
+// For example:
+//     node_modules/protobufjs/bin/pbjs -t static-module -w commonjs -o src/proto/wavetableMessage.js src/proto/wavetableMessage.proto
+//     node_modules/protobufjs/bin/pbts -o src/proto/wavetableMessage.d.ts src/proto/wavetableMessage.js
+
 package n8jswebsynth;
 syntax = "proto3";
 
@@ -20,7 +30,7 @@ message FrequencyData {
 }
 
 // wavetable with name and data 
-message Wavetable {
+message WavetableMessage {
     required string name = 1; // name of wavetable
     required DataType dataType = 2; // data type
     oneof data {
