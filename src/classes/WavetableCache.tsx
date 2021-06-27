@@ -38,7 +38,6 @@ export default class WavetableCache {
         // Uncomment the next line to generate a preset!
         // WavetablePresetUtils.writePresetFile();
 
-        // TODO: initialize cache from presets in data/wavetables folder
         wavetables.forEach((value: string, key: string) => {
             var wavetableMessage = WavetableMessageUtils.fromBase64(value);
             if (wavetableMessage == null) {

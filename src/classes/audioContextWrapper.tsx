@@ -52,7 +52,7 @@ class AudioContextWrapper {
 
     this.masterGainNode.connect(this.audioContext.destination);
     this.waveform = getWave(waveformId);
-    this.wavetable = WavetableCache.getSingleton().tryGet("sine") ?? Wavetable.createEmpty();
+    this.wavetable = WavetableCache.getSingleton().tryGet("organ") ?? Wavetable.createEmpty();
     this.octave = octave;
 
     this.voices = getAllFrequencies(0, 8).map(

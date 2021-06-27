@@ -6,18 +6,17 @@ export default class WavetablePresetUtils {
     static writePresetFile() {
         // create preset
         var message = n8jswebsynth.WavetableMessage.create();
-        message.name = "sine";
+        message.name = "organ";
         message.dataType = n8jswebsynth.DataType.FREQUENCY;
         
         var frequencyData = new n8jswebsynth.FrequencyData();
-        frequencyData.real = [0, 1];
-        frequencyData.imag = [0, 0];
+        frequencyData.real = [0, 1, 0, 0, 1.5, 0, 0.1, 0, 0, 1];
+        frequencyData.imag = [0, 0, 0, 1, 0, 1, 0.2, 0, 1, 0];
     
         message.frequencyData = frequencyData;
     
         var messageBuffer = n8jswebsynth.WavetableMessage.encode(message).finish();
         var messageBase64 = WavetablePresetUtils.arrayBufferToBase64(messageBuffer);
-        console.log(messageBase64);
 
         // download
         //var url = URL.createObjectURL(new Blob([messageBuffer], {type: "application/binary"}))
@@ -25,7 +24,7 @@ export default class WavetablePresetUtils {
     
         var element = document.createElement('a');
         element.href = url;
-        element.setAttribute('download', "sine.txt");
+        element.setAttribute('download', "organ.txt");
     
         element.style.display = 'none';
         document.body.appendChild(element);
