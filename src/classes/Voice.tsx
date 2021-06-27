@@ -114,14 +114,8 @@ export default class Voice {
 
   setWave(osc: OscillatorNode, wave: OscillatorType, wavetable: Wavetable) {
     if (wave == getWave(waveforms.CUSTOM)) {
-      if (wavetable == null) {
-        console.log("Tried to set custom wavetable, but wavetable was null, will fall back to sine...");
-        osc.type = getWave(waveforms.SINE);
-      }
-      else {
-        var periodicWave = wavetable.getPeriodicWave(this.audioContext);
-        osc.setPeriodicWave(periodicWave);
-      }
+      var periodicWave = wavetable.getPeriodicWave(this.audioContext);
+      osc.setPeriodicWave(periodicWave);
     }
     else {
       osc.type = wave;
