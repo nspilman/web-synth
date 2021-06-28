@@ -1,5 +1,5 @@
 export default class AudioFileUtils {
-    static GetAudioBufferFromFileAsync(file: File, onAudioBufferReadyCallback: (data: AudioBuffer) => void) {
+    static GetAudioBufferFromFileInputAsync(file: File, onAudioBufferReadyCallback: (data: AudioBuffer) => void) {
         var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         var reader = new FileReader();
         reader.onload = () => {
