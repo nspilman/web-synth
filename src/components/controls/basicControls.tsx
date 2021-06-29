@@ -18,11 +18,19 @@ import {
 } from "../../data/dialControlParmeters";
 import { controlState } from "../controlPanel";
 import { StyledControl } from "../styled/control";
+import AudioFileUtils from "../../dsp/AudioFileUtils";
+import FileUploadButton from "./components/fileUploadButton";
 
 function BasicControlsWrapper({ triggerStateChange }: controlState) {
   const { distortion, gain, octave, waveformId } = useSelector(
     (state: AppState) => state.basic
   );
+
+  const readAudioDataFromFile = (file: File) => {
+    AudioFileUtils.GetAudioBufferFromFileInputAsync(file, (decodedData: AudioBuffer) => {
+      console.log("Got decoded data from " + file?.name);
+    });
+  }
 
   return (
     <StyledControl>
@@ -49,6 +57,10 @@ function BasicControlsWrapper({ triggerStateChange }: controlState) {
         setValue={(newDistortion) =>
           triggerStateChange(newDistortion, createSetDistortion)
         }
+      />
+      <FileUploadButton
+        name="UploadAudioFile"
+        onFileUploaded={readAudioDataFromFile}
       />
     </StyledControl>
   );
