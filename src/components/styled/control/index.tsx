@@ -24,7 +24,7 @@ export const StyledDialControl = styled.div`
   justify-content: center;
 `;
 
-export const StyledButton = styled.button`
+export const StyledButtonControl = styled.button`
   padding:.75rem 0rem;
   width:130px;
   margin: 0 .25rem;
