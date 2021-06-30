@@ -1,4 +1,5 @@
 import React from "react";
+import { StyledButton } from "../../styled/control";
 
 interface FileUploadButtonProps {
     name: string,
@@ -32,9 +33,17 @@ export default function FileUploadButton({name, title, onFileUploaded}: FileUplo
     return(
         <div id="fileUploadDiv">
             <input type="file" id={buttonId} onChange={onFileUpload} hidden />
-            <button onClick={onUploadAudioFileClick}>
+            {/* <StyledButton>
+                <button onClick={onUploadAudioFileClick}>
+                    {title}
+                </button>
+            </StyledButton> */}
+            <StyledButton
+                key={title}
+                onClick={onUploadAudioFileClick}
+            >
                 {title}
-            </button>
+            </StyledButton>
         </div>
     );
 }

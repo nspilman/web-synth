@@ -60,7 +60,7 @@ function BasicControlsWrapper({ triggerStateChange }: controlState) {
       />
       <FileUploadButton
         name="uploadAudioFile"
-        title="Upload Audio File"
+        title="Upload File"
         onFileUploaded={readAudioDataFromFile}
       />
     </StyledControl>
