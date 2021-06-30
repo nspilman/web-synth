@@ -1,18 +1,21 @@
+import Fourier from "../dsp/Fourier";
+
 export default class Wavetable {
-    real: number[];
-    imag: number[];
+    real: number[] | Float32Array;
+    imag: number[] | Float32Array;
 
     constructor(
-        real: number[],
-        imag: number[]
+        real: number[] | Float32Array,
+        imag: number[] | Float32Array
     ) {
         this.real = real;
         this.imag = imag;
     }
 
-    static fromTimeData(sampleRate: number, timeData: number[]) {
-        // TODO: FFT on timeseries to get real / imag components
-        return new Wavetable([0, 1], [0, 0]);
+    static fromAudioBuffer(audioBuffer: AudioBuffer) {
+        var result = Fourier.forward(audioBuffer);
+        var wavetable = new Wavetable(result.realBuffer, result.imagBuffer);
+        return wavetable;
     }
 
     static createEmpty() {

@@ -20,7 +20,8 @@ import { controlState } from "../controlPanel";
 import { StyledControl } from "../styled/control";
 import AudioFileUtils from "../../dsp/AudioFileUtils";
 import FileUploadButton from "./components/fileUploadButton";
-import Fourier from "../../dsp/Fourier";
+import WavetableCache from "../../classes/WavetableCache";
+import Wavetable from "../../classes/Wavetable";
 
 function BasicControlsWrapper({ triggerStateChange }: controlState) {
   const { distortion, gain, octave, waveformId } = useSelector(
@@ -30,7 +31,8 @@ function BasicControlsWrapper({ triggerStateChange }: controlState) {
   const readAudioDataFromFile = (file: File) => {
     AudioFileUtils.GetAudioBufferFromFileInputAsync(file, (decodedData: AudioBuffer) => {
       console.log("Got decoded data from " + file?.name);
-      var result = Fourier.forward(decodedData);
+      var wavetable = Wavetable.fromAudioBuffer(decodedData);
+      WavetableCache.getSingleton().add(file.name, wavetable);
     });
   }
 

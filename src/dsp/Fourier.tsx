@@ -1,10 +1,10 @@
 import { transform } from "../external/fft";
 
 class FourierResult {
-    realBuffer: Float64Array;
-    imagBuffer: Float64Array;
+    realBuffer: Float32Array;
+    imagBuffer: Float32Array;
 
-    constructor(realBuffer: Float64Array, imagBuffer: Float64Array) {
+    constructor(realBuffer: Float32Array, imagBuffer: Float32Array) {
         this.realBuffer = realBuffer;
         this.imagBuffer = imagBuffer;
     }
@@ -38,6 +38,6 @@ export default class Fourier {
         // run FFT
         transform(realBuffer, imagBuffer);
 
-        return new FourierResult(realBuffer, imagBuffer);
+        return new FourierResult(new Float32Array(realBuffer), new Float32Array(imagBuffer));
     }
 }
