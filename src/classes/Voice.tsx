@@ -2,6 +2,7 @@ import { getFrequency, keyNames } from "../data/notes";
 import Envelope from "./Envelope";
 import IOscillatorParameters from "../interfaces/IOscillatorParameters";
 import IEnvelopeParameters from "../interfaces/IEnvelopeParameters";
+import WavetableCache from "./WavetableCache";
 
 const maxNumOscillators = 2;
 
@@ -54,8 +55,16 @@ export default class Voice {
       const osc = this.audioContext.createOscillator();
       osc.frequency.value = this.frequency;
       osc.connect(this.envelopeGain);
-      osc.type = wave;
+      //osc.type = wave;
+      var wavetable = WavetableCache.getSingleton().get("choir.wav");
+      var periodicWave = wavetable?.getPeriodicWave(this.audioContext);
+      if (!periodicWave) {
+        return;
+      }
+      
+      osc.setPeriodicWave(periodicWave);
       osc.detune.value = this.getDetuneVal(i, this.detune);
+      osc.frequency.value = 1;
       osc.start();
       this.oscillators[i] = osc;
     }

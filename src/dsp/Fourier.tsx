@@ -5,6 +5,15 @@ class FourierResult {
     imagBuffer: Float32Array = new Float32Array();
     sampleRate: number = 44100;
     numSamples: number = 1;
+
+    getMagnitudeAtBin(bin: number) {
+        return Math.sqrt(Math.pow(this.realBuffer[bin], 2) + Math.pow(this.imagBuffer[bin], 2));
+    }
+
+    getFrequencyForBin(bin: number) {
+        var freqResolution = this.sampleRate / this.numSamples;
+        return freqResolution * bin;
+    }
 }
 
 class Fourier {
