@@ -5,7 +5,7 @@ export default class Wavetable {
     real: number[] | Float32Array;
     imag: number[] | Float32Array;
     fundamentalFrequency: number = 1; // the real fundamental frequency
-    fundamentalBaseFrequency: number = 1; // the effective frequency to set the oscillator at to play the fundamental
+    effectiveFundamentalFrequencyForOsc: number = 1; // the effective frequency to set the oscillator at to play the fundamental
 
     constructor(
         real: number[] | Float32Array,
@@ -41,7 +41,7 @@ export default class Wavetable {
         //var wavetable = new Wavetable(result.realBuffer, result.imagBuffer);
         var wavetable = new Wavetable(newReal, newImag);
         wavetable.fundamentalFrequency = fundamentalFrequency;
-        wavetable.fundamentalBaseFrequency = result.sampleRate / result.numSamples;
+        wavetable.effectiveFundamentalFrequencyForOsc = result.sampleRate / result.numSamples;
         return wavetable;
     }
 
