@@ -4,6 +4,8 @@ import FundamentalFrequency from "../dsp/FundamentalFrequency";
 export default class Wavetable {
     real: number[] | Float32Array;
     imag: number[] | Float32Array;
+    fundamentalFrequency: number = 1; // the real fundamental frequency
+    fundamentalBaseFrequency: number = 1; // the effective frequency to set the oscillator at to play the fundamental
 
     constructor(
         real: number[] | Float32Array,
@@ -21,7 +23,8 @@ export default class Wavetable {
         var fundamentalBinIndex;
         var fundamentalMagnitude;
         [fundamentalBinIndex, fundamentalMagnitude] = FundamentalFrequency.calculateFundamentalAlgo1(result);
-        console.log("Fundamental frequency is: " + result.getFrequencyForBin(fundamentalBinIndex) + "Hz");
+        var fundamentalFrequency = result.getFrequencyForBin(fundamentalBinIndex);
+        console.log("Fundamental frequency is: " + fundamentalFrequency + "Hz");
         console.log("Fundamental bin is: " + fundamentalBinIndex);
 
         // shift over result so real[1] and imag[1] correspond to the fundamental frequency
@@ -37,6 +40,8 @@ export default class Wavetable {
 
         //var wavetable = new Wavetable(result.realBuffer, result.imagBuffer);
         var wavetable = new Wavetable(newReal, newImag);
+        wavetable.fundamentalFrequency = fundamentalFrequency;
+        wavetable.fundamentalBaseFrequency = result.sampleRate / result.numSamples;
         return wavetable;
     }
 

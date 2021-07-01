@@ -64,7 +64,7 @@ export default class Voice {
       
       osc.setPeriodicWave(periodicWave);
       osc.detune.value = this.getDetuneVal(i, this.detune);
-      osc.frequency.value = 1;
+      osc.frequency.value = 0.6;
       osc.start();
       this.oscillators[i] = osc;
     }

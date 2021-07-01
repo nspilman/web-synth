@@ -1,4 +1,5 @@
 import { transform } from "../external/fft";
+import Window from "./Window";
 
 class FourierResult {
     realBuffer: Float32Array = new Float32Array();
@@ -38,6 +39,12 @@ class Fourier {
         // always use first channel
         var channel0Float32Buffer = new Float32Array(input.length);
         input.copyFromChannel(channel0Float32Buffer, 0);
+
+        // TODO: trim audio
+
+        // window the signal to remove effects of irreglar start and end of audio
+        Window.hamming(channel0Float32Buffer);
+
         var realBuffer = new Float64Array(channel0Float32Buffer);
 
         // run FFT
