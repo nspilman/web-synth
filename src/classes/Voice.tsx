@@ -49,6 +49,7 @@ export default class Voice {
     if (this.isActivelyPlaying) {
       return;
     }
+    this.isActivelyPlaying = true;
 
     for (var i = 0; i < this.numOscillators; i++) {
       const osc = this.audioContext.createOscillator();
@@ -63,15 +64,10 @@ export default class Voice {
     this.envelopeGain.connect(nodeToConnect);
     this.envelope.onNoteOn();
 
-    this.isActivelyPlaying = true;
     this.numPlayingOscillators = this.numOscillators;
   }
 
   stop() {
-    if (!this.isActivelyPlaying) {
-      return;
-    }
-
     // save the currently playing oscillators so the envelope can continue to hold them during release
     var curOsc = [];
     for (var i = 0; i < this.numPlayingOscillators; i++) {
@@ -113,8 +109,10 @@ export default class Voice {
   stopPlayingOsc(playingOsc: OscillatorNode[]) {
     for (var i = 0; i < playingOsc.length; i++) {
       const osc = playingOsc[i];
-      osc?.stop();
-      osc?.disconnect();
+      try {
+        osc?.stop();
+        osc?.disconnect();
+      } catch {}
     }
   }
 

@@ -1,36 +1,16 @@
-import React, { Dispatch } from "react";
-import { keyNames } from "../data/notes";
+import React, { useMemo } from "react";
 import Key from "./key";
 import ControlPanel from "./controlPanel";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { AppState } from "../store/reducers";
-import {
-  createPlayNoteAction,
-  createStopNoteAction,
-  playNoteAction,
-} from "../store/actions/playNoteActions";
 import { StyledKeyboard, StyledKeys } from "./styled/keyboard";
+import useAudioContextWrapper from "../hooks/useAudioContextWrapper";
 
 function Keyboard() {
   const notes = useSelector((state: AppState) => state.isPlaying);
-  const dispatch = useDispatch<Dispatch<playNoteAction>>();
-
-  const triggerStateChange = (
-    noteToTrigger: keyNames,
-    actionCreator: (changingValue: keyNames) => playNoteAction
-  ) => {
-    dispatch(actionCreator(noteToTrigger));
-  };
+  // const { playNote, stopNote } = useMemo(() => useAudioContextWrapper, [])();
 
   const notesArray = Array.from(notes.keys());
-
-  const playNote = (pioneer: keyNames) => {
-    triggerStateChange(pioneer, createPlayNoteAction);
-  };
-
-  const stopNote = (pioneer: keyNames) => {
-    triggerStateChange(pioneer, createStopNoteAction);
-  };
 
   return (
     <StyledKeyboard id="Keyboard">
@@ -40,8 +20,8 @@ function Keyboard() {
           <Key
             keyName={note}
             key={note}
-            playNote={playNote}
-            stopNote={stopNote}
+            // playNote={playNote}
+            // stopNote={stopNote}
           />
         ))}
       </StyledKeys>

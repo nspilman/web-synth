@@ -25,19 +25,16 @@ const FilterReducer = (
 ) => {
   switch (action.type) {
     case oscillatorActionTypes.SET_DETUNE:
-      action.setAudioController(action.payload);
       return {
         ...state,
         detune: action.payload,
       };
     case oscillatorActionTypes.SET_NOISE:
-      action.setAudioController(action.payload);
       return {
         ...state,
         noiseGain: action.payload,
       };
     case oscillatorActionTypes.SET_COUNT:
-      action.setAudioController(action.payload);
       return {
         ...state,
         count: action.payload,

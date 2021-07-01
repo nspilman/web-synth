@@ -25,25 +25,21 @@ const BasicReducer = (
 ) => {
   switch (action.type) {
     case basicActionTypes.SET_DISTORTION:
-      action.setAudioController(action.payload);
       return {
         ...state,
         distortion: action.payload,
       };
     case basicActionTypes.SET_WAVEFORM:
-      action.setAudioController(action.payload);
       return {
         ...state,
-        waveform: action.payload,
+        waveformId: action.payload,
       };
     case basicActionTypes.SET_OCTAVE:
-      action.setAudioController(action.payload);
       return {
         ...state,
         octave: action.payload,
       };
     case basicActionTypes.SET_GAIN:
-      action.setAudioController(action.payload);
       return {
         ...state,
         gain: action.payload,

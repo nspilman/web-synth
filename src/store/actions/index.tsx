@@ -10,7 +10,6 @@ interface IAudioControllerAction<T> {
     | oscillatorActionTypes
     | basicActionTypes;
   payload: number;
-  setAudioController: (payload: T) => void;
 }
 
 export type AudioControllerAction = IAudioControllerAction<
