@@ -1,4 +1,4 @@
-import Fourier from "../dsp/Fourier";
+import { Fourier } from "../dsp/Fourier";
 
 export default class Wavetable {
     real: number[] | Float32Array;
@@ -14,6 +14,9 @@ export default class Wavetable {
 
     static fromAudioBuffer(audioBuffer: AudioBuffer) {
         var result = Fourier.forward(audioBuffer);
+
+        // TODO: find fundamental frequency and shift real and imag components over so fundamental is at bucket 1
+
         var wavetable = new Wavetable(result.realBuffer, result.imagBuffer);
         return wavetable;
     }

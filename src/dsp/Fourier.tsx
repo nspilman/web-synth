@@ -1,31 +1,27 @@
 import { transform } from "../external/fft";
 
 class FourierResult {
-    realBuffer: Float32Array;
-    imagBuffer: Float32Array;
-
-    constructor(realBuffer: Float32Array, imagBuffer: Float32Array) {
-        this.realBuffer = realBuffer;
-        this.imagBuffer = imagBuffer;
-    }
+    realBuffer: Float32Array = new Float32Array();
+    imagBuffer: Float32Array = new Float32Array();
+    sampleRate: number = 44100;
+    numSamples: number = 1;
 }
 
-export default class Fourier {
+class Fourier {
     /*
      * Performs forward FFT on an AudioBuffer. 
      * Returns FourierResult with real and imaginary components.
      */
     static forward(input: AudioBuffer) {
-        const sampleRate = input.sampleRate;
-        const maxFreq = input.sampleRate / 2;
-        const numSamples = input.length;
-        const freqResolution = input.sampleRate / input.length;
+        var result = new FourierResult();
+        result.sampleRate = input.sampleRate;
+        result.numSamples = input.length;
 
         console.log("Running FFT with params: ");
-        console.log("\tSample rate: " + sampleRate);
-        console.log("\tMax frequency by Nyquist: " + maxFreq);
-        console.log("\tNum samples: " + numSamples);
-        console.log("\tFrequency resolution: " + freqResolution + "Hz");
+        console.log("\tSample rate: " + result.sampleRate);
+        console.log("\tMax frequency by Nyquist: " + result.sampleRate / 2);
+        console.log("\tNum samples: " + result.numSamples);
+        console.log("\tFrequency resolution: " + (result.sampleRate / result.numSamples) + "Hz");
 
         // create real and imaginary output buffers
         var imagBuffer = new Float64Array(input.length);
@@ -38,6 +34,11 @@ export default class Fourier {
         // run FFT
         transform(realBuffer, imagBuffer);
 
-        return new FourierResult(new Float32Array(realBuffer), new Float32Array(imagBuffer));
+        result.realBuffer = new Float32Array(realBuffer);
+        result.imagBuffer = new Float32Array(imagBuffer);
+
+        return result;
     }
 }
+
+export { Fourier, FourierResult }
