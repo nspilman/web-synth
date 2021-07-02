@@ -26,7 +26,7 @@
  * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
  * The vector can have any length. This is a wrapper function.
  */
-function transform(real: Array<number>|Float64Array, imag: Array<number>|Float64Array): void {
+function transform(real: Array<number>|Float64Array|Float32Array, imag: Array<number>|Float64Array|Float32Array): void {
 	const n: number = real.length;
 	if (n != imag.length)
 		throw "Mismatched lengths";
@@ -43,7 +43,7 @@ function transform(real: Array<number>|Float64Array, imag: Array<number>|Float64
  * Computes the inverse discrete Fourier transform (IDFT) of the given complex vector, storing the result back into the vector.
  * The vector can have any length. This is a wrapper function. This transform does not perform scaling, so the inverse is not a true inverse.
  */
-function inverseTransform(real: Array<number>|Float64Array, imag: Array<number>|Float64Array): void {
+function inverseTransform(real: Array<number>|Float64Array|Float32Array, imag: Array<number>|Float64Array|Float32Array): void {
 	transform(imag, real);
 }
 
@@ -52,7 +52,7 @@ function inverseTransform(real: Array<number>|Float64Array, imag: Array<number>|
  * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
  * The vector's length must be a power of 2. Uses the Cooley-Tukey decimation-in-time radix-2 algorithm.
  */
-function transformRadix2(real: Array<number>|Float64Array, imag: Array<number>|Float64Array): void {
+function transformRadix2(real: Array<number>|Float64Array|Float32Array, imag: Array<number>|Float64Array|Float32Array): void {
 	// Length variables
 	const n: number = real.length;
 	if (n != imag.length)
@@ -122,7 +122,7 @@ function transformRadix2(real: Array<number>|Float64Array, imag: Array<number>|F
  * The vector can have any length. This requires the convolution function, which in turn requires the radix-2 FFT function.
  * Uses Bluestein's chirp z-transform algorithm.
  */
-function transformBluestein(real: Array<number>|Float64Array, imag: Array<number>|Float64Array): void {
+function transformBluestein(real: Array<number>|Float64Array|Float32Array, imag: Array<number>|Float64Array|Float32Array): void {
 	// Find a power-of-2 convolution length m such that m >= n * 2 + 1
 	const n: number = real.length;
 	if (n != imag.length)
@@ -172,7 +172,7 @@ function transformBluestein(real: Array<number>|Float64Array, imag: Array<number
 /* 
  * Computes the circular convolution of the given real vectors. Each vector's length must be the same.
  */
-function convolveReal(xvec: Array<number>|Float64Array, yvec: Array<number>|Float64Array, outvec: Array<number>|Float64Array): void {
+function convolveReal(xvec: Array<number>|Float64Array|Float32Array, yvec: Array<number>|Float64Array|Float32Array, outvec: Array<number>|Float64Array|Float32Array): void {
 	const n: number = xvec.length;
 	if (n != yvec.length || n != outvec.length)
 		throw "Mismatched lengths";
@@ -184,9 +184,9 @@ function convolveReal(xvec: Array<number>|Float64Array, yvec: Array<number>|Floa
  * Computes the circular convolution of the given complex vectors. Each vector's length must be the same.
  */
 function convolveComplex(
-		xreal: Array<number>|Float64Array, ximag: Array<number>|Float64Array,
-		yreal: Array<number>|Float64Array, yimag: Array<number>|Float64Array,
-		outreal: Array<number>|Float64Array, outimag: Array<number>|Float64Array): void {
+		xreal: Array<number>|Float64Array|Float32Array, ximag: Array<number>|Float64Array|Float32Array,
+		yreal: Array<number>|Float64Array|Float32Array, yimag: Array<number>|Float64Array|Float32Array,
+		outreal: Array<number>|Float64Array|Float32Array, outimag: Array<number>|Float64Array|Float32Array): void {
 	
 	const n: number = xreal.length;
 	if (n != ximag.length || n != yreal.length || n != yimag.length

@@ -22,36 +22,49 @@ class Fourier {
      * Performs forward FFT on an AudioBuffer. 
      * Returns FourierResult with real and imaginary components.
      */
-    static forward(input: AudioBuffer) {
-        var result = new FourierResult();
-        result.sampleRate = input.sampleRate;
-        result.numSamples = input.length;
-
-        console.log("Running FFT with params: ");
-        console.log("\tSample rate: " + result.sampleRate);
-        console.log("\tMax frequency by Nyquist: " + result.sampleRate / 2);
-        console.log("\tNum samples: " + result.numSamples);
-        console.log("\tFrequency resolution: " + (result.sampleRate / result.numSamples) + "Hz");
-
-        // create real and imaginary output buffers
-        var imagBuffer = new Float64Array(input.length);
-
+    static forward(input: AudioBuffer, trim: boolean, window: boolean) {
         // always use first channel
-        var channel0Float32Buffer = new Float32Array(input.length);
-        input.copyFromChannel(channel0Float32Buffer, 0);
+        // TODO: sum all channels?
+        var inputBuffer = input.getChannelData(0);
 
-        // TODO: trim audio
+        //var lengthToUse = inputBuffer.length;
+        var lengthToUse = 8192;
+        var realBuffer = new Float32Array(lengthToUse);
+        var imagBuffer = new Float32Array(lengthToUse);
 
-        // window the signal to remove effects of irreglar start and end of audio
-        Window.hamming(channel0Float32Buffer);
+        for (var i = 0; i < lengthToUse; i++) {
+            realBuffer[i] = inputBuffer[i];
+        }
 
-        var realBuffer = new Float64Array(channel0Float32Buffer);
+        // subtract out mean
+        var sum = 0;
+        for (var i = 0; i < realBuffer.length; i++) {
+            sum += realBuffer[i];
+        }
+
+        var mean = sum / realBuffer.length;
+        for (var i = 0; i < realBuffer.length; i++) {
+            realBuffer[i] -= mean;
+        }
+
+        if (window) {
+            // window the signal to remove effects of irreglar start and end of audio
+            Window.hamming(realBuffer);
+        }
 
         // run FFT
+        console.log("Running FFT with params: ");
+        console.log("\tSample rate: " + input.sampleRate);
+        console.log("\tMax frequency by Nyquist: " + input.sampleRate / 2);
+        console.log("\tNum samples: " + realBuffer.length);
+        console.log("\tFrequency resolution: " + (input.sampleRate / realBuffer.length) + "Hz");
         transform(realBuffer, imagBuffer);
 
-        result.realBuffer = new Float32Array(realBuffer);
-        result.imagBuffer = new Float32Array(imagBuffer);
+        var result = new FourierResult();
+        result.realBuffer = realBuffer;
+        result.imagBuffer = imagBuffer;
+        result.sampleRate = input.sampleRate;
+        result.numSamples = realBuffer.length;
 
         return result;
     }

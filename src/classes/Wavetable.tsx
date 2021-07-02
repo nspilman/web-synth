@@ -17,7 +17,7 @@ export default class Wavetable {
 
     static fromAudioBuffer(audioBuffer: AudioBuffer) {
         // calculate FFT
-        var result = Fourier.forward(audioBuffer);
+        var result = Fourier.forward(audioBuffer, true, true);
         
         // find fundamental frequency bin
         var fundamentalBinIndex;
