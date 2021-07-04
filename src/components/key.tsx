@@ -17,8 +17,10 @@ function Key({ keyName }: KeyProps) {
   useEffect(() => {
     if (isKeyPressed) {
       playVoice();
+      setIsPlaying(true);
     } else {
       stopVoice();
+      setIsPlaying(false);
     }
   }, [isKeyPressed]);
 
