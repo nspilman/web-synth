@@ -1,14 +1,10 @@
-import AudioContextWrapper from "../classes/audioContextWrapper";
-import getDefaultContextWrapperValues from "../hooks/getDefaultContextWrapperValues";
-
 export default class AudioContextService {
-  static audioContext: AudioContextWrapper | null = null;
+  static audioContext: AudioContext | null = null;
   static getInstance() {
     if (!AudioContextService.audioContext) {
-      AudioContextService.audioContext = new AudioContextWrapper(
-        getDefaultContextWrapperValues()
-      );
+      AudioContextService.audioContext = new AudioContext();
     }
+
     return AudioContextService.audioContext;
   }
 }

@@ -12,19 +12,16 @@ const FilterReducer = (
 ) => {
   switch (action.type) {
     case filterActionTypes.SET_FREQ:
-      action.setAudioController(action.payload);
       return {
         ...state,
         freq: action.payload,
       };
     case filterActionTypes.SET_Q:
-      action.setAudioController(action.payload);
       return {
         ...state,
         q: action.payload,
       };
     case filterActionTypes.SET_TYPE:
-      action.setAudioController(action.payload);
       return {
         ...state,
         type: action.payload,

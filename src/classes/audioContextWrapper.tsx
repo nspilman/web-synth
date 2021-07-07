@@ -34,12 +34,14 @@ class AudioContextWrapper {
     this.audioContext = new browserCompatibleAudioContext();
 
     this.masterGainNode = masterGainNode(this.audioContext, gain);
+    // check
     const { typeId, freq } = filterParameters;
     this.filterNode = filterNode(
       this.audioContext,
       getFilterType(typeId),
       freq
     );
+    // check
     this.waveshaperNode = new WaveshaperNodeWrapper(this.audioContext);
 
     this.filterNode.connect(this.waveshaperNode.waveshaperNode);

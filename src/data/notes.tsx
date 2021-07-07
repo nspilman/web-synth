@@ -2,7 +2,7 @@
 //     [key: frequencyKeys]: number
 // }
 
-type NoteIdentifier = {
+export type NoteIdentifier = {
   frequency: number;
   keyName: keyNames;
   octave: number;

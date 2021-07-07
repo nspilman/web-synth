@@ -1,7 +1,4 @@
 import { AudioControllerAction } from ".";
-import audioContextService from "../../services/audioContextService";
-
-const audioContext = audioContextService.getInstance();
 
 export enum oscillatorActionTypes {
   SET_DETUNE = "OSC_SET_DETUNE",
@@ -15,7 +12,6 @@ export const createSetOscDetune = (
   return {
     type: oscillatorActionTypes.SET_DETUNE,
     payload: newDetune,
-    setAudioController: () => audioContext.setOscillatorUnisonDetune(newDetune),
   };
 };
 
@@ -23,7 +19,6 @@ export const createSetNoise = (newNoise: number): AudioControllerAction => {
   return {
     type: oscillatorActionTypes.SET_NOISE,
     payload: newNoise,
-    setAudioController: () => audioContext.setNoiseGain(newNoise),
   };
 };
 
@@ -31,6 +26,5 @@ export const createSetOscCount = (newCount: number): AudioControllerAction => {
   return {
     type: oscillatorActionTypes.SET_COUNT,
     payload: newCount,
-    setAudioController: () => audioContext.setNumOscillators(newCount),
   };
 };
